@@ -509,7 +509,8 @@
       toggleCartList.setAttribute('data-visible',false);
     }
 
-    function displayProduct()//to be fixed later{
+    function displayProduct(){
+      let i=0;
       const tbody=document.querySelector("tbody");
       if(items.length===0){
         total=0;
@@ -525,10 +526,13 @@
       counterPrompt.setAttribute('data-visible',true);
       productCounter.style.color="white";
       productCounter.textContent=items.length;
-      if(tbody.querySelector("tr")){
-        tbody.querySelector("tr").remove();
+      if(tbody.querySelectorAll("tr")){
+        const rows=tbody.querySelectorAll("tr");
+        rows.forEach(row=>{
+            row.remove();
+        })
       }
-      for(let i=0;i<items.length;i++){
+      items.forEach(item=>{
         const row=document.createElement("tr");
         const quantityField=document.createElement("td");
         const buttonSub=document.createElement("button");
@@ -537,7 +541,7 @@
         buttonSub.textContent="-";
         const inputQuantity=document.createElement("input");
         inputQuantity.type="number";
-        inputQuantity.value=items[i].quantity;
+        inputQuantity.value=item.quantity;
         inputQuantity.setAttribute("readonly",true);
         const buttonAdd=document.createElement("button");
         buttonAdd.setAttribute("onclick",`addQuantity(${i})`);
@@ -549,18 +553,18 @@
         const imageField=document.createElement("td");
         imageField.id="check-image";
         const image=document.createElement("img");
-        image.src="<?php echo base_url('uploads/')?>"+items[i].image;
+        image.src="<?php echo base_url('uploads/')?>"+item.image;
         image.width=70;
         image.height=70;
         imageField.appendChild(image);
         const nameField=document.createElement("td");
         nameField.class=`name-product-${i}`;
         nameField.id="check-name";
-        nameField.textContent=items[i].name;
+        nameField.textContent=item.name;
         const emptyField=document.createElement("td");
         const priceField=document.createElement("td");
         priceField.id="check-price";
-        priceField.textContent="₱"+items[i].price;
+        priceField.textContent="₱"+item.price;
         const trashIconField=document.createElement("td");
         const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
         svg.setAttribute("width", "20");
@@ -581,23 +585,10 @@
         row.appendChild(priceField);
         row.appendChild(trashIconField);
         tbody.appendChild(row);
-        /*$('tbody').append("<tr>"+
-        "<td>"+`<button type="button" onclick="subQuantity(${i})">`+"-"+"</button>"+"<input type='number' size='2' id='check-quantity' value='"+items[i].quantity+"'"+"readonly>"+`<button type="button" onclick="addQuantity(${i})">`+"+"+"</button>"+"</td>"+
-        "<td id='check-image'>"+"<img src=<?php echo base_url('uploads/')?>"+items[i].image+" width='70' height='70'>"+"</td>"+
-        `<td class='name-product-${i}' id='check-name'>`+items[i].name+"</td>"+
-        "<td>"+""+"</td>"+
-        "<td id='check-price'>"+"₱"+items[i].price+"</td>"+"<td>"+`<svg xmlns='' style='cursor:pointer' width='20' height='20' onclick='deleteItem(${i})'  fill='currentColor' class='bi bi-trash3-fill' viewBox='0 0 16 16'>`+
-        "<path d='M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z'/>"
-        +"</td>"+
-        "</tr>"
-        )*/
         const totalContainer=document.querySelector(".total-container");
         totalContainer.innerHTML="<h1> Total </h1>"+`<h1 id='check-total'>₱${total}</h1>`;
-        /*$('.total-container').html(
-          "<h1>"+"Total"+"</h1>"+
-          "<h1 id='check-total'>"+"₱"+total+"</h1>"
-        );*/
-      }
+        i++;
+      });
     }
     const submitButton=document.querySelector('#submitButton');
     submitButton.addEventListener('click',()=>{
