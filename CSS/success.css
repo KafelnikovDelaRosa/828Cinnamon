@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+:root{
+    --maroon:rgb(149,20,41);
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+@keyframes bgBlur{
+    from{filter:blur(0px);}
+    to{filter:blur(10px);}
+}
+body {
+    min-height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+body::before{
+    content:"";
+    background-image: url('../images/background.jpg');
+    filter:blur(10px);
+    animation-name:bgBlur;
+    animation-duration:.8s;
+    animation-timing-function:ease-in-out;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Place it behind the content */
+}
+.wrapper{
+    position:absolute;
+    padding:.8rem;
+    width: 450px;
+    height: 400px;
+    background: white;
+    border: 2px solid rgba(149, 20, 41, .5);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    display: flex;
+    flex-direction:column;
+    justify-content: space-around;
+    align-items:center;
+}
+h3{
+    text-align:center;
+}
+.btn{
+    padding:.6rem;
+    height: 45px;
+    width:70%;
+    background-color: var(--maroon);
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #fff;
+    font-weight: 500;
+}
+a{
+    text-decoration:none;
+    color:white;
+}

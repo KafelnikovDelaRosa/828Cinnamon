@@ -9,7 +9,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <title>828 Page - Register</title>
   <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
     :root{
       --maroon:rgb(149,20,41);
     }
@@ -172,7 +172,7 @@
       filter: brightness(0.5);
     }
 
-    .btn {
+    .btn,.btn-reg {
       width: 100%;
       height: 45px;
       background-color: var(--maroon);
@@ -276,13 +276,15 @@
           <small id="conpass_err" class="form-text text-muted"  data-visible="false"></small>
         </div>
         <div class="agree">
-          <label><input type="checkbox" name="agreement" id="agree_err" value="false" required>
-          I agree to the terms & conditions.</label>
-      </div>
-      <button type="submit" class="btn" onclick="submitForm()">Register</button>
-      <div class="register-login">
-        <p><a href="<?php echo base_url("Login") ?>" class="login-link">ALREADY HAVE AN ACCOUNT?</a></p>
-      </div>
+          <center>
+              <input type="checkbox" name="agreement" id="agree_err" value="false" required>
+              <label>I agree to the terms & conditions.</label>
+          </center>
+        </div>
+        <button class="btn-reg">Register</button>
+        <div class="register-login">
+          <p><a href="<?php echo base_url("Login") ?>" class="login-link">ALREADY HAVE AN ACCOUNT?</a></p>
+        </div>
       </form>
     </div>
   </div>
@@ -305,26 +307,31 @@
     }catch (err) {
       console.error(err);
     }
-    function submitForm(){
-      const myForm=document.querySelector('#submitForm');
-      if(checkEmail(emailEvent.value.trim())==false){
-        checkEmail(emailEvent.value.trim());
+    function checkedBox(agreed){
+      if(agreed==="false"){
+        return false;
       }
-      if(checkUsername(usernameEvent.value.trim())==false){
-        checkUsername(usernameEvent.value.trim());
-      }
-      if(checkPassword(passEvent.value.trim())==false){
-        checkPassword(passEvent.value.trim());
-      }
-      if(checkConfPass(confPassEvent.value.trim())==false){
-        checkConfPass(confPassEvent.value.trim());
-      }
-      else{
-        passEvent.disabled=false;
-        confPassEvent.disabled=false;
-        myForm.submit();
-      }
+      return true;
     }
+    const agree=document.querySelector('#agree_err');
+    const myForm=document.querySelector('#submitForm');
+    myForm.addEventListener('submit',(event)=>{
+      event.preventDefault();
+      const formValid={
+        'confpass':checkConfPass(confPassEvent.value.trim()),
+        'password':checkPassword(passEvent.value.trim()),
+        'username':checkUsername(usernameEvent.value.trim()),
+        'email':checkEmail(emailEvent.value.trim())
+      };
+      for(const key in formValid){
+        if(formValid[key]===false){
+          return;
+        }
+      }
+      confPassEvent.disabled=false;
+      passEvent.disabled=false;
+      myForm.submit();
+    })
     const passEvent=document.querySelector('.pass-input');
     const passErr=document.querySelector("#pass_err");
     function checkPassword(value){
@@ -356,6 +363,7 @@
          //$("#pass_err").attr("data-visible","true");
          return false;
        }
+       return true;
     }
     passEvent.addEventListener('change',()=>{
       let value=passEvent.value.trim();
@@ -367,7 +375,7 @@
       else{
         passEvent.setAttribute("data-visible",false);
         confPassEvent.disabled=true;
-        passEvent.setAttribute("data-visible",false);
+        passErr.setAttribute("data-visible",false);
         //$("#pass_err").attr("data-visible","false");
       }
     });
@@ -383,7 +391,8 @@
        }
       if(value==passEvent.value){
         conpassErr.setAttribute("data-visible",false);
-        //$("#conpass_err").attr("data-visible","false");
+        //$("#conpass_err").attr("data-visible","false
+        return true;
       }
       else{
         conpassErr.textContent="The confirm password does not match with the password";
@@ -404,7 +413,7 @@
       else{
         confPassEvent.setAttribute("data-visible",false);
         passEvent.disabled=false;
-        compassErr.setAttribute("data-visible",false);
+        conpassErr.setAttribute("data-visible",false);
         //$("#conpass_err").attr("data-visible","false");
       }
     });
@@ -434,6 +443,7 @@
       }
       emailErr.setAttribute("data-visible",false);
       //$("#email_err").attr("data-visible",false);
+      return true;
     }
     emailEvent.addEventListener('change',()=>{
         let value=emailEvent.value.trim();
@@ -479,6 +489,7 @@
         }
         userErr.setAttribute("data-visible",false);
         //$("#user_err").attr("data-visible","false");
+        return true;
     }
     const usernameEvent=document.querySelector("#username");
     const userErr=document.querySelector("#user_err");

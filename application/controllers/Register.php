@@ -22,8 +22,8 @@ class Register extends CI_Controller {
         }
         else{
             $this->UserModel->addUser();
-            header('location:'.base_url('Login'));
+            $this->load->view('registersuccess');
         }
-	}
+	} 
 }
 
