@@ -100,7 +100,7 @@
 
 <body>
       <nav>
-        <a href="<?php echo base_url('Landing')?>" style="text-decoration:none">
+        <a href="landing" style="text-decoration:none">
           Back
         </a>
       </nav>
@@ -114,7 +114,7 @@
                     <img src="<?php echo ($_SESSION['profilepic']==NULL)?base_url('images/guest_pic.jpg'):base_url("uploads/".$_SESSION['profilepic']);?>">
                     <br>
                   </div>
-                  <h4 class="text-center"><?php echo (($info->firstname)=="---"||($info->lastname)=="---")?"User":$info->firstname." ".$info->lastname ?><br>                  
+                  <h4 class="text-center"><?php echo (($info->firstname)=="---"||($info->lastname)=="---"||($info->firstname==null)||($info->lastname==null))?"User":$info->firstname." ".$info->lastname ?><br>                  
                   <a class="btn btn-primary edit-pic" style="color:white;" aria-expanded="false" aria-controls="toggle-modal">
                           Edit Image
                           </a>
@@ -126,7 +126,7 @@
                                   <h2 class="card-title" style = "font-family: Inter, sans-serif; font-weight:900"> Upload a File</h2>
                                   <button class="btn-close"  aria-expanded="false" aria-controls="toggle-modal" aria-label="Close"></button>
                                 </div>
-                                <form action="<?php echo base_url('EditProfile/updateProfilePic')?>" method="post" enctype="multipart/form-data">
+                                <form action="account/update/avatar" method="post" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <input type="file" class="form-control-file" name="filename" aria-describedby="fileHelpId">
                                 </div>
@@ -151,53 +151,52 @@
               </div>
               <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
                 <?php if(is_null($info->firstname)||is_null($info->lastname)){?>
-                <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
-                  <h3 class="mb-4">Account Settings</h3>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <form action="<?php echo base_url('EditProfile/updateAccount')?>" method="post">
-                        <div class="form-group">
-                          <label>First Name</label>
-                          <input type="text" name="firstname" class="form-control" value="<?php echo set_value('firstname') ?>">
-                          <small id="helpid" class="form-text text-muted"><?php echo form_error('firstname') ?></small>
-                        </div>
-                        </div>
-                        <div class="col-md-6">
+                  <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+                    <h3 class="mb-4">Account Settings</h3>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <form action="account/update" method="post">
                           <div class="form-group">
-                              <label>Last Name</label>
-                              <input type="text" name="lastname" class="form-control" value="<?php echo set_value('lastname')?>">
-                              <small id="helpid" class="form-text text-muted"><?php echo form_error('lastname') ?></small>    
+                            <label>First Name</label>
+                            <input type="text" name="firstname" class="form-control" value="<?php echo set_value('firstname') ?>">
+                            <small id="helpid" class="form-text text-muted"><?php echo form_error('firstname') ?></small>
+                          </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" name="lastname" class="form-control" value="<?php echo set_value('lastname')?>">
+                                <small id="helpid" class="form-text text-muted"><?php echo form_error('lastname') ?></small>    
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" value="<?php echo $info->email?>" name="email" class="form-control" readonly>
+                                <small id="helpid" class="form-text text-muted"><?php echo form_error('email') ?></small>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <br>
+                                <input id="text" type="tel" placeholder="e.g. 09765121120" maxlength="11" name="phone" class="form-control">
+                                <small id="helpid" class="form-text text-muted"><?php echo form_error('phone') ?></small>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Birth Date</label>
+                                <input type="date" name="birthdate" class="form-control" value="<?php echo set_value('birthdate')?>">
+                                <small id="helpid" class="form-text text-muted"><?php echo form_error('birthdate') ?></small>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                              <label>Email</label>
-                              <input type="text" value="<?php echo $info->email?>" name="email" class="form-control" readonly>
-                              <small id="helpid" class="form-text text-muted"><?php echo form_error('email') ?></small>
-                          </div>
+                        <div>
+                          <button type="submit" class="btn btn-danger">Update</button>
                         </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                              <label>Phone Number</label>
-                              <br>
-                              <input id="text" type="tel" placeholder="e.g. 09765121120" maxlength="11" name="phone" class="form-control">
-                              <small id="helpid" class="form-text text-muted"><?php echo form_error('phone') ?></small>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                              <label>Birth Date</label>
-                              <input type="date" name="birthdate" class="form-control" value="<?php echo set_value('birthdate')?>">
-                              <small id="helpid" class="form-text text-muted"><?php echo form_error('birthdate') ?></small>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <button type="submit" class="btn btn-danger">Update</button>
-                        <button class="btn btn-light">Cancel</button>
-                      </div>
-                    </form>
-                </div>
+                      </form>
+                  </div>
                 <?php } else { ?>
                   <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
                   <h3 class="mb-4">Account Settings</h3>
@@ -217,7 +216,7 @@
                                   <h2 class="card-title" style = "font-family: Inter, sans-serif; font-weight:900">Edit First Name</h2>
                                   <button type="button" class="btn-close close-fn" aria-controls="toggle-fn"></button>
                                 </div>
-                                <form action="<?php echo base_url('EditProfile/updateFirstName')?>" method="post">
+                                <form action="account/update/firstname" method="post">
                                   <div class="modal-body">
                                     <input type="text" class='form-control' name="firstname" placeholder="Enter First Name">
                                   </div>
@@ -245,7 +244,7 @@
                                       <h2 class="card-title" style = "font-family: Inter, sans-serif; font-weight:900"> Edit Last Name</h2>
                                       <button type="button" class="btn-close close-ln" aria-controls="toggle-ln"></button>
                                       </div>
-                                      <form action="<?php echo base_url('EditProfile/updateLastName')?>" method="post">
+                                      <form action="account/update/lastname" method="post">
                                       <div class="modal-body">
                                         <input type="text" class='form-control' name="lastname" placeholder="Enter Last Name" required>
                                       </div>
@@ -263,28 +262,6 @@
                           <div class="form-group">
                             <label>Email</label>
                             <input type="email" name="email" class="form-control" value="<?php echo $info->email?>" readonly>
-                            <small id="helpid" class="form-text text-muted"><a class="btn btn-danger edit-Em" style="color:white;" aria-expanded="false" aria-controls="toggle-Em">
-                                Edit Email
-                            </a>
-                            <div class="modal" id="toggle-Em" data-visible="false">             
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h2 class="card-title" style = "font-family: Inter, sans-serif; font-weight:900"> Edit Email</h2>
-                                    <button type="button" class="btn-close close-em" aria-controls="toggle-Em"></button>
-                                  </div>
-                                  <form action="<?php echo base_url('EditProfile/updateEmail')?>" method="post">
-                                  <div class="modal-body">
-                                    <input type="email" class='form-control' name="email" placeholder="Enter Email" required>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary" style = "color:white; font-family: Inter, sans-serif; font-weight:700" value="Update"> 
-                                  </div>
-                                </form>
-                                </div>
-                              </div>
-                            </div>
-                          </small>
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -302,7 +279,7 @@
                                     <h2 class="card-title" style = "font-family: Inter, sans-serif; font-weight:900"> Edit Phone Number</h2>
                                     <button type="button" class="btn-close close-pn" aria-controls="toggle-Pn"></button>
                                   </div>
-                                  <form action="<?php echo base_url('EditProfile/updatePhoneNumber')?>" method="post">
+                                  <form action="account/update/phone" method="post">
                                   <div class="modal-body">
                                     <input type="tel" class='form-control' name="phone" maxlength=11 placeholder="e.g. 09173724122" required>
                                   </div>
@@ -330,7 +307,7 @@
                                     <h2 class="card-title" style = "font-family: Inter, sans-serif; font-weight:900"> Edit Birth Date</h2>
                                     <button type="button" class="btn-close close-bd" aria-controls="toggle-Bd"></button>
                                   </div>
-                                  <form action="<?php echo base_url('EditProfile/updateBirthDate')?>" method="post">
+                                  <form action="account/update/birthday" method="post">
                                   <div class="modal-body">
                                     <input type="date" class='form-control' name="birthdate" placeholder="Enter First Name" required>
                                   </div>
@@ -388,13 +365,6 @@
         <?php } ?>
       </section>
   <script>
-    const phoneinputfield = document.querySelector("#phone");
-      const phoneinput = window.intlTelInput(phoneinputfield, {
-        utilsscript:
-        "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-      });
-  </script>
-  <script>
     var toggled=false;
     function menuToggle(){
       let toggleMenu = document.querySelector('.menu');
@@ -410,8 +380,38 @@
         toggled=false; 
       }
     }
+    function toggleModalVisibility(modalId,button,attribute){
+      if(button===null){
+        return;
+      }
+      const modal=document.querySelector(modalId);
+      button.addEventListener("click",()=>{
+        const visible = modal.getAttribute(attribute);
+        modal.setAttribute(attribute, visible === "true" ? "false" : "true");
+        button.setAttribute("aria-expanded", visible === "true" ? "false" : "true");
+      });
+    }
+    const updatePicButton=document.querySelector('.edit-pic');
+    toggleModalVisibility('#toggle-modal', updatePicButton, "data-visible");
+    const updateFnButton=document.querySelector('.edit-fn');
+    toggleModalVisibility('#toggle-fn', updateFnButton, "data-visible");
+    const updateLnButton=document.querySelector('.edit-ln');
+    toggleModalVisibility('#toggle-ln', updateLnButton, "data-visible");
+    const updatePnButton=document.querySelector('.edit-Pn');
+    toggleModalVisibility('#toggle-Pn', updatePnButton, "data-visible");
+    const updateBdButton=document.querySelector('.edit-Bd');
+    toggleModalVisibility('#toggle-Bd', updateBdButton, "data-visible");
+    const closePicButton=document.querySelector(".btn-close");
+    toggleModalVisibility('#toggle-modal', closePicButton, "data-visible");
+    const closeFnButton=document.querySelector(".close-fn");
+    toggleModalVisibility('#toggle-fn',closeFnButton,"data-visible");
+    const closeLnButton=document.querySelector(".close-ln");
+    toggleModalVisibility('#toggle-ln',closeLnButton,"data-visible");
+    const closePnButton=document.querySelector(".close-pn");
+    toggleModalVisibility('#toggle-Pn',closePnButton,"data-visible");
+    const closeBdButton=document.querySelector(".close-bd");
+    toggleModalVisibility('#toggle-Bd',closeBdButton,"data-visible");
   </script>
-  <script src="<?php echo base_url("JS/myScript.js")?>"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

@@ -59,6 +59,16 @@ $route['login']='Login';
 $route['register']='Register';
 $route['landing']='Landing';
 $route['checkout']='Checkout';
+$route['account']='EditProfile';
+$route['account/update']='EditProfile/updateAccount';
+$route['account/update/avatar']='EditProfile/updateProfilePic';
+$route['account/update/firstname']='EditProfile/updateFirstName';
+$route['account/update/lastname']='EditProfile/updateLastName';
+$route['account/update/phone']='EditProfile/updatePhoneNumber';
+$route['account/update/birthday']='EditProfile/updateBirthdate';
+$route['checkout']='Checkout';
+$route['checkout/order/user']='Checkout/placeOrderUser';
+$route['checkout/order']='Checkout/placeOrder';
 
 //admin routes
 $route['dashboard']='Dashboard';

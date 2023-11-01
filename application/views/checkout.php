@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
     <link rel="stylesheet" href="<?php echo base_url("CSS/style.css")?>" >
+    <script src="https://kit.fontawesome.com/3ef3559250.js" crossorigin="anonymous"></script> 
   <style>
     .modal {
       position: fixed;
@@ -30,6 +31,12 @@
 
     :root{
       --mar:rgb(149, 20, 41);
+      --bg-clr: #394168;
+      --white: #fff;
+      --title-clr: #394168;
+      --pry-text-clr: #b3b3b3;
+      --scn-text-clr: #838384;
+      --btn-hvr-clr: #5363b0;
     }
     *{
       margin: 0;
@@ -96,19 +103,166 @@
       width:100%;
       height:100vh;
     }
+    .term-mask{
+      position:absolute;
+      top:0;
+      left:0;
+      min-height:100vh;
+      width:100%;
+      z-index:1;
+      display:flex;
+      justify-content:center;
+      align-content:center;
+      background-color: rgba(63, 63, 63, .5);
+      visibility:hidden;
+      transition:opacity .4s
+    }
+    .term-mask[data-visible="true"]{
+      opacity: 1;
+      visibility: visible;
+    }
+    .tc_main{
+      position:relative;
+      margin: 20px 0;
+      width: 500px;
+      max-width: 100%;
+      height: 700px;
+      background: var(--white);
+      text-align: center;
+    }
+
+    .tc_main .title{
+      color:var(--mar);
+      margin-bottom: 5px;
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 700;
+      text-transform: uppercase;
+      
+    }
+
+    .tc_main .tc_content .tc_bottom .title{
+      font-size: 18px;
+      line-height: 26px;
+    }
+
+    .tc_main .tc_content{
+      width: 100%;
+      margin: 35px 0;
+      height: calc(550px - 150px);
+    }
+
+    .tc_main .tc_btns{
+      width: 100%;
+      height: 80px;
+      padding: 21px 0;
+      box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+    }
+
+    .tc_main .tc_content .tc_top{
+      margin: 0 35px 35px;
+    }
+
+    .tc_main .tc_content .tc_bottom{
+      padding: 0 35px;
+      overflow: auto;
+      height: calc(100% - 150px);
+    }
+
+    .tc_main .tc_content .tc_top .icon{
+      font-size: 42px;
+      text-align: center;
+      margin-bottom: 10px;
+      color: var(--title-clr);
+    }
+
+    .tc_main .tc_content .tc_top .info{
+      color: var(--scn-text-clr);
+      text-align: justify;
+      font-family: "Poppins", sans-serif !important;
+      
+    }
+
+    .tc_main .tc_content .tc_bottom .info p{
+      margin-bottom: 10px;
+      text-align: justify;
+      font-family: "Poppins", sans-serif !important;
+    }
+
   </style>
 </head>
   <body>
     <nav>
-        <a href="<?php echo base_url('Landing')?>" style="text-decoration:none">
+        <a href="<?php echo base_url('landing')?>" style="text-decoration:none">
           Back
         </a>
     </nav>
   <br>
   <div class="container">
+      <div class="term-mask" id="toggle-term" data-visible="false">
+        <div class="tc_main">
+          <div class="tc_content">
+            <div class="tc_top">
+              <div class="icon">
+                <img src="<?php echo base_url('images/828Logo2.png') ?>" width=80 height=80 alt="828pic">
+              </div>
+              <div class="title">
+                <p>Terms and Conditions</p>
+              </div>
+              <div class="info">
+                Welcome to 828 Cinnamon Rolls we are dedicated to providing you with a secure and enjoyable experience while safeguarding your privacy. Before using our services, 
+            it is important for you to understand and agree to our Terms and Conditions and Privacy Policy. These documents outline the rules, rights, and responsibilities that govern the use of our website, applications, and any other services we offer.
+              </div>
+            </div>
+            <div class="tc_bottom">
+              <div class="title">
+                <p>please go through the terms before Accepting it.</p>
+              </div>
+              <div class="info">
+                <h3>Information We Collect</h3></br>
+            <p>1.1. Personal Information: We may collect personal information, such as your name, email address, phone number, and shipping address when you place an order or interact with our website.</p>
+                <p>1.2. Payment Information: We may collect payment information, such as credit card details or other financial information, to process your order and complete transactions.</p>
+            <p>1.3. Usage Information: We may collect information about how you use our website, including your IP address, browser type, pages visited, and the duration of your visit.</p>
+            </br>
+            <h3>Use of Information</h3></br>
+            <p>2.1. We use the information we collect to fulfill your orders, provide customer support, and improve our products and services.</p>
+            <p>2.2. We may use your email address to send you promotional materials, updates, or newsletters, with your consent. You can opt-out of receiving such communications at any time.</p>
+            <p>2.3. We do not sell, rent, or lease your personal information to third parties unless we have your permission or are required by law to do so.</p>
+            </br>
+            
+            <h3>Data Security</h3></br>
+            <p>3.1. We implement reasonable security measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction.</p>
+            <p>3.2. We use secure socket layer (SSL) technology to encrypt and transmit sensitive information during online transactions.</p>
+            </br>
+            
+            <h3>Cookies and Tracking Technologies</h3></br>
+            
+            <p>4.1. We may use cookies and similar tracking technologies to enhance your experience on our website and to gather information about how you use our website.</p>
+            <p>4.2  You can set your browser to refuse all or some browser cookies or to alert you when cookies are being sent. However, if you disable or refuse cookies, some parts of our website may not function properly.</p>
+            </br>
+            
+            <h3>Third-Party Websites</h3></br>
+            
+            <p>5.1. Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of such websites. We encourage you to read the privacy policies of those websites before providing any personal information.</p>
+                </br>
+            
+              <h3>Children's Privacy</h3></br>
+            <p>6.1. Our website is not intended for children under the age of 13. We do not knowingly collect personal information from children under the age of 13. If we discover that we have collected personal information from a child under 13, we will promptly delete that information.</p>
+                </br>
+            
+            <p>Changes to the Privacy Policy</p></br>
+            <p>7.1. We reserve the right to modify or update this Privacy Policy at any time without prior notice. The revised Policy will be posted on our website with the updated date.</p>
+                </br>
+            <h3>Contact Us</h3></br>
+            <p>8.1. If you have any questions, concerns, or requests regarding this Privacy Policy or the handling of your personal information, please contact us at [contact information].</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <?php if(isset($_SESSION['username'])){?>
         <div class="py-5 text-center">
-        <form action="<?php echo base_url('Checkout/placeOrderUser') ?>" method="post" >
+        <form action="<?php echo base_url('checkout/order/user')?>" method="post" >
           <h2>Information</h2>
         </div>
         <div class="row">
@@ -135,7 +289,7 @@
             <h6 class="mb-3">Terms and Agreement</h6>
                 <div class="custom-control custom-checkbox">
                 <input type="checkbox" name="agreement" class="custom-control-input" id="same-address">
-                <label class="custom-control-label" for="same-address">I have read and fully understand the contents of this document. I agree to the <a href="<?php echo base_url('Terms') ?>" style="font-size:1rem;">Terms and Conditions.</a></label>
+                <label class="custom-control-label" for="same-address">I have read and fully understand the contents of this document. I agree to the <a class="btn-open-term" aria-extended="false" style="font-size:1rem;color:var(--mar);text-decoration:underline" aria-controls="toggle-term">Terms and Conditions.</a></label>
               </div>
                 <br><br>
               <button class="btn btn-primary btn-lg btn-" type="submit">Place Order</button>
@@ -149,7 +303,7 @@
               <?php foreach($user as $info){?>
               <div class="mb-3">
                 <label for="email">Email <span class="text-muted"></span></label>
-                <input type="email" class="form-control" name="email" value="<?php echo $info->email?>" id="email">
+                <input type="email" class="form-control" style='color:black;' name="email" value="<?php echo $info->email?>" id="email">
                 <div style="color:red;font-size:.9rem;" id="email-error">
                   <?php echo form_error("email")?>
                 </div>
@@ -157,14 +311,14 @@
               <?php }?>
               <div class="mb-3">
                 <label for="phone">Phone <span class="text-muted"></span></label>
-                <input type="text" class="form-control" name="phone" maxlength="11" id="phone" placeholder="0923428111">
+                <input type="text" class="form-control" name="phone" maxlength="11" style='color:black' value="<?php echo $info->phone?>" id="phone" placeholder="0923428111">
                 <div style="color:red;font-size:.9rem;" id="phone-error">
                   <?php echo form_error("phone")?>
                 </div>
               </div>
               <div class="mb-3">
                 <label for="address">Address</label>
-                <input type="text" class="form-control" name="address" id="address" placeholder="1234 Main St" >
+                <input type="text" class="form-control" style='color:black;' name="address" id="address" placeholder="1234 Main St" >
                 <div style="color:red;font-size:.9rem;" id="address-error">
                   <?php echo form_error("address")?>
                 </div>
@@ -198,6 +352,7 @@
           </div>
       <?php } else{ ?>
       <div class="py-5 text-center">
+      <form action="<?php echo base_url('checkout/order')?>" method="post" >
       <h2>Information</h2>
       </div>
       <div class="row">
@@ -224,14 +379,13 @@
           <h6 class="mb-3">Terms and Agreement</h6>
                 <div class="custom-control custom-checkbox">
                 <input type="checkbox" name="agreement" class="custom-control-input" id="same-address">
-                <label class="custom-control-label" for="same-address">I have read and fully understand the contents of this document. I agree to the <a href="<?php echo base_url('Terms') ?>" style="font-size:1rem;">Terms and Conditions.</a></label>
+                <label class="custom-control-label" for="same-address">I have read and fully understand the contents of this document. I agree to the <a class="btn-open-term" aria-expanded="false" style="font-size:1rem;color:var(--mar);text-decoration:underline" aria-controls="toggle-term">Terms and Conditions.</a>Terms and Conditions.</a></label>
               </div>
                 <br><br>
               <button class="btn btn-primary btn-lg" type="submit">Place Order</button>
         </div>
         <div class="col-md-8 order-md-1">
           <h4 class="mb-3">Customer Information</h4>
-          <form action="<?php echo base_url('Checkout/placeOrder') ?>" method="post" >
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">First name</label>
@@ -321,6 +475,18 @@
           document.querySelector("#cashContainer").hidden=false;
           document.querySelector("#gContainer").hidden=false;
         });
+        function toggleModalVisibility(modalId,button,attribute){
+          const modal=document.querySelector(modalId);
+          button.addEventListener("click",()=>{
+            const visible=modal.getAttribute(attribute);
+            modal.setAttribute(attribute, visible === "true" ? "false" : "true");
+            button.setAttribute("aria-expanded", visible === "true" ? "false" : "true");
+          });
+        }
+        const showTerm=document.querySelector(".btn-open-term");
+        toggleModalVisibility("#toggle-term",showTerm,"data-visible");
+        const closeTerm=document.querySelector(".term-mask");
+        toggleModalVisibility("#toggle-term",closeTerm,"data-visible");
     </script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

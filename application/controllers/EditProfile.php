@@ -17,8 +17,8 @@ class EditProfile extends CI_Controller {
 	}
     public function updateAccount(){
         $phone=$this->input->post('phone',TRUE);
-        $this->form_validation->set_rules('firstname','Firstname','required|alpha');
-        $this->form_validation->set_rules('lastname','Lastname','required|alpha');
+        $this->form_validation->set_rules('firstname','Firstname','required');
+        $this->form_validation->set_rules('lastname','Lastname','required');
         $this->form_validation->set_rules('phone','Phone Number','required|numeric');
         $this->form_validation->set_rules('birthdate','Birthdate','required');
         if($this->form_validation->run()==FALSE){
@@ -27,7 +27,7 @@ class EditProfile extends CI_Controller {
         }
         else{
             $this->UserModel->updateUserInfo($_SESSION['username']);
-            header('location:'.base_url('EditProfile'));
+            redirect('account','location');
         }
     }
 
@@ -62,7 +62,7 @@ class EditProfile extends CI_Controller {
         }
         else{
             $this->UserModel->setUserPassword($_SESSION['username']);
-            header('location:'.base_url('EditProfile'));
+            redirect('account','location');
         }
     }
     public function updateProfilePic(){
@@ -77,7 +77,7 @@ class EditProfile extends CI_Controller {
 				$name_file = $_FILES['filename']['name'];
 				$this->UserModel->updateUserPic($name_file,$_SESSION['username']);
                 $_SESSION['profilepic']=$this->UserModel->getUserImage($_SESSION['username']);
-				header('location:'.base_url('EditProfile'));
+				redirect('account','location');
 			}
 			else {
                 $data['infos']=$this->UserModel->getUserInfo($_SESSION['username']);
@@ -86,36 +86,25 @@ class EditProfile extends CI_Controller {
 			}
     }
     public function updateFirstName(){
-        $this->form_validation->set_rules('firstname','Firstname','required|alpha');
+        $this->form_validation->set_rules('firstname','Firstname','required');
         if($this->form_validation->run()==FALSE){
             $data['infos']=$this->UserModel->getUserInfo($_SESSION['username']);
             $this->load->view('editprofile',$data);
         }
         else{
             $this->UserModel->setFirstName($_SESSION['username']);
-            header('location:'.base_url('EditProfile'));
+            redirect('account','location');
         }
     }
     public function updateLastName(){
-        $this->form_validation->set_rules('lastname','Lastname','required|alpha');
+        $this->form_validation->set_rules('lastname','Lastname','required');
         if($this->form_validation->run()==FALSE){
             $data['infos']=$this->UserModel->getUserInfo($_SESSION['username']);
             $this->load->view('editprofile',$data);
         }
         else{
             $this->UserModel->setLastName($_SESSION['username']);
-            header('location:'.base_url('EditProfile'));
-        }
-    }
-    public function updateEmail(){
-        $this->form_validation->set_rules('email','Email','required|alpha');
-        if($this->form_validation->run()==FALSE){
-            $data['infos']=$this->UserModel->getUserInfo($_SESSION['username']);
-            $this->load->view('editprofile',$data);
-        }
-        else{
-            $this->UserModel->setEmail($_SESSION['username']);
-            header('location:'.base_url('EditProfile'));
+            redirect('account','location');
         }
     }
     public function updatePhoneNumber(){
@@ -126,7 +115,7 @@ class EditProfile extends CI_Controller {
         }
         else{
             $this->UserModel->setPhoneNumber($_SESSION['username']);
-            header('location:'.base_url('EditProfile'));
+            redirect('account','location');
         }
     }
     public function updateBirthDate(){
@@ -137,7 +126,7 @@ class EditProfile extends CI_Controller {
         }
         else{
             $this->UserModel->setBirthDate($_SESSION['username']);
-            header('location:'.base_url('EditProfile'));
+            redirect('account','location');
         }
     }
 }

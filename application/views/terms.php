@@ -3,8 +3,8 @@
 <head>
 		<title> 828 Page - Terms and Conditions </title>
 		<script src="https://kit.fontawesome.com/3ef3559250.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="<?php echo base_url('CSS/style.css') ?>">
-        <link rel="icon" href="<?php echo base_url('images/828logo.png')?>">
+    <link rel="stylesheet" href="<?php echo base_url('CSS/style.css') ?>">
+    <link rel="icon" href="<?php echo base_url('images/828logo.png')?>">
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');

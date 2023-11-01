@@ -15,7 +15,7 @@
         <h3>
             You have successfully placed your order! 
         </h3>   
-        <button class="btn" onclick="window.location.href='Landing'">
+        <button class="btn" onclick="window.location.href='<?php echo base_url('landing')?>'">
             Return to landing page
         </button>
     </div>

@@ -197,7 +197,7 @@
                 </li>
                 <li>
                   <i class="fa-sharp fa-solid fa-gear"></i>
-                  <a href="<?php echo base_url('EditProfile') ?>">Edit Profile</a> 
+                  <a href="account">Edit Profile</a> 
                 </li>
                 <li>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" color="rgb(149, 20, 41)" class="bi bi-bag-fill" viewBox="0 0 16 16">
@@ -207,7 +207,7 @@
                 </li>
                 <li>
                   <i class="fa-sharp fa-solid fa-right-from-bracket"></i>
-                  <a href="<?php echo base_url('logout') ?>">logout</a> 
+                  <a href="logout">logout</a> 
                 </li>
               </ul>
             </div> 
@@ -594,7 +594,7 @@
     submitButton.addEventListener('click',()=>{
       var form=document.createElement('form');
       form.method='POST';
-      form.action='<?php echo base_url("Checkout");?>';
+      form.action='checkout';
       var input=document.createElement('input')
       input.type='hidden';
       input.name="items";

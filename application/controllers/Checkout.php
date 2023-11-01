@@ -39,8 +39,7 @@ class Checkout extends CI_Controller {
     $this->form_validation->set_rules('phone','Phone Number','required|numeric');
     $this->form_validation->set_rules('address','Address','required');
     if($this->form_validation->run()==FALSE){
-      $data['user']=$this->UserModel->getUserInfo($_SESSION['username']);
-      $this->load->view('checkout',$data);
+      $this->load->view('checkout');
     }
     else{
       $this->OrderModel->addOrder();
