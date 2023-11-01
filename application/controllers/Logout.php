@@ -7,7 +7,7 @@ class Logout extends CI_Controller{
         $this->load->library('session');
     }
     public function index(){
-        header('location:'.base_url('Landing'));
         session_destroy();
+        redirect('landing','location');
     }
 }

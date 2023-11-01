@@ -55,6 +55,11 @@
     </style>
 </head>
 <body>
+    <?php 
+        if(!isset($_SESSION['useradmin'])){
+            redirect('login','location');
+        }
+    ?>
     <main>
         <nav>
             <div class="logo">

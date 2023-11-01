@@ -135,7 +135,7 @@
             <h6 class="mb-3">Terms and Agreement</h6>
                 <div class="custom-control custom-checkbox">
                 <input type="checkbox" name="agreement" class="custom-control-input" id="same-address">
-                <label class="custom-control-label" for="same-address">I have read the <a href="<?php echo base_url('Terms') ?>" style="font-size:1rem;">Terms and Conditions</a> and I agree to following the certain conditions</label>
+                <label class="custom-control-label" for="same-address">I have read and fully understand the contents of this document. I agree to the <a href="<?php echo base_url('Terms') ?>" style="font-size:1rem;">Terms and Conditions.</a></label>
               </div>
                 <br><br>
               <button class="btn btn-primary btn-lg btn-" type="submit">Place Order</button>
@@ -224,10 +224,10 @@
           <h6 class="mb-3">Terms and Agreement</h6>
                 <div class="custom-control custom-checkbox">
                 <input type="checkbox" name="agreement" class="custom-control-input" id="same-address">
-                <label class="custom-control-label" for="same-address">I have read the <a href="<?php echo base_url('Terms') ?>" style="font-size:1rem;">Terms and Conditions</a> and I agree to following the certain conditions</label>
+                <label class="custom-control-label" for="same-address">I have read and fully understand the contents of this document. I agree to the <a href="<?php echo base_url('Terms') ?>" style="font-size:1rem;">Terms and Conditions.</a></label>
               </div>
                 <br><br>
-              <button class="btn btn-primary btn-lg btn-" type="submit">Place Order</button>
+              <button class="btn btn-primary btn-lg" type="submit">Place Order</button>
         </div>
         <div class="col-md-8 order-md-1">
           <h4 class="mb-3">Customer Information</h4>

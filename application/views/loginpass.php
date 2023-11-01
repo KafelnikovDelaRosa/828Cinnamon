@@ -34,7 +34,7 @@
         .wrapper {
             position: relative;
             width: 400px;
-            height: 450px;
+            height: 400px;
             background: white;
             border: 2px solid rgba(149, 20, 41, .5);
             border-radius: 20px;
@@ -174,14 +174,7 @@
             <div class="form-box-logo">
                 <img src="<?php echo base_url('images/828Logo.png') ?>" alt="828">
             </div>
-                <form action="login" method="post">
-                    <div class="input-box">
-                        <input type="text" name="username" required autocomplete="off">
-                        <label>Username</label>
-                        <span class="icon">
-                            <ion-icon name="person"></ion-icon>
-                        </span>
-                    </div>
+                <form action="<?php echo base_url('Login/userAuth') ?>" method="post">
                     <div class="input-box">
                         <input type="password" name="password" required id="myInput">
                         <label>Password</label>
@@ -189,20 +182,13 @@
                             <ion-icon id="hide1" name="eye"></ion-icon>
                             <ion-icon id="hide2" name="eye-off"></ion-icon>
                         </span>
-                        <small id="helpid" class="form-text text-muted">
-                        <?php echo $_SESSION['login_err'] ?> 
-                        </small>
+                        <small id="helpid" class="form-text text-muted"><?php echo form_error('password') ?></small>
                     </div>
                     <div class="remember-forgot">
-                        <label><input type="checkbox">
-                        stay signed in</label>
+                        <a href="<?php echo base_url('ForgotPass')?>">Forgot password?</a>
                     </div>
-                    <button type="submit" class="btn">Submit</button>
-                    <div class="login-register">
-                        <p><a href="register" class="register-link">CREATE ACCOUNT</a></p>
-                    </div>
+                    <button type="submit" class="btn">Login</button>
                 </form>
-            
         </div>
     </div>
     <script>

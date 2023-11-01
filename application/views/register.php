@@ -283,7 +283,7 @@
         </div>
         <button class="btn-reg">Register</button>
         <div class="register-login">
-          <p><a href="<?php echo base_url("Login") ?>" class="login-link">ALREADY HAVE AN ACCOUNT?</a></p>
+          <p><a href="login" class="login-link">ALREADY HAVE AN ACCOUNT?</a></p>
         </div>
       </form>
     </div>

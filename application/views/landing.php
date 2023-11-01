@@ -160,7 +160,7 @@
           <a href="#product-page">Products</a>
           <a href="#gallery-page">Gallery</a>
           <a href="#contact-page">Contact</a>
-          <button class="btnlogin-popup" onclick="window.location.href='<?php echo base_url('Login') ?>'">login</button>     
+          <button class="btnlogin-popup" onclick="window.location.href='login'">login</button>     
         </div>
         <div class="icon show-icon" style="display:flex;flex-direction:row;width:4em;align-items:center">
             <i class="fa-solid fa-cart-shopping toggle-shopping" style="font-size:1.5rem;" aria-expanded="false" aria-controls="toggle-cart"></i>
