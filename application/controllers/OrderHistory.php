@@ -18,6 +18,10 @@ class OrderHistory extends CI_Controller {
       $data['orders']=$this->OrderModel->getUserOrder($email);
       $this->load->view('orderhistory',$data);
 	}
+    public function searchById($id){
+      $data['orders']=$this->OrderModel->getOrderById($id);
+      $this->load->view('orderhistory',$data);
+    }
     public function payOrder(){
       $email=$this->UserModel->getUserEmail($_SESSION['username']);
       $receipt=$this->input->post("receipt");
@@ -28,6 +32,7 @@ class OrderHistory extends CI_Controller {
     public function cancelOrder(){
       $receipt=$this->input->post("receipt");
       $this->OrderModel->cancelOrder($receipt);
+      redirect('orders/cancel','location');
       header('location:'.base_url("OrderHistory/cancelled"));
     }
     public function pending(){

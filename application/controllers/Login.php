@@ -38,13 +38,13 @@ class Login extends CI_Controller {
 	public function loginHandler($usr,$pass,$auth){
 		if($auth['role']=='admin'&& $auth['username']==$usr && $auth['password']==$pass){
 			$this->session->set_userdata('useradmin',$usr);	
-			return redirect('dashboard','location');
+			redirect('dashboard','location');
 		}
 		if($auth['role']=='user' && $auth['username']==$usr && $auth['password']==$pass){
 			$avatar=$this->UserModel->getUserImage($usr);
 			$this->session->set_userdata('profilepic',$avatar);
 			$this->session->set_userdata('username',$usr);
-			return redirect('landing','location');
+			redirect('landing','location');
 		}
 	}
 }

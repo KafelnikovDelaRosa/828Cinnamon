@@ -12,46 +12,52 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
     <link rel="stylesheet" href="<?php echo base_url("CSS/style.css")?>" >
   <style>
-    .modal {
-      position: fixed;
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      height: 100vh;
-      background-color: rgba(63, 63, 63, .5);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity .4s;
-    }
-    .modal[data-visible="true"] {
-      opacity: 1;
-      visibility: visible;
-    }
+  .modal {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(63, 63, 63, .5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .4s;
+  }
+  .modal[data-visible="true"] {
+    opacity: 1;
+    visibility: visible;
+  }
 
-    :root{
-      --mar:rgb(149, 20, 41);
-    }
-    *{
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-      #recieptno{
-        position:absolute;
-        color:black;
-        transition:color;
-      }
-      #recieptno:hover{
-        color:blue;
-        cursor:pointer;
-      }
-      nav{
-        justify-content:flex-start;
-      }
-      h1 {
-  text-align: center;
-}
+  :root{
+    --mar:rgb(149, 20, 41);
+    --inputbot:#dee2e6;
+    --inputbg:#f2f2f2;
+  }
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+  body{
+    min-height:100vh;
+  }
+  #recieptno{
+    position:absolute;
+    color:black;
+    transition:color;
+  }
+  #recieptno:hover{
+    color:blue;
+    cursor:pointer;
+  }
+  nav{
+    justify-content:flex-start;
+  }
+  h1 {
+    text-align: center;
+  }
+
   #receipt-mask{
     position:absolute;
     left:0;
@@ -61,7 +67,6 @@
     width:100%;
     height:100vh;
   }
-
   /*  `RECEIPT  */
   .receipt-container {
     border: 1px solid #ccc;
@@ -86,11 +91,60 @@
     font-weight: bold;
   }
   /*  RECEIPT`  */
+
+  /* FIELDS SEARCH */
+  .search-container{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    width:100%;
+  }
+  .search-container .input-row{
+    display:flex;
+    justify-content:space-between;
+  }
+  .search-container .input-row .order-field{
+    padding:1rem;
+    display:flex;
+    flex-direction:column;
+    width:50%;
+    margin-right:1.2rem;
+  }
+  .search-container .input-row .date-field{
+    display:flex;
+    flex-direction:column;
+    width:50%;
+    padding:1rem;
+  }
+  .search-container .button-row{
+    padding:1rem;
+    margin-right:1.2rem;
+  }
+  .search-container .button-row button{
+    color:white;
+    padding:.3rem 1em .3rem 1em;
+    border:none;
+    background-color:var(--mar);
+    border-radius:5px;
+  }
+  input[type="text"]{
+    padding:.3rem;
+    border:none;
+    border-bottom:2px solid var(--inputbot);
+    background-color:var(--inputbg);
+  }
+  input[type="date"]{
+    padding:.3rem;
+    border:none;
+    border-bottom:2px solid var(--inputbot);
+    background-color:var(--inputbg);
+  }
+  /* FIELDS SEARCH */            
   </style>
 </head>
 <body>
   <nav>
-        <a href="<?php echo base_url('Landing')?>" style="text-decoration:none">
+        <a href="<?php echo base_url('landing')?>" style="text-decoration:none">
           Back
         </a>
   </nav>
@@ -173,19 +227,41 @@
         </div>
     </div>
     </div>
-    <div class="py-5 text-center">
-        <h2>Order History</h2>
+    <div class="py-3 text-left">
+        <h2 style="font-size:2.5rem;">Order History</h2>
+        <div class="search-container">
+            <form action="#" method="post">
+              <div class='input-row'>
+                  <div class="order-field">
+                      <label for="order">Order no.</label>
+                      <input type="text" name="order">
+                  </div>
+                  <div class="date-field">
+                      <label for="fromdate">From</label>
+                      <input type="date" name="fromdate">
+                      <label for="todate">To</label>
+                      <input type="date" name="todate">
+                  </div>
+              </div> 
+              <div class='button-row'>
+                  <button type='submit'/>Search</button>
+              </div>
+            </form>    
+        </div>
     </div>
     <?php if(empty($orders)){?>
       <center><h2>You have no purchases</h2></center>
     <?php } else{?>
-      <table class="table table-striped table-inverse" style="align-self:center;">
-          <thead class="thead-inverse">
+      <h4>Recent Orders</h4>
+      <table class="table" style="align-self:center;">
+          <thead>
               <tr>
-                  <th>Receipt No</th>
-                  <th>Mode of Payment</th>
-                  <th>Order Status</th>
-                  <th>Order Date</th>
+                  <th>Order no.</th>
+                  <th>Order date</th>
+                  <th>Receipt no.</th>
+                  <th>Mode of payment</th>
+                  <th>Total</th>
+                  <th>Order status</th>
               </tr>
           </thead>
           <tbody>
@@ -206,23 +282,20 @@
                 echo $orders['quantity']." ".$orders['name']."<br>";
               } 
               ?></td>-->
+              <td><?php echo $order->orderid?></td>
+              <td><?php echo $order->orderdate ?></td>
               <td>
                 <p id="recieptno" onclick='showReceipt(<?php echo json_encode($items)?>)'>
                   <?php echo $order->receiptno?>
                 </p>
               </td>
               <td><?php echo $order->paymentmode?></td>
+              <td><?php echo "₱".$items['total']?></td>
               <td><?php echo $order->orderstatus?></td>
-              <td><?php echo $order->orderdate ?></td>
             </tr>
             <?php } ?>
           </tbody>
       </table>
-      <div class="buttons" style="display:flex;justify-content:space-evenly;">
-        <button class="btn btn1 btn-primary" onclick="window.location.href='<?php echo base_url('OrderHistory/pending')?>'">Pending</button>
-        <button class="btn btn2 btn-success" onclick="window.location.href='<?php echo base_url('OrderHistory/completed')?>'">Completed</button>
-        <button class="btn btn3 btn-danger" onclick="window.location.href='<?php echo base_url('OrderHistory/cancelled')?>'">Cancelled</button>
-      </div>
     <?php } ?>
   <div>
   <script>
@@ -240,7 +313,7 @@
     function payReceipt(){
       var form=document.createElement('form');
       form.method='POST';
-      form.action='<?php echo base_url("OrderHistory/payOrder");?>';
+      form.action='<?php echo base_url("orders/pay");?>';
       var input=document.createElement('input');
       input.type='hidden';
       input.name="receipt";
@@ -253,7 +326,7 @@
     function cancelReceipt(){
       var form=document.createElement('form');
       form.method='POST';
-      form.action='<?php echo base_url("OrderHistory/cancelOrder");?>';
+      form.action='<?php echo base_url("orders/cancel");?>';
       var input=document.createElement('input');
       input.type='hidden';
       input.name="receipt";

@@ -100,7 +100,7 @@
 
 <body>
       <nav>
-        <a href="landing" style="text-decoration:none">
+        <a href="<?php echo base_url('landing') ?>" style="text-decoration:none">
           Back
         </a>
       </nav>

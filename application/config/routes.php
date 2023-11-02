@@ -69,6 +69,9 @@ $route['account/update/birthday']='EditProfile/updateBirthdate';
 $route['checkout']='Checkout';
 $route['checkout/order/user']='Checkout/placeOrderUser';
 $route['checkout/order']='Checkout/placeOrder';
+$route['orders']='OrderHistory';
+$route['orders/id/(:any)']='OrderHistory/searchById/$1';
+$route['orders/payment']='OrderHistory/payOrder';
 
 //admin routes
 $route['dashboard']='Dashboard';

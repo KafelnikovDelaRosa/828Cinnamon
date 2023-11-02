@@ -45,7 +45,7 @@ class OrderModel extends CI_Model{
             'address'=>$_POST["address"],
             'orders'=>$_POST["order"],
             'cost'=>$_POST["cost"],
-            'orderdate'=>date('Y-m-d'),
+            'orderdate'=>date('m-d-Y'),
             'ordertime'=>date('H:i'),
             'paymentmode'=>$_POST["deliveryMethod"],
             'orderstatus'=>'pending'
@@ -97,27 +97,9 @@ class OrderModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
-    public function getUserOrderByPending($email){
+    public function getOrderById($id){
         $this->load->database();
-        $this->db->where('email',$email);
-        $this->db->where('orderstatus','pending');
-        $query=$this->db->get('ordertb');
-        $result=$query->result();
-        return $result;
-    }
-    public function getUserOrderByCompleted($email){
-        $this->load->database();
-        $this->db->where('email',$email);
-        $this->db->where('orderstatus','completed');
-        $query=$this->db->get('ordertb');
-        $result=$query->result();
-        return $result;
-
-    }
-    public function getUserOrderByCancelled($email){
-        $this->load->database();
-        $this->db->where('email',$email);
-        $this->db->where('orderstatus','cancelled');
+        $this->db->where('orderid',$id);
         $query=$this->db->get('ordertb');
         $result=$query->result();
         return $result;
