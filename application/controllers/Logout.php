@@ -8,6 +8,6 @@ class Logout extends CI_Controller{
     }
     public function index(){
         session_destroy();
-        redirect('landing','location');
+        redirect(base_url(),'location');
     }
 }

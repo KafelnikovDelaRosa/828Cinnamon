@@ -250,7 +250,7 @@
         </div>
     </div>
     <?php if(empty($orders)){?>
-      <center><h2>You have no purchases</h2></center>
+      <center><h2>You have no orders</h2></center>
     <?php } else{?>
       <h4>Recent Orders</h4>
       <table class="table" style="align-self:center;">
@@ -313,7 +313,7 @@
     function payReceipt(){
       var form=document.createElement('form');
       form.method='POST';
-      form.action='<?php echo base_url("orders/pay");?>';
+      form.action='<?php echo base_url("orders/payment");?>';
       var input=document.createElement('input');
       input.type='hidden';
       input.name="receipt";

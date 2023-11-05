@@ -35,20 +35,4 @@ class OrderHistory extends CI_Controller {
       redirect('orders/cancel','location');
       header('location:'.base_url("OrderHistory/cancelled"));
     }
-    public function pending(){
-        $email=$this->UserModel->getUserEmail($_SESSION['username']);
-        $data['orders']=$this->OrderModel->getUserOrderByPending($email);
-        $this->load->view('orderhistory',$data);
-    }
-    public function completed(){
-        $email=$this->UserModel->getUserEmail($_SESSION['username']);
-        $data['orders']=$this->OrderModel->getUserOrderByCompleted($email);
-        $this->load->view('orderhistory',$data);
-
-    }
-    public function cancelled(){
-        $email=$this->UserModel->getUserEmail($_SESSION['username']);
-        $data['orders']=$this->OrderModel->getUserOrderByCancelled($email);
-        $this->load->view('orderhistory',$data);
-    }
 }

@@ -57,7 +57,6 @@ $route['translate_uri_dashes'] = FALSE;
 //user routes
 $route['login']='Login';
 $route['register']='Register';
-$route['landing']='Landing';
 $route['checkout']='Checkout';
 $route['account']='EditProfile';
 $route['account/update']='EditProfile/updateAccount';

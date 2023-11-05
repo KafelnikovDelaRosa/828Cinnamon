@@ -44,7 +44,7 @@ class Login extends CI_Controller {
 			$avatar=$this->UserModel->getUserImage($usr);
 			$this->session->set_userdata('profilepic',$avatar);
 			$this->session->set_userdata('username',$usr);
-			redirect('landing','location');
+			redirect(base_url(),'location');
 		}
 	}
 }
