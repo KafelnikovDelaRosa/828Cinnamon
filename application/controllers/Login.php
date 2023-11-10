@@ -27,12 +27,12 @@ class Login extends CI_Controller {
 			}
 			else{
 				$this->session->set_flashdata('login_err','Invalid username or password');
-				$this->load->view('login');
+				$this->load->view('auth/login');
 			}
 		}
 		else{
 			$this->session->set_flashdata('login_err');
-			$this->load->view('login');
+			$this->load->view('auth/login');
 		}
 	}
 	public function loginHandler($usr,$pass,$auth){
@@ -42,9 +42,9 @@ class Login extends CI_Controller {
 		}
 		if($auth['role']=='user' && $auth['username']==$usr && $auth['password']==$pass){
 			$avatar=$this->UserModel->getUserImage($usr);
-			$this->session->set_userdata('profilepic',$avatar);
 			$this->session->set_userdata('username',$usr);
-			redirect(base_url(),'location');
+			$this->session->set_userdata('profilepic',$avatar);
+			redirect('landing','location');
 		}
 	}
 }

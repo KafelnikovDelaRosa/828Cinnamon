@@ -39,10 +39,10 @@ class UserModel extends CI_Model{
     public function setUserPassword($username){
         $this->load->database();
         $data=array(
-            'password'=>$_POST['newpassword']
+            'password'=>md5($_POST['newpassword'])
         );
         $this->db->where('username',$username);
-        $this->db->update('userstb',md5($data['password']));
+        $this->db->update('userstb',$data);
     }
     public function getUsernames(){
         $this->load->database();

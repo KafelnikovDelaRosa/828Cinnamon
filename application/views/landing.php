@@ -207,7 +207,7 @@
                 </li>
                 <li>
                   <i class="fa-sharp fa-solid fa-right-from-bracket"></i>
-                  <a href="logout">logout</a> 
+                  <a href="<?php echo base_url('logout') ?>">logout</a> 
                 </li>
               </ul>
             </div> 

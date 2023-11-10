@@ -56,15 +56,13 @@ $route['translate_uri_dashes'] = FALSE;
 
 //user routes
 $route['login']='Login';
+$route['landing']='Landing';
 $route['register']='Register';
 $route['checkout']='Checkout';
 $route['account']='EditProfile';
 $route['account/update']='EditProfile/updateAccount';
+$route['account/update/password']='EditProfile/updatePassword';
 $route['account/update/avatar']='EditProfile/updateProfilePic';
-$route['account/update/firstname']='EditProfile/updateFirstName';
-$route['account/update/lastname']='EditProfile/updateLastName';
-$route['account/update/phone']='EditProfile/updatePhoneNumber';
-$route['account/update/birthday']='EditProfile/updateBirthdate';
 $route['checkout']='Checkout';
 $route['checkout/order/user']='Checkout/placeOrderUser';
 $route['checkout/order']='Checkout/placeOrder';

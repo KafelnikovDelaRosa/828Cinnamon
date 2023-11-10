@@ -111,11 +111,11 @@
               <div class="profile-tab-nav border-right">
                 <div class="p-4">
                   <div class="img-circle text-center mb-3">
-                    <img src="<?php echo ($_SESSION['profilepic']==NULL)?base_url('images/guest_pic.jpg'):base_url("uploads/".$_SESSION['profilepic']);?>">
+                    <img src="<?php echo ($_SESSION['profilepic']==NULL)?base_url('images/guest_pic.jpg'):base_url("uploads/".$_SESSION['profilepic']);?>" >
                     <br>
                   </div>
                   <h4 class="text-center"><?php echo (($info->firstname)=="---"||($info->lastname)=="---"||($info->firstname==null)||($info->lastname==null))?"User":$info->firstname." ".$info->lastname ?><br>                  
-                  <a class="btn btn-primary edit-pic" style="color:white;" aria-expanded="false" aria-controls="toggle-modal">
+                  <a class="btn bg-primary edit-pic" style="color:white;" aria-expanded="false" aria-controls="toggle-modal">
                           Edit Image
                           </a>
                           <!-- Modal -->
@@ -131,7 +131,7 @@
                                     <input type="file" class="form-control-file" name="filename" aria-describedby="fileHelpId">
                                 </div>
                                 <div class="modal-footer">
-                                  <input type="submit" value="Update"class="btn btn-primary" style = "font-family: Inter, sans-serif; font-weight:700">
+                                  <input type="submit" value="Update"class="btn bg-success" style = "font-family: Inter, sans-serif; font-weight:700">
                                 </div>
                                 </form>
                               </div>
@@ -139,34 +139,47 @@
                   </h4>
                 </div>
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                  <a class="nav-link active" id="account-tab" data-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="true">
-                    <i class="fa fa-home text-center mr-1"></i>
-                    Account
-                  </a>
-                  <a class="nav-link" id="password-tab" data-toggle="pill" href="#password" role="tab" aria-controls="password" aria-selected="false">
-                    <i class="fa fa-key text-center mr-1"></i> 
-                    Password
-                  </a>
+                  <!---server side form validation for password-->
+                  <?php if(!empty(validation_errors())){ ?>
+                    <a class="nav-link" id="account-tab" data-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="true">
+                      <i class="fa fa-home text-center mr-1"></i>
+                      Account
+                    </a>
+                    <a class="nav-link active" id="password-tab" data-toggle="pill" href="#password" role="tab" aria-controls="password" aria-selected="false">
+                      <i class="fa fa-key text-center mr-1"></i> 
+                      Password
+                    </a>
+                  <?php }else{?>
+                    <a class="nav-link active" id="account-tab" data-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="true">
+                      <i class="fa fa-home text-center mr-1"></i>
+                      Account
+                    </a>
+                    <a class="nav-link" id="password-tab" data-toggle="pill" href="#password" role="tab" aria-controls="password" aria-selected="false">
+                      <i class="fa fa-key text-center mr-1"></i> 
+                      Password
+                    </a>
+                  <?php }?>
                 </div>
               </div>
               <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
-                <?php if(is_null($info->firstname)||is_null($info->lastname)){?>
-                  <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+                <!-- server-side form validation for password -->
+                <?php if(!empty(validation_errors())){ ?>
+                  <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
                     <h3 class="mb-4">Account Settings</h3>
                     <div class="row">
                       <div class="col-md-6">
-                        <form action="account/update" method="post">
+                        <form id='submitForm'>
                           <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" name="firstname" class="form-control" value="<?php echo set_value('firstname') ?>">
-                            <small id="helpid" class="form-text text-muted"><?php echo form_error('firstname') ?></small>
+                            <input type="text" id='fn' name="firstname" class="form-control" value="<?php echo $info->firstname?>">
+                            <small id='fn-err' class="form-text text-muted"><?php echo form_error('firstname') ?></small>
                           </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                                 <label>Last Name</label>
-                                <input type="text" name="lastname" class="form-control" value="<?php echo set_value('lastname')?>">
-                                <small id="helpid" class="form-text text-muted"><?php echo form_error('lastname') ?></small>    
+                                <input type="text" id='ln' name="lastname" class="form-control" value="<?php echo $info->lastname?>">
+                                <small id='ln-err' class="form-text text-muted"><?php echo form_error('lastname') ?></small>    
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -180,186 +193,142 @@
                             <div class="form-group">
                                 <label>Phone Number</label>
                                 <br>
-                                <input id="text" type="tel" placeholder="e.g. 09765121120" maxlength="11" name="phone" class="form-control">
-                                <small id="helpid" class="form-text text-muted"><?php echo form_error('phone') ?></small>
+                                <input id="ph" type="tel" placeholder="e.g. 09765121120" maxlength="11" value="<?php echo $info->phone?>" id='' name="phone" class="form-control">
+                                <small id='ph-err' class="form-text text-muted"><?php echo form_error('phone') ?></small>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                                 <label>Birth Date</label>
-                                <input type="date" name="birthdate" class="form-control" value="<?php echo set_value('birthdate')?>">
-                                <small id="helpid" class="form-text text-muted"><?php echo form_error('birthdate') ?></small>
+                                <input type="date" id='bd' name="birthdate" class="form-control" value="<?php echo $info->birthday?>">
+                                <small id='bd-err' class="form-text text-muted"><?php echo form_error('birthdate') ?></small>
                             </div>
                           </div>
                         </div>
                         <div>
-                          <button type="submit" class="btn btn-danger">Update</button>
+                          <button onclick="formHandler(event)" class="btn bg-success">Update</button>
                         </div>
                       </form>
                   </div>
-                <?php } else { ?>
+                  <div class="tab-pane fade show active" id="password" role="tabpanel" aria-labelledby="password-tab">
+                    <h3 class="mb-4">Password Settings</h3>
+                    <form action="<?php echo base_url('account/update/password')?>" method="post">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Old password</label>
+                            <input type="password" name="password" class="form-control">
+                            <small id="helpid" class="form-text text-muted"><?php echo form_error('password') ?></small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>New password</label>
+                            <input type="password" name="newpassword" class="form-control">
+                            <small id="helpid" class="form-text text-muted"><?php echo form_error('newpassword') ?></small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Confirm New password</label>
+                            <input type="password" name="confpassword" class="form-control">
+                            <small id="helpid" class="form-text text-muted"><?php echo form_error('confpassword') ?></small>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <button type="submit" class="btn bg-success">Update</button>
+                      </div>
+                    </form>
+                  </div>
+                <?php }else{ ?>
                   <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
-                  <h3 class="mb-4">Account Settings</h3>
-                  <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                          <label>First Name</label>
-                          <input type="text" name="firstname" class="form-control" value="<?php echo $info->firstname?>" readonly>
-                          <small id="helpid" class="form-text text-muted"><a class="btn btn-danger edit-fn" style="color:white;" aria-expanded="false" aria-controls="toggle-fn">
-                              Edit First Name
-                          </a>
-                          <!-- Modal -->
-                          <div class="modal" id="toggle-fn" data-visible="false">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h2 class="card-title" style = "font-family: Inter, sans-serif; font-weight:900">Edit First Name</h2>
-                                  <button type="button" class="btn-close close-fn" aria-controls="toggle-fn"></button>
-                                </div>
-                                <form action="account/update/firstname" method="post">
-                                  <div class="modal-body">
-                                    <input type="text" class='form-control' name="firstname" placeholder="Enter First Name">
-                                  </div>
-                                  <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary" style = "color:white; font-family: Inter, sans-serif; font-weight:700" value="Update"> 
-                                  </div>
-                                </form>
-                              </div>
+                    <h3 class="mb-4">Account Settings</h3>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <form id='submitForm'>
+                          <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" id='fn' name="firstname" class="form-control" value="<?php echo $info->firstname?>">
+                            <small id='fn-err' class="form-text text-muted"><?php echo form_error('firstname') ?></small>
+                          </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" id='ln' name="lastname" class="form-control" value="<?php echo $info->lastname?>">
+                                <small id='ln-err' class="form-text text-muted"><?php echo form_error('lastname') ?></small>    
                             </div>
                           </div>
-                        </small>
-                        </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                              <label>Last Name</label>
-                              <input type="text" name="lastname" class="form-control" value="<?php echo $info->lastname?>" readonly>
-                              <small id="helpid" class="form-text text-muted"><a class="btn btn-danger edit-ln" style="color:white;" aria-expanded="false" aria-controls="toggle-ln">
-                                  Edit Last Name
-                              </a>
-                              <div class="modal" id="toggle-ln" data-visible="false">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h2 class="card-title" style = "font-family: Inter, sans-serif; font-weight:900"> Edit Last Name</h2>
-                                      <button type="button" class="btn-close close-ln" aria-controls="toggle-ln"></button>
-                                      </div>
-                                      <form action="account/update/lastname" method="post">
-                                      <div class="modal-body">
-                                        <input type="text" class='form-control' name="lastname" placeholder="Enter Last Name" required>
-                                      </div>
-                                      <div class="modal-footer">
-                                        <input type="submit" class="btn btn-primary" style = "color:white; font-family: Inter, sans-serif; font-weight:700" value="Update">  
-                                      </div>
-                                    </form>
-                                    </div>
-                                  </div>
-                                </div>
-                              </small>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" value="<?php echo $info->email?>" readonly>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                              <label>Phone Number</label>
-                              <br>
-                              <input type="text" name="phone" class="form-control" value="<?php echo $info->phone?>" readonly>
-                            <small id="helpid" class="form-text text-muted"><a class="btn btn-danger edit-Pn" style="color:white;" aria-expanded="false" aria-controls="toggle-Pn">
-                                Edit Phone Number
-                            </a>
-                            <div class="modal" id="toggle-Pn" data-visible="false">             
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h2 class="card-title" style = "font-family: Inter, sans-serif; font-weight:900"> Edit Phone Number</h2>
-                                    <button type="button" class="btn-close close-pn" aria-controls="toggle-Pn"></button>
-                                  </div>
-                                  <form action="account/update/phone" method="post">
-                                  <div class="modal-body">
-                                    <input type="tel" class='form-control' name="phone" maxlength=11 placeholder="e.g. 09173724122" required>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary" style = "color:white; font-family: Inter, sans-serif; font-weight:700" value="Update"> 
-                                  </div>
-                                </form>
-                                </div>
-                              </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" value="<?php echo $info->email?>" name="email" class="form-control" readonly>
+                                <small id="helpid" class="form-text text-muted"><?php echo form_error('email') ?></small>
                             </div>
-                          </small>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <br>
+                                <input id="ph" type="tel" placeholder="e.g. 09765121120" maxlength="11" value="<?php echo $info->phone?>" id='' name="phone" class="form-control">
+                                <small id='ph-err' class="form-text text-muted"><?php echo form_error('phone') ?></small>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Birth Date</label>
+                                <input type="date" id='bd' name="birthdate" class="form-control" value="<?php echo $info->birthday?>">
+                                <small id='bd-err' class="form-text text-muted"><?php echo form_error('birthdate') ?></small>
+                            </div>
                           </div>
                         </div>
+                        <div>
+                          <button onclick="formHandler(event)" class="btn bg-success">Update</button>
+                        </div>
+                      </form>
+                  </div>
+                  <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+                    <h3 class="mb-4">Password Settings</h3>
+                    <form action="<?php echo base_url('account/update/password')?>" method="post">
+                      <div class="row">
                         <div class="col-md-6">
                           <div class="form-group">
-                              <label>Birth Date</label>
-                              <input type="date" name="birthdate" class="form-control" value="<?php echo $info->birthday?>" readonly>
-                            <small id="helpid" class="form-text text-muted"><a class="btn btn-danger edit-Bd" style="color:white;" aria-expanded="false" aria-controls="toggle-Bd">
-                                Edit Birth Date
-                            </a>
-                            <div class="modal" id="toggle-Bd" data-visible="false">             
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h2 class="card-title" style = "font-family: Inter, sans-serif; font-weight:900"> Edit Birth Date</h2>
-                                    <button type="button" class="btn-close close-bd" aria-controls="toggle-Bd"></button>
-                                  </div>
-                                  <form action="account/update/birthday" method="post">
-                                  <div class="modal-body">
-                                    <input type="date" class='form-control' name="birthdate" placeholder="Enter First Name" required>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary" style = "color:white; font-family: Inter, sans-serif; font-weight:700" value="Update"> 
-                                  </div>
-                                </form>
-                                </div>
-                              </div>
-                            </div>
-                          </small>
+                            <label>Old password</label>
+                            <input type="password" name="password" class="form-control">
+                            <small id="helpid" class="form-text text-muted"><?php echo form_error('password') ?></small>
                           </div>
                         </div>
                       </div>
-                </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>New password</label>
+                            <input type="password" name="newpassword" class="form-control">
+                            <small id="helpid" class="form-text text-muted"><?php echo form_error('newpassword') ?></small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Confirm New password</label>
+                            <input type="password" name="confpassword" class="form-control">
+                            <small id="helpid" class="form-text text-muted"><?php echo form_error('confpassword') ?></small>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <button type="submit" class="btn bg-success">Update</button>
+                      </div>
+                    </form>
+                  </div>
                 <?php } ?>
-                <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
-                  <h3 class="mb-4">Password Settings</h3>
-                  <form action="<?php echo base_url('EditProfile/updatePassword')?>" method="post">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Old password</label>
-                          <input type="password" name="password" class="form-control">
-                          <small id="helpid" class="form-text text-muted"><?php echo form_error('password') ?></small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>New password</label>
-                          <input type="password" name="newpassword" class="form-control">
-                          <small id="helpid" class="form-text text-muted"><?php echo form_error('newpassword') ?></small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Confirm New password</label>
-                          <input type="password" name="confpassword" class="form-control">
-                          <small id="helpid" class="form-text text-muted"><?php echo form_error('confpassword') ?></small>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <button type="submit" class="btn btn-danger">Update</button>
-                      <button class="btn btn-light">Cancel</button>
-                    </div>
-                  </form>
-                </div>
+                
               </div>
             </div>
         <?php } ?>
@@ -391,26 +360,95 @@
         button.setAttribute("aria-expanded", visible === "true" ? "false" : "true");
       });
     }
+    function toggleInputEvents(input,inputErr,validationFunction){
+      let error=document.querySelector(inputErr);
+      input.addEventListener('input',(event)=>{
+        let value=input.value;
+        console.log(value);
+        validationFunction(value,error);
+      });
+    }
+    function validateFirstName(fn='',err=''){
+      let lettersReg=/^[A-Za-z\s]+$/;
+      if(fn.length==0){
+        err.textContent="First name is required!"; 
+        return false;
+      }
+      if(lettersReg.test(fn)==false){
+        err.textContent="First name must be alphabetical!";
+        return false;
+      }
+      err.textContent="";
+      return true;
+    }
+    function validateLastName(ln='',err=''){
+      let lettersReg=/^[A-Za-z\s]+$/;
+      if(ln.length==0){
+        err.textContent="Last name is required!"; 
+        return false;
+      }
+      if(lettersReg.test(ln)==false){
+        err.textContent="Last name must be alphabetical!";
+        return false;
+      }
+      err.textContent="";
+      return true;
+    }
+    function validatePhone(ph='',err=''){
+      let phoneReg=/^\d+$/;
+      if(ph.length==0||ph.length<11){
+        err.textContent="Phone number is required!";
+        return false;
+      }
+      if(phoneReg.test(ph)==false){
+        err.textContent="Phone number does not contain an alphabet";
+        return false;
+      }
+      err.textContent="";
+      return true;
+    }
+    function validateBirthDate(bd='',err=''){
+      if(bd.length==0){
+        err.textContent="Birthdate is required!";
+        return false;
+      }
+      err.textContent="";
+      return true;
+    }
+    function submitForm(){
+      const form=document.querySelector('#submitForm');
+      form.action="account/update";
+      form.method="POST";
+      form.submit();
+    }
+    function formHandler(event){
+      event.preventDefault();
+      let formValid={
+        'birthday':validateBirthDate(bdInput.value,'#bd-err'),
+        'phone':validatePhone(phInput.value,'#ph-err'),
+        'lastname':validateLastName(lnInput.value,'#ln-err'),
+        'firstname':validateFirstName(fnInput.value,'#fn-err')
+      }
+      for(const key in formValid){
+        if(formValid[key]==false){
+          console.log(formValid[key]);
+          return;
+        }
+      }
+      submitForm();
+    }
     const updatePicButton=document.querySelector('.edit-pic');
     toggleModalVisibility('#toggle-modal', updatePicButton, "data-visible");
-    const updateFnButton=document.querySelector('.edit-fn');
-    toggleModalVisibility('#toggle-fn', updateFnButton, "data-visible");
-    const updateLnButton=document.querySelector('.edit-ln');
-    toggleModalVisibility('#toggle-ln', updateLnButton, "data-visible");
-    const updatePnButton=document.querySelector('.edit-Pn');
-    toggleModalVisibility('#toggle-Pn', updatePnButton, "data-visible");
-    const updateBdButton=document.querySelector('.edit-Bd');
-    toggleModalVisibility('#toggle-Bd', updateBdButton, "data-visible");
     const closePicButton=document.querySelector(".btn-close");
     toggleModalVisibility('#toggle-modal', closePicButton, "data-visible");
-    const closeFnButton=document.querySelector(".close-fn");
-    toggleModalVisibility('#toggle-fn',closeFnButton,"data-visible");
-    const closeLnButton=document.querySelector(".close-ln");
-    toggleModalVisibility('#toggle-ln',closeLnButton,"data-visible");
-    const closePnButton=document.querySelector(".close-pn");
-    toggleModalVisibility('#toggle-Pn',closePnButton,"data-visible");
-    const closeBdButton=document.querySelector(".close-bd");
-    toggleModalVisibility('#toggle-Bd',closeBdButton,"data-visible");
+    const fnInput=document.querySelector('#fn');
+    toggleInputEvents(fnInput,'#fn-err',validateFirstName);
+    const lnInput=document.querySelector('#ln');
+    toggleInputEvents(lnInput,'#ln-err',validateLastName);
+    const phInput=document.querySelector('#ph');
+    toggleInputEvents(phInput,'#ph-err',validatePhone);
+    const bdInput=document.querySelector('#bd');
+    toggleInputEvents(bdInput,'#bd-err',validateBirthDate);
   </script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

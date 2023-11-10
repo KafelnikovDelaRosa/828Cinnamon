@@ -11,19 +11,8 @@ class Landing extends CI_Controller {
         $this->load->model('ProductModel');
     } 
 	public function index()
-	{
-	    if(isset($_SESSION["username"])){
-	        if($_SESSION["username"]=="admin"){
-	            header('location:'.base_url("Dashboard"));
-	        }
-	        else{
-	            $data['products']=$this->ProductModel->getProducts();
-	            $this->load->view('landing',$data);
-	        }
-	    }
-	    else{
-	       $data['products']=$this->ProductModel->getProducts(); 
-		   $this->load->view('landing',$data);   
-	    }
+	{	
+		$data['products']=$this->ProductModel->getProducts();
+		$this->load->view('landing',$data); 
 	}
 }

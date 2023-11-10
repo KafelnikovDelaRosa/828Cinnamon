@@ -20,6 +20,6 @@ class Dashboard extends CI_Controller {
         $data['users']=$this->UserModel->getUserSum();
         $data['products']=$this->ProductModel->getProductSum();
         $data['sales']=$this->OrderModel->getOrderSumCompleted();
-		$this->load->view('dashboard',$data);
+		$this->load->view('admin/dashboard',$data);
 	}
 }
