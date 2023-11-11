@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>828 Page - Order History</title>
+    <title>828 Orders Page</title>
     <link rel="icon" href="<?php echo base_url('images/828Logo.png')?>">
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -230,27 +230,27 @@
     <div class="py-3 text-left">
         <h2 style="font-size:2.5rem;">Order History</h2>
         <div class="search-container">
-            <form action="#" method="post">
+            <form id="orderForm">
               <div class='input-row'>
                   <div class="order-field">
                       <label for="order">Order no.</label>
-                      <input type="text" name="order">
+                      <input type="text" name="order" id="o-no">
                   </div>
                   <div class="date-field">
                       <label for="fromdate">From</label>
-                      <input type="date" name="fromdate">
+                      <input type="date" name="fromdate" id="f-date">
                       <label for="todate">To</label>
-                      <input type="date" name="todate">
+                      <input type="date" name="todate" id="t-date">
                   </div>
               </div> 
               <div class='button-row'>
-                  <button type='submit'/>Search</button>
+                  <button onclick="search(event)">Search</button>
               </div>
             </form>    
         </div>
     </div>
     <?php if(empty($orders)){?>
-      <center><h2>You have no orders</h2></center>
+      <center><h2>No orders found</h2></center>
     <?php } else{?>
       <h4>Recent Orders</h4>
       <table class="table" style="align-self:center;">
@@ -301,6 +301,42 @@
   <script>
     var itemData=new Array;
     var itemReceipt="";
+    function search(event){
+      const myForm=document.querySelector('#orderForm');
+      const orderNo=document.querySelector('#o-no');
+      const fromDate=document.querySelector('#f-date');
+      const toDate=document.querySelector('#t-date'); 
+      const date={
+        'from':fromDate.value,
+        'to':toDate.value
+      };
+      if(orderNo.value.length>0){
+        event.preventDefault();
+        const baseUrl="<?php echo base_url('orders/id/')?>";
+        const fullUrl=baseUrl+orderNo.value;
+        myForm.action=fullUrl;
+        myForm.method="POST";
+        myForm.submit();
+        return;
+      }
+      else if(date['from'].length!=0&&date['to'].length!=0){
+        event.preventDefault();
+        const baseUrl="<?php echo base_url('orders/date/')?>";
+        const dateString=`${date['from']}/${date['to']}`;
+        const fullUrl=baseUrl+dateString;
+        myForm.action=fullUrl;
+        myForm.method="POST";
+        myForm.submit();
+        return;
+      }
+      else{
+        event.preventDefault();
+        myForm.action="<?php echo base_url('orders')?>";
+        myForm.method="POST";
+        myForm.submit();
+        return;
+      }
+    }
     const receiptButton=document.querySelector("#recieptno");
     const togglereceiptScreen=document.querySelector("#receipt-mask");
     receiptButton.addEventListener('click',()=>{

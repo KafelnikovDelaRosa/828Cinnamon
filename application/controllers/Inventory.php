@@ -13,7 +13,7 @@ class Inventory extends CI_Controller {
 	public function index()
 	{ 
         $data['inventory'] = $this->InventoryModel->getInventory();
-		$this->load->view('inventory',$data);
+		$this->load->view('admin/inventory',$data);
 	}
     public function addInventory(){
         $this->form_validation->set_rules('name','Item Name','required');

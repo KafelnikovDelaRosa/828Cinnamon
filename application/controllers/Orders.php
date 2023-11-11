@@ -13,7 +13,7 @@ class Orders extends CI_Controller {
 	public function index()
 	{
     $data['orders']=$this->OrderModel->getOrders();
-	  $this->load->view('order',$data);
+	  $this->load->view('admin/order',$data);
 	}
     public function cancelOrder($orderid){
       $this->OrderModel->cancelOrder($orderid);

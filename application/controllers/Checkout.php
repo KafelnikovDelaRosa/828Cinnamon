@@ -16,7 +16,7 @@ class Checkout extends CI_Controller {
       $customDataJson=$this->input->post("items");
       $this->session->set_userdata('order',json_decode($customDataJson));
       $data['user']=(isset($_SESSION['username']))?$this->UserModel->getUserInfo($_SESSION['username']):"";
-      $this->load->view('checkout',$data);
+      $this->load->view('user/checkout',$data);
 	}
   public function placeOrderUser(){
       $this->form_validation->set_rules('email','Email','required|valid_email');
@@ -24,11 +24,11 @@ class Checkout extends CI_Controller {
       $this->form_validation->set_rules('address','Address','required');
       if($this->form_validation->run()==FALSE){
         $data['user']=$this->UserModel->getUserInfo($_SESSION['username']);
-        $this->load->view('checkout',$data);
+        $this->load->view('user/checkout',$data);
       }
       else{
         $this->OrderModel->addOrderUser();
-        $this->load->view('ordersuccess');
+        $this->load->view('user/ordersuccess');
         $this->session->unset_userdata('order');
       }
     }
@@ -39,11 +39,11 @@ class Checkout extends CI_Controller {
     $this->form_validation->set_rules('phone','Phone Number','required|numeric');
     $this->form_validation->set_rules('address','Address','required');
     if($this->form_validation->run()==FALSE){
-      $this->load->view('checkout');
+      $this->load->view('user/checkout');
     }
     else{
       $this->OrderModel->addOrder();
-      $this->load->view('ordersuccess');
+      $this->load->view('user/ordersuccess');
       $this->session->unset_userdata('order');
     }
   }

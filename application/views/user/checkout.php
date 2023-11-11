@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>828 Page - Checkout</title>
+    <title>828 Checkout Page</title>
     <link rel="icon" href="<?php echo base_url('images/828Logo.png')?>">
     <!-- Required meta tags -->
     <meta charset="utf-8">

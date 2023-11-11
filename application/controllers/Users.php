@@ -13,7 +13,7 @@ class Users extends CI_Controller {
 	public function index()
 	{ 
         $data['users']=$this->UserModel->getUsers();
-		$this->load->view('users',$data);
+		$this->load->view('admin/users',$data);
 	}
     public function addUser(){
         $this->form_validation->set_rules('username','Username','required|alpha_numeric|min_length[8]');
@@ -22,11 +22,11 @@ class Users extends CI_Controller {
         $this->form_validation->set_rules('confpassword-input','Confirm Password','required|min_length[8]|matches[password-input]');
         if($this->form_validation->run()==FALSE){
             $data['users']=$this->UserModel->getUsers();
-            $this->load->view('users',$data);
+            $this->load->view('admin/users',$data);
         }
         else{
             $this->UserModel->addUser();
-            header('location:'.base_url("Users"));
+            redirect('users','location');
         }
     }
     public function editUser(){

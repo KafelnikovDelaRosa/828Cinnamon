@@ -67,11 +67,19 @@ $route['checkout']='Checkout';
 $route['checkout/order/user']='Checkout/placeOrderUser';
 $route['checkout/order']='Checkout/placeOrder';
 $route['orders']='OrderHistory';
-$route['orders/id/(:any)']='OrderHistory/searchById/$1';
+$route['orders/id/(:num)']='OrderHistory/searchById/$1';
+$route['orders/date/(:any)/(:any)']='OrderHistory/searchByDate/$1/$2';
 $route['orders/payment']='OrderHistory/payOrder';
+$route['faq']='Faq';
 
 //admin routes
 $route['dashboard']='Dashboard';
+$route['mrp']='MRP';
+$route['inventory']="Inventory";
+$route['products']="Products";
+$route['order']="Orders";
+$route['users']="Users";
+$route['alerts']="Alerts";
 
 //logout
 $route['logout']='Logout';

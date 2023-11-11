@@ -11,6 +11,6 @@ class Faq extends CI_Controller {
     } 
 	public function index()
 	{ 
-		$this->load->view('faq.php');
+		$this->load->view('user/faq');
 	}
 }

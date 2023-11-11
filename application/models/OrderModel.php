@@ -97,9 +97,19 @@ class OrderModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
-    public function getOrderById($id){
+    public function getOrderById($id,$email){
         $this->load->database();
         $this->db->where('orderid',$id);
+        $this->db->where('email',$email);
+        $query=$this->db->get('ordertb');
+        $result=$query->result();
+        return $result;
+    }
+    public function getOrderByDate($from,$to,$email){
+        $this->load->database();
+        $this->db->where('email',$email);
+        $this->db->where('orderdate >=',$from);
+        $this->db->where('orderdate <=',$to);
         $query=$this->db->get('ordertb');
         $result=$query->result();
         return $result;

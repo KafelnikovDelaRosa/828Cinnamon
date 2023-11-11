@@ -13,7 +13,7 @@ class Products extends CI_Controller {
 	public function index()
 	{ 
         $data['products']=$this->ProductModel->getProducts();
-		$this->load->view('products',$data);
+		$this->load->view('admin/products',$data);
 	}
     public function removeProduct($product_id){
         $this->ProductModel->removeProduct($product_id);

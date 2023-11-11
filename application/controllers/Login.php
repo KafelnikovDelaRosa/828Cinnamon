@@ -37,7 +37,7 @@ class Login extends CI_Controller {
 	}
 	public function loginHandler($usr,$pass,$auth){
 		if($auth['role']=='admin'&& $auth['username']==$usr && $auth['password']==$pass){
-			$this->session->set_userdata('useradmin',$usr);	
+			$this->session->set_userdata('useradmin',$usr);
 			redirect('dashboard','location');
 		}
 		if($auth['role']=='user' && $auth['username']==$usr && $auth['password']==$pass){
@@ -45,6 +45,10 @@ class Login extends CI_Controller {
 			$this->session->set_userdata('username',$usr);
 			$this->session->set_userdata('profilepic',$avatar);
 			redirect('landing','location');
+		}
+		else{
+			$this->session->set_flashdata('login_err','Invalid username or password');
+			$this->load->view('auth/login');
 		}
 	}
 }
