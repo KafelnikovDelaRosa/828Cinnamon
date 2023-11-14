@@ -140,7 +140,7 @@
                 <span class="tooltip">MRP</span>
             </li>
             <li>
-                <a href = "<?php echo base_url('inventory')?>">
+                <a href = "<?php echo base_url('inventory/page/1')?>">
                     <i class="fas fa-shopping-basket"></i>
                     <span class="nav-item">Inventory</span>
                 </a>

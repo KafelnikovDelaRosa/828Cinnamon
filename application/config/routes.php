@@ -75,7 +75,13 @@ $route['faq']='Faq';
 //admin routes
 $route['dashboard']='Dashboard';
 $route['mrp']='MRP';
-$route['inventory']="Inventory";
+$route['inventory/page/(:num)']='Inventory/index/$1';
+$route['inventory/add']='Inventory/addInventory';
+$route['inventory/remove/id/(:num)']='Inventory/removeInventory/$1';
+$route['inventory/edit/id/(:num)']='Inventory/editItem/$1';
+$route['inventory/sortby/(:any)/(:num)']='Inventory/sortBy/$1/$2';
+$route['inventory/search/(:any)/(:num)']='Inventory/search/$1/$2';
+$route['inventory/filter/(:any)/(:num)']='Inventory/levelFilter/$1/$2';
 $route['products']="Products";
 $route['order']="Orders";
 $route['users']="Users";
