@@ -110,79 +110,8 @@
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="top">
-            <div class="logo">
-                <span>828 Admin</span>
-            </div>
-            <i class="fa-solid fa-bars" id = "btn"></i>
-        </div>
-        <div class="user">
-            <img src = "<?php echo base_url('images/guest_pic.jpg')?>" alt="secret-user" class = "user-img">
-            <div class="">
-                <p class = "bold">Kafelnikov</p>
-                <p>Admin</p>
-            </div>
-        </div>
-        <ul>
-            <li>
-                <a href = "<?php echo base_url('dashboard') ?>">
-                    <i class="fa-solid fa-grip"></i>
-                    <span class="nav-item">Dashboard</span>
-                </a>
-                <span class="tooltip">Dashboard</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('mrp') ?>">
-                    <i class="fas fa-calendar"></i>
-                    <span class="nav-item">MRP</span>
-                </a>
-                <span class="tooltip">MRP</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('inventory/page/1')?>">
-                    <i class="fas fa-shopping-basket"></i>
-                    <span class="nav-item">Inventory</span>
-                </a>
-                <span class="tooltip">Inventory</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('products')?>">
-                    <i class="fas fa-store-alt"></i>
-                    <span class="nav-item">Products</span>
-                </a>
-                <span class="tooltip">Products</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('order')?>">
-                    <i class="fas fa-scroll"></i>
-                    <span class="nav-item">Orders</span>
-                </a>
-                <span class="tooltip">Orders</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('users')?>">
-                    <i class="fa-solid fa-users"></i>
-                    <span class="nav-item">Users</span>
-                </a>
-                <span class="tooltip">Users</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('alerts')?>">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <span class="nav-item">Alerts</span>
-                </a>
-                <span class="tooltip">Alerts</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('logout')?>">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span class="nav-item">Logout</span>
-                </a>
-                <span class="tooltip">Logout</span>
-            </li>
-        </ul>
-    </div>
+    <?php include('sidetemplate.php'); ?>
+    <?php sideBar(); ?> 
     <main>
         <section>
             <p class="tagline">Orders</p>
@@ -202,7 +131,7 @@
                         <hr>
                         <label for="psw-repeat"><b>Username</b><span style="color:red"><?php echo form_error("username")?></span></label>
                         <input type="text" name="username">
-                         <label for="psw-repeat"><b>Email</b><span style="color:red"><?php echo form_error("email")?></span></label>
+                        <label for="psw-repeat"><b>Email</b><span style="color:red"><?php echo form_error("email")?></span></label>
                         <input type="text" name="email">
                         <label for="psw-repeat"><b>Password</b><span style="color:red"><?php echo form_error("password-input")?></span></label>
                         <input type="password" name="password-input">
@@ -236,11 +165,11 @@
                         <input type="text" name="username" id="username-edit" value="">
                         <label for="psw-repeat"><b>Email</b><span style="color:red"><?php echo form_error("email")?></span></label>
                         <input type="text" name="email" id="email-edit" value="">
-                         <label for="psw-repeat"><b>Phone</b><span style="color:red"><?php echo form_error("phone")?></span></label>
+                        <label for="psw-repeat"><b>Phone</b><span style="color:red"><?php echo form_error("phone")?></span></label>
                         <input type="text" name="phone" id="phone-edit" maxlength="11" value="">
-                         <label for="psw-repeat"><b>Birthdate</b><span style="color:red"><?php echo form_error("birthday")?></span></label>
+                        <label for="psw-repeat"><b>Birthdate</b><span style="color:red"><?php echo form_error("birthday")?></span></label>
                         <input type="date" name="birthday" id="birthday-edit" value="">
-                         <label for="psw-repeat"><b>Role</b><span style="color:red"><?php echo form_error("role")?></span></label>
+                        <label for="psw-repeat"><b>Role</b><span style="color:red"><?php echo form_error("role")?></span></label>
                         <select name="role" id="role-edit">
                             <option selected="user">user</option>
                             <option>admin</option>

@@ -10,9 +10,16 @@ class Products extends CI_Controller {
         $this->load->library('session');
         $this->load->model('ProductModel');
     } 
-	public function index()
+	public function index($page)
 	{ 
-        $data['products']=$this->ProductModel->getProducts();
+        $data['level']='all';
+        $data['category']='all';
+        $data['cur_page']=$page;
+        $data['per_page']=3;
+        $data['total_entries']=$this->ProductModel->getNoProducts();
+        $data['last_entries']=$data['per_page']*$page;
+        $data['index']=$data['last_entries']-$data['per_page'];   
+        $data['products'] = $this->ProductModel->getProducts($data['per_page'],$data['index']);
 		$this->load->view('admin/products',$data);
 	}
     public function removeProduct($product_id){

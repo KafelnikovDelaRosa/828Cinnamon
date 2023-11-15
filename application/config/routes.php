@@ -82,9 +82,9 @@ $route['inventory/edit/id/(:num)']='Inventory/editItem/$1';
 $route['inventory/sortby/(:any)/(:num)']='Inventory/sortBy/$1/$2';
 $route['inventory/search/(:any)/(:num)']='Inventory/search/$1/$2';
 $route['inventory/filter/(:any)/(:num)']='Inventory/levelFilter/$1/$2';
-$route['products']="Products";
-$route['order']="Orders";
-$route['users']="Users";
+$route['products/page/(:num)']="Products/index/$1";
+$route['order/page/(:num)']="Orders/index/$1";
+$route['users/page/(:num)']="Users/index/$1";
 $route['alerts']="Alerts";
 
 //logout

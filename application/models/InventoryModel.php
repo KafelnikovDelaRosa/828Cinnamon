@@ -2,34 +2,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class InventoryModel extends CI_Model{
     public function addItem(){
-       $this->load->database();
-       $itemNameInput=$_POST["name"];
-       $itemCode="";
-       $minQuantity=0;
-       $itemStatus="";
-       $this->db->where('name',$itemNameInput);
-       $query=$this->db->get('recipetb');
-       $result=$query->result();
-       foreach($result as $row){
-            $itemCode=$row->code;
-            $minQuantity=$row->quantity;
-       }
-       if($_POST["quantity"]>$minQuantity){
-            $itemStatus="high";
-       }
-       else{
-            $itemStatus="low";
-       }
-       $data=array(
-            'itemname'=>$itemNameInput,
-            'itemcode'=>$itemCode,
-            'minquantity'=>$minQuantity,
-            'quantity'=>$_POST["quantity"],
+        $this->load->database();
+        $itemStatus=($_POST['current_stocks']>$_POST['stock_treshold'])?'High':'Low';  
+        $data=array(
+            'itemcode'=>$_POST['code'],
+            'itemname'=>$_POST['name'],
+            'stock'=>$_POST['current_stocks'],
+            'minstock'=>$_POST['stock_treshold'],
+            'quantity'=>$_POST['quantity'],
             'unit'=>$_POST["unit"],
-            'cost'=>$_POST["price"],
+            'cost'=>$_POST["cost"],
             'itemlevel'=>$itemStatus
-       ); 
-       $this->db->insert('inventorytb',$data);
+        ); 
+        $this->db->insert('inventorytb',$data);
     }
     public function searchEntry($input,$limit,$startingIndex){
         $this->load->database();
@@ -71,32 +56,23 @@ class InventoryModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
-    public function updateInventory(){
+    public function getItem($id){
         $this->load->database();
-        $itemCode=$_POST["code"];
-        $minQuantity=0;
-        $itemStatus="";
-        $this->db->where("code",$itemCode);
-        $query=$this->db->get('recipetb');
-        $result=$query->result();
-        foreach($result as $row){
-            $itemCode=$row->code;
-            $minQuantity=$row->quantity;
-        }
-        if($_POST["quantity"]>$minQuantity){
-                $itemStatus="high";
-        }
-        else{
-                $itemStatus="low";
-        }
+        $this->db->where('itemid',$id);
+        $query=$this->db->get('inventorytb');
+        $result=$query->result(); 
+        return $result;
+    }
+    public function updateInventory($id){
+        $this->load->database();
         $data=array(
-            'itemname'=>$_POST["name"],
-            'quantity'=>$_POST["quantity"],
+            'itemcode'=>$_POST['code'],
+            'itemname'=>$_POST['name'],
+            'quantity'=>$_POST['quantity'],
             'unit'=>$_POST["unit"],
-            'cost'=>$_POST["price"],
-            'itemlevel'=>$itemStatus
+            'cost'=>$_POST["cost"]
         );
-        $this->db->where('itemcode',$itemCode);
+        $this->db->where('itemid',$id);
         $this->db->update('inventorytb',$data);
     }
     public function removeItem($itemid){

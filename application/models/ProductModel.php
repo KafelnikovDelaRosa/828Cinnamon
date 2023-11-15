@@ -2,22 +2,28 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class ProductModel extends CI_Model{
     public function addProduct($imageUpload){
-       $this->load->database();
-       $data=array(
+        $this->load->database();
+        $data=array(
             'productimage'=>$imageUpload,
             'productname'=>$_POST["productname"],
             'productdescription'=>$_POST["description"],
             'productcost'=>$_POST["productcost"],
             'status'=>"available"
-       ); 
-       $this->db->insert('producttb',$data);
+        ); 
+        $this->db->insert('producttb',$data);
     }
     public function getProductSum(){
         $this->load->database();
         return $this->db->count_all('producttb');
     }
-    public function getProducts(){
+    public function getNoProducts(){
         $this->load->database();
+        $result=$this->db->count_all_results('producttb');
+        return $result;
+    }
+    public function getProducts($limit,$startingIndex){
+        $this->load->database();
+        $this->db->limit($limit,$startingIndex);
         $query=$this->db->get('producttb');
         $result=$query->result();
         return $result;

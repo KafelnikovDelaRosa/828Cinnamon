@@ -8,82 +8,12 @@
     <title>828 Admin - Inventory</title>
     <link rel="stylesheet" href="<?php echo base_url('CSS/adminstyle.css') ?>">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="top">
-            <div class="logo">
-                <span>828 Admin</span>
-            </div>
-            <i class="fa-solid fa-bars" id = "btn"></i>
-        </div>
-        <div class="user">
-            <img src = "<?php echo base_url('images/guest_pic.jpg')?>" alt="secret-user" class = "user-img">
-            <div class="">
-                <p class = "bold">Kafelnikov</p>
-                <p>Admin</p>
-            </div>
-        </div>
-        <ul>
-            <li>
-                <a href = "<?php echo base_url('dashboard') ?>">
-                    <i class="fa-solid fa-grip"></i>
-                    <span class="nav-item">Dashboard</span>
-                </a>
-                <span class="tooltip">Dashboard</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('mrp') ?>">
-                    <i class="fas fa-calendar"></i>
-                    <span class="nav-item">MRP</span>
-                </a>
-                <span class="tooltip">MRP</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('inventory/page/1')?>">
-                    <i class="fas fa-shopping-basket"></i>
-                    <span class="nav-item">Inventory</span>
-                </a>
-                <span class="tooltip">Inventory</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('products')?>">
-                    <i class="fas fa-store-alt"></i>
-                    <span class="nav-item">Products</span>
-                </a>
-                <span class="tooltip">Products</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('order')?>">
-                    <i class="fas fa-scroll"></i>
-                    <span class="nav-item">Orders</span>
-                </a>
-                <span class="tooltip">Orders</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('users')?>">
-                    <i class="fa-solid fa-users"></i>
-                    <span class="nav-item">Users</span>
-                </a>
-                <span class="tooltip">Users</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('alerts')?>">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <span class="nav-item">Alerts</span>
-                </a>
-                <span class="tooltip">Alerts</span>
-            </li>
-            <li>
-                <a href = "<?php echo base_url('logout')?>">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span class="nav-item">Logout</span>
-                </a>
-                <span class="tooltip">Logout</span>
-            </li>
-        </ul>
-    </div>
+    <?php include('sidetemplate.php'); ?>
+    <?php sideBar(); ?> 
     <main>
         <section>
             <h2>Inventory</h2>
@@ -132,6 +62,7 @@
                     <div class="links">
                         <?php $entry=0;$page=1; ?>
                         <?php do{ ?>
+                            <?php if($entry==$total_entries){break;}?>
                             <?php if(empty($inventory)){ break; }?>
                             <?php if($cur_page==$page){ echo $page;?>
                             <?php } else if($category!='all') {?>
@@ -155,7 +86,8 @@
                             <th>Id</th>
                             <th>Code</th>
                             <th>Name</th>
-                            <th>Minimum Quantity (g/pcs)</th>
+                            <th>Current Stock</th>
+                            <th>Stock Threshold</th>
                             <th>Quantity</th>
                             <th>Unit</th>
                             <th>Cost</th>
@@ -169,14 +101,15 @@
                                     <td><?php echo $item->itemid ?></td>
                                     <td><?php echo $item->itemcode?></td>
                                     <td><?php echo $item->itemname ?></td>
-                                    <td><?php echo $item->minquantity ?></td>
+                                    <td><?php echo $item->stock?></td>
+                                    <td><?php echo $item->minstock ?></td>
                                     <td><?php echo $item->quantity?></td>
                                     <td><?php echo $item->unit?></td>
                                     <td><?php echo "₱".$item->cost?></td>
                                     <td><?php echo $item->itemlevel ?></td>
                                     <td>
-                                        <i class="fa-solid fa-trash option-action"></i>
-                                        <i class="fa-solid fa-edit option-action"></i>
+                                        <i class="fa-solid fa-trash option-action" aria-data='<?php echo $item->itemid ?>'></i>
+                                        <i class="fa-solid fa-edit option-action" aria-data='<?php echo $item->itemid ?>'></i>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -205,6 +138,34 @@
                 const fullUrl=phpBaseUrl+methodUrl; 
                 window.location.href=fullUrl;
             }
+            let editList=document.querySelectorAll('.fa-edit');
+            editList.forEach(edit=>{
+                edit.addEventListener('click',()=>{
+                    let id=edit.getAttribute('aria-data');
+                    const phpUrl="<?php echo base_url('inventory/edit/id/') ?>";
+                    let fullUrl=phpUrl+id;
+                    window.location.href=fullUrl;
+                });
+            });
+            let removeList=document.querySelectorAll('.fa-trash');
+            removeList.forEach(remove=>{
+                remove.addEventListener('click',()=>{
+                    let id=remove.getAttribute('aria-data');
+                    const phpUrl="<?php echo base_url('inventory/remove/id/') ?>";
+                    let fullUrl=phpUrl+id;
+                    Swal.fire({
+                        icon:'question',
+                        title: `Are you sure you want to remove material no ${id} entries?`,
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            window.location.href=fullUrl;
+                        }
+                    })
+                });
+            });
         </script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
