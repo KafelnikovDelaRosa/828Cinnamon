@@ -19,7 +19,7 @@ class Inventory extends CI_Controller {
         $data['total_entries']=$this->InventoryModel->getNoItems();
         $data['last_entries']=$data['per_page']*$page;
         $data['index']=$data['last_entries']-$data['per_page'];   
-        $data['inventory'] = $this->InventoryModel->getInventory($data['per_page'],$data['index']);
+        $data['entries'] = $this->InventoryModel->getInventory($data['per_page'],$data['index']);
 		$this->load->view('admin/inventory',$data);
 	}
     public function search($term,$page){
@@ -29,8 +29,8 @@ class Inventory extends CI_Controller {
         $data['per_page']=6;
         $data['last_entries']=$data['per_page']*$page;
         $data['index']=$data['last_entries']-$data['per_page'];   
-        $data['inventory'] = $this->InventoryModel->searchEntry($term,$data['per_page'],$data['index']);
-        $entry_length=count($data['inventory']);
+        $data['entries'] = $this->InventoryModel->searchEntry($term,$data['per_page'],$data['index']);
+        $entry_length=count($data['entries']);
         $data['total_entries']=$entry_length;
 		$this->load->view('admin/inventory',$data);
     }
@@ -42,7 +42,7 @@ class Inventory extends CI_Controller {
         $data['total_entries']=$this->InventoryModel->getNoItems();
         $data['last_entries']=$data['per_page']*$page;
         $data['index']=$data['last_entries']-$data['per_page'];   
-        $data['inventory'] = $this->InventoryModel->sortInventory($category,$data['per_page'],$data['index']);
+        $data['entries'] = $this->InventoryModel->sortInventory($category,$data['per_page'],$data['index']);
 		$this->load->view('admin/inventory',$data);
     }
     public function levelFilter($level,$page){
@@ -52,8 +52,8 @@ class Inventory extends CI_Controller {
         $data['per_page']=6;
         $data['last_entries']=$data['per_page']*$page;
         $data['index']=$data['last_entries']-$data['per_page'];   
-        $data['inventory'] = $this->InventoryModel->filterLevel($level,$data['per_page'],$data['index']);
-        $entry_length=count($data['inventory']);
+        $data['entries'] = $this->InventoryModel->filterLevel($level,$data['per_page'],$data['index']);
+        $entry_length=count($data['entries']);
         $data['total_entries']=$entry_length;
 		$this->load->view('admin/inventory',$data);
     }
@@ -129,12 +129,20 @@ class Inventory extends CI_Controller {
         }
         else{
             $this->InventoryModel->addItem();
-            $this->load->view('admin/inventoryaddsuccess');
+            $data['title']='Inventory';
+            $data['message']='Material entry added!';
+            $data['root_url']='inventory';
+            $data['return']='Return to inventory';
+            $this->load->view('admin/crudsuccess',$data);
         }
     }
     public function removeInventory($itemid){
         $this->InventoryModel->removeItem($itemid);
-        $this->load->view('admin/inventoryremovesuccess');
+        $data['title']='Inventory';
+        $data['message']='Material entry removed!';
+        $data['root_url']='inventory';
+        $data['return']='Return to inventory';
+        $this->load->view('admin/crudsuccess',$data);
     }
     public function editItem($itemid){
         $this->form_validation->set_rules('code','Material Code','required');
@@ -172,7 +180,11 @@ class Inventory extends CI_Controller {
         }
         else{
             $this->InventoryModel->updateInventory($itemid);
-            $this->load->view('admin/inventoryeditsuccess');
+            $data['title']='Inventory';
+            $data['message']='Material entry updated!';
+            $data['root_url']='inventory';
+            $data['return']='Return to inventory';
+            $this->load->view('admin/crudsuccess',$data);
         }
     }
 }

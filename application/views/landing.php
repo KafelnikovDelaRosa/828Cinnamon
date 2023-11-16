@@ -283,20 +283,20 @@
       <div class="menu-box">
         <?php foreach($products as $product){ $item=array(
           'id'=>$product->productid,
-          'quantity'=>1,
-          'image'=>$product->productimage,
-          'name'=>$product->productname,
-          'price'=>$product->productcost
+          'stock'=>1,
+          'image'=>$product->image,
+          'name'=>$product->name,
+          'price'=>$product->cost
         );?>
         <div class="card-container" style="padding:2em;">
-          <div class="card mx-auto" style="width:356px;height:700px;">
+          <div class="card mx-auto" style="width:356px;height:750px;">
                 <img class='mx-auto img-thumbnail'
-                    src="<?php echo base_url('uploads/'.$product->productimage)?>"
+                    src="<?php echo base_url('uploads/'.$product->image)?>"
                     width="100%" height="450"/>
                 <div class="card-body" style="display:flex;align-items:center;flex-direction:column;flex-wrap:wrap">
-                    <h2 class="card-title font-weight-bold"><?php echo $product->productname?></h5>
-                    <p class="card-text" style="font-size:12px; padding:2em;"><?php echo $product->productdescription ?></p>
-                    <p class="card-text" sytle="padding:2em;"><?php echo "₱".$product->productcost?></p>
+                    <h2 class="card-title font-weight-bold" style="padding:1rem;"><?php echo $product->name.' '.$product->quantity.'pcs'?></h5>
+                    <p class="card-text" style="font-size:12px; padding:2em;"><?php echo $product->description ?></p>
+                    <p class="card-text" sytle="padding:2em;"><?php echo "₱".$product->cost?></p>
                     <a style="text-decoration:none; padding:.4em; width:120px; cursor:pointer;height:40px;" class="btn" onclick='addCart(<?php echo json_encode($item);?>)'>ADD TO CART</a>
                 </div> 
           </div>

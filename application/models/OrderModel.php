@@ -31,6 +31,13 @@ class OrderModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function getOrdersLimit($limit,$startingIndex){
+        $this->load->database();
+        $this->db->limit($limit,$startingIndex);
+        $query=$this->db->get('ordertb');
+        $result=$query->result();
+        return $result;
+    }
     public function addOrder(){
        $this->load->database();
        $receiptid=uniqid();

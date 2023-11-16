@@ -10,10 +10,17 @@ class Orders extends CI_Controller {
         $this->load->library('session');
         $this->load->model('OrderModel');
     } 
-	public function index()
+	public function index($page)
 	{
-    $data['orders']=$this->OrderModel->getOrders();
-	  $this->load->view('admin/order',$data);
+    $data['status']='all';
+    $data['category']='all';
+    $data['cur_page']=$page;
+    $data['per_page']=6;
+    $data['total_entries']=$this->OrderModel->getOrderSum();
+    $data['last_entries']=$data['per_page']*$page;
+    $data['index']=$data['last_entries']-$data['per_page'];   
+    $data['entries'] = $this->OrderModel->getOrdersLimit($data['per_page'],$data['index']);
+		$this->load->view('admin/order',$data);
 	}
     public function cancelOrder($orderid){
       $this->OrderModel->cancelOrder($orderid);

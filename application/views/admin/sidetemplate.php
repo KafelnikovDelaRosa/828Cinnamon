@@ -37,7 +37,7 @@
             </li>
             <li>
                 <a href = "<?php echo base_url('products/page/1')?>">
-                    <i class="fas fa-store-alt"></i>
+                    <i class="fas fa-box"></i>
                     <span class="nav-item">Products</span>
                 </a>
                 <span class="tooltip">Products</span>
