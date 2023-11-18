@@ -241,7 +241,7 @@
                   <table class="table" style="width:100%">
                         <thead class="thead-inverse">
                             <tr style="border-bottom:2px solid black">
-                                <th>Quantity</th>
+                                <th>Stock</th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -541,7 +541,7 @@
         buttonSub.textContent="-";
         const inputQuantity=document.createElement("input");
         inputQuantity.type="number";
-        inputQuantity.value=item.quantity;
+        inputQuantity.value=item.stock;
         inputQuantity.setAttribute("readonly",true);
         const buttonAdd=document.createElement("button");
         buttonAdd.setAttribute("onclick",`addQuantity(${i})`);
@@ -622,15 +622,15 @@
       }
     }
     function addQuantity(i){
-      items[i].quantity+=1;
+      items[i].stock+=1;
       total+=Number(items[i].price);
       displayProduct();
     }
     function subQuantity(i) {
       if (i >= 0 && i < items.length) {
-        if (items[i].quantity > 1) {
+        if (items[i].stock > 1) {
           total -= Number(items[i].price);
-          items[i].quantity -= 1;
+          items[i].stock -= 1;
           displayProduct();
         } 
         else {

@@ -20,6 +20,7 @@
     <main>
         <?php
             $config=array(
+                'table_type'=>'inventory',
                 'header'=>'Inventory',
                 'placeholder'=>'e.g id, code, name',
                 'categories'=>array(

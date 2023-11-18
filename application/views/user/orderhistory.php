@@ -257,7 +257,7 @@
           <thead>
               <tr>
                   <th>Order no.</th>
-                  <th>Order date</th>
+                  <th>Order issued</th>
                   <th>Receipt no.</th>
                   <th>Mode of payment</th>
                   <th>Total</th>
@@ -270,7 +270,7 @@
                 'address'=>$order->address,
                 'receipt'=>$order->receiptno,
                 'orders'=>$order->orders,
-                'date'=>$order->orderdate,
+                'date'=>$order->ordercreated,
                 'status'=>$order->orderstatus,
                 'total'=>$order->cost
               );
@@ -283,7 +283,7 @@
               } 
               ?></td>-->
               <td><?php echo $order->orderid?></td>
-              <td><?php echo $order->orderdate ?></td>
+              <td><?php echo $order->ordercreated ?></td>
               <td>
                 <p id="recieptno" onclick='showReceipt(<?php echo json_encode($items)?>)'>
                   <?php echo $order->receiptno?>

@@ -62,6 +62,13 @@ class ProductModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function filterStatusCount($status){
+        $this->load->database();
+        $this->db->where('status',$status);
+        $query=$this->db->get('producttb');
+        $result=$query->result();
+        return $result;
+    }
     public function filterStatus($status,$limit,$startingIndex){
         $this->load->database();
         $this->db->where('status',$status);

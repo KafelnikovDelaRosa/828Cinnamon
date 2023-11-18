@@ -276,11 +276,11 @@
               <?php $total=0;foreach($_SESSION['order'] as $product){;?>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
-                    <h6 class="my-0">X<?php echo $product->quantity." ".$product->name ;?></h6>
+                    <h6 class="my-0">X<?php echo $product->stock." ".$product->name ;?></h6>
                   </div>
                   <span class="text-muted">₱<?php echo $product->price?></span>
                 </li>
-              <?php $total+=$product->quantity*$product->price;}?>
+              <?php $total+=$product->stock*$product->price;}?>
               <li class="list-group-item d-flex justify-content-between">
                 <span>Total (PHP)</span>
                 <strong><?php echo "₱".$total;?></strong>
@@ -292,7 +292,7 @@
                 <label class="custom-control-label" for="same-address">I have read and fully understand the contents of this document. I agree to the <a class="btn-open-term" aria-extended="false" style="font-size:1rem;color:var(--mar);text-decoration:underline" aria-controls="toggle-term">Terms and Conditions.</a></label>
               </div>
                 <br><br>
-              <button class="btn btn-primary btn-lg btn-" type="submit">Place Order</button>
+              <button class="btn btn-primary btn-lg bg-primary" type="submit">Place Order</button>
           </div>
           <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Customer Information</h4>
@@ -366,11 +366,11 @@
             <?php $total=0;foreach($_SESSION['order'] as $product){;?>
               <li class="list-group-item d-flex justify-content-between lh-condensed">
                 <div>
-                  <h6 class="my-0">X<?php echo $product->quantity." ".$product->name ;?></h6>
+                  <h6 class="my-0">X<?php echo $product->stock." ".$product->name ;?></h6>
                 </div>
                 <span class="text-muted">₱<?php echo $product->price?></span>
               </li>
-            <?php $total+=$product->quantity*$product->price;}?>
+            <?php $total+=$product->stock*$product->price;}?>
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (PHP)</span>
               <strong><?php echo "₱".$total;?></strong>

@@ -1,4 +1,9 @@
 <?php function sideBar() { ?>
+    <?php 
+        if(!isset($_SESSION['useradmin'])){
+            redirect('login','location');
+        }
+    ?>
     <div class="sidebar">
         <div class="top">
             <div class="logo">

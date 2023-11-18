@@ -50,11 +50,10 @@ class Inventory extends CI_Controller {
         $data['level']=$level;
         $data['cur_page']=$page;
         $data['per_page']=6;
-        $data['last_entries']=$data['per_page']*$page;
-        $data['index']=$data['last_entries']-$data['per_page'];   
+        $data['total_entries']=count($this->InventoryModel->filterLevelCount($level));
+        $data['last_entries']=$data['per_page']*$page;  
+        $data['index']=$data['last_entries']-$data['per_page']; 
         $data['entries'] = $this->InventoryModel->filterLevel($level,$data['per_page'],$data['index']);
-        $entry_length=count($data['entries']);
-        $data['total_entries']=$entry_length;
 		$this->load->view('admin/inventory',$data);
     }
     public function addInventory(){

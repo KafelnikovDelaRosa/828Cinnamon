@@ -75,6 +75,7 @@ $route['faq']='Faq';
 //admin routes
 $route['dashboard']='Dashboard';
 $route['mrp']='MRP';
+//inventory routes
 $route['inventory/page/(:num)']='Inventory/index/$1'; //done
 $route['inventory/add']='Inventory/addInventory'; //done
 $route['inventory/remove/id/(:num)']='Inventory/removeInventory/$1'; //done
@@ -82,6 +83,7 @@ $route['inventory/edit/id/(:num)']='Inventory/editItem/$1'; //done
 $route['inventory/sortby/(:any)/(:num)']='Inventory/sortBy/$1/$2'; //done
 $route['inventory/search/(:any)/(:num)']='Inventory/search/$1/$2'; //done
 $route['inventory/filter/(:any)/(:num)']='Inventory/levelFilter/$1/$2'; //done
+//product routes
 $route['products/page/(:num)']="Products/index/$1"; //done
 $route['products/add']="Products/addProduct"; //done
 $route['products/remove/id/(:num)']='Products/removeProduct/$1';
@@ -89,8 +91,21 @@ $route['products/edit/id/(:num)']='Products/editProduct/$1';//done
 $route['products/sortby/(:any)/(:num)']='Products/sortBy/$1/$2'; //done
 $route['products/search/(:any)/(:num)']='Products/search/$1/$2';//done
 $route['products/filter/(:any)/(:num)']='Products/statusFilter/$1/$2';//done
-$route['order/page/(:num)']="Orders/index/$1";
-$route['users/page/(:num)']="Users/index/$1";
+//order routes
+$route['order/page/(:num)']="Orders/index/$1";//done
+$route['order/read/id/(:num)']='Orders/readRecipt/$1'; 
+$route['order/complete/id/(:num)']='Orders/completeOrder/$1';
+$route['order/cancel/id/(:num)']='Orders/cancelOrder/$1';
+$route['order/sortby/(:any)/(:num)']='Orders/sortBy/$1/$2';//done
+$route['order/search/(:any)/(:num)']='Orders/search/$1/$2';//done
+$route['order/filter/(:any)/(:num)']='Orders/statusFilter/$1/$2';//done 
+//user routes
+$route['users/page/(:num)']="Users/index/$1";//done
+$route['users/remove/id/(:num)']='Users/removeUser/$1';//done
+$route['users/edit/id/(:num)']='Users/editUser/$1';//done
+$route['users/sortby/(:any)/(:num)']='Users/sortBy/$1/$2';//done
+$route['users/search/(:any)/(:num)']='Users/search/$1/$2'; //done
+$route['users/filter/(:any)/(:num)']='Users/roleFilter/$1/$2'; //done
 $route['alerts']="Alerts";
 
 //logout

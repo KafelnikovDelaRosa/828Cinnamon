@@ -20,6 +20,7 @@
     <main>
         <?php
             $config=array(
+                'table_type'=>'product',
                 'header'=>'Products',
                 'placeholder'=>'e.g id, name',
                 'categories'=>array(

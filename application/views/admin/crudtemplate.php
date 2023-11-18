@@ -1,12 +1,14 @@
 <?php function crud($config){ ?>
     <section>
         <h2><?php echo $config['header'] ?></h2>
-        <a aria-controls="add-prompt" style="display:flex; width:10em; align-items:center" href="<?php echo base_url().$config['root_url'].'/add' ?>" class="btn btn-primary text-white btn-add">
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-            </svg>
-            Add <?php echo $config['header']?>
-        </a>
+        <?php if($config['table_type']!='user'&&$config['table_type']!='order'){ ?>
+            <a aria-controls="add-prompt" style="display:flex; width:10em; align-items:center" href="<?php echo base_url().$config['root_url'].'/add' ?>" class="btn btn-primary text-white btn-add">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                Add <?php echo $config['header']?>
+            </a>
+        <?php } ?>
         <div class="fields-container">
             <div class="fields">
                 <div class="search field-group-search">
@@ -24,8 +26,8 @@
                 <div class="level field-group">
                     <p><?php echo $config['filter_name'] ?></p>
                     <select id='filter-data' onchange="inputHandler('#filter-data','filter')" name="level-data" class="input-group">
-                        <?php foreach($config['filter_values'] as $list => $values){ ?>
-                            <option value="<?php echo $values?>" <?php echo ($config['filter_selection']===$values&&isset($config['filter_selection']))?'selected':''?>"><?php echo ucfirst($values) ?></option>
+                        <?php foreach($config['filter_values'] as $values){ ?>
+                            <option value="<?php echo $values?>" <?php echo ($config['filter_selection']===$values&&isset($config['filter_selection']))?'selected':''?>><?php echo ucfirst($values) ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -76,7 +78,20 @@
                                         <td><img src="<?php echo base_url('uploads/').$entry->$key ?>" width=100 height=100 alt="828 product image"></td>
                                         <?php continue; ?>
                                     <?php } ?>
-                                    <td><?php echo $entry->$key ?></td>
+                                    <td><?php echo ($entry->$key===NULL || $entry->$key==="")?'-':$entry->$key?></td>
+                                <?php } ?>
+                                <?php if($config['table_type']=='order'){ ?>
+                                    <td>
+                                        <?php $key=$config['entry_keys'][0]; $status=$config['entry_keys'][12]?>
+                                        <?php if($entry->$status!='completed'&&$entry->$status!='cancelled'){?>
+                                            <i class="fa-solid fa-book option-action" aria-data='<?php echo $entry->$key?>'></i>
+                                            <i class="fa-solid fa-check option-action" aria-data='<?php echo $entry->$key?>'></i>
+                                            <i class="fa-solid fa-x option-action" aria-data='<?php echo $entry->$key?>'></i>
+                                        <?php } else {?>
+                                            <i class="fa-solid fa-book option-action" aria-data='<?php echo $entry->$key?>'></i>
+                                        <?php }?>
+                                    </td>
+                                    <?php continue; ?>
                                 <?php } ?>
                                 <td>
                                     <?php $key=$config['entry_keys'][0]?>
@@ -108,6 +123,53 @@
             const fullUrl=phpBaseUrl+methodUrl; 
             window.location.href=fullUrl;
         }
+        let readList=document.querySelectorAll('.fa-book');
+        readList.forEach(read=>{
+            read.addEventListener('click',()=>{
+                let id=read.getAttribute('aria-data');
+                const phpUrl="<?php echo base_url("$root_url/read/id/") ?>";
+                let fullUrl=phpUrl+id;
+                window.location.href=fullUrl;
+            });
+        })
+        let completeList=document.querySelectorAll('.fa-check');
+        completeList.forEach(status=>{
+            status.addEventListener('click',()=>{
+                let id=status.getAttribute('aria-data');
+                const phpUrl="<?php echo base_url("$root_url/complete/id/") ?>";
+                let fullUrl=phpUrl+id;
+                Swal.fire({
+                    icon:'question',
+                    title: `Are you done with order no ${id}?`,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        window.location.href=fullUrl;
+                    }
+                })
+            });
+        })
+        let cancelList=document.querySelectorAll('.fa-x');
+        cancelList.forEach(status=>{
+            status.addEventListener('click',()=>{
+                let id=status.getAttribute('aria-data');
+                const phpUrl="<?php echo base_url("$root_url/cancel/id/") ?>";
+                let fullUrl=phpUrl+id;
+                Swal.fire({
+                    icon:'question',
+                    title: `Are you sure you want to cancel order no ${id}?`,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        window.location.href=fullUrl;
+                    }
+                })
+            });
+        })
         let editList=document.querySelectorAll('.fa-edit');
         editList.forEach(edit=>{
             edit.addEventListener('click',()=>{
@@ -120,12 +182,13 @@
         let removeList=document.querySelectorAll('.fa-trash');
         removeList.forEach(remove=>{
             remove.addEventListener('click',()=>{
+                let tableName="<?php echo $config['table_type'] ?>"
                 let id=remove.getAttribute('aria-data');
                 const phpUrl="<?php echo base_url("$root_url/remove/id/") ?>";
                 let fullUrl=phpUrl+id;
                 Swal.fire({
                     icon:'question',
-                    title: `Are you sure you want to remove material no ${id} entries?`,
+                    title: `Are you sure you want to remove ${tableName} no ${id} entries?`,
                     showCancelButton: true,
                     confirmButtonText: 'Yes',
                     }).then((result) => {

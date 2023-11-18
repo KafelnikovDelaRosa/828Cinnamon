@@ -18,11 +18,11 @@ class Register extends CI_Controller {
         if($this->form_validation->run()==FALSE){
             $data['usernames']=$this->UserModel->getUsernames();
             $data['emails']=$this->UserModel->getUserEmails();
-            $this->load->view('register',$data);
+            $this->load->view('user/register',$data);
         }
         else{
             $this->UserModel->addUser();
-            $this->load->view('registersuccess');
+            $this->load->view('user/registersuccess');
         }
 	} 
 }

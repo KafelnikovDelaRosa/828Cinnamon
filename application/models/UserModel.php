@@ -11,15 +11,54 @@ class UserModel extends CI_Model{
         );
         $this->db->insert('userstb',$data);
     }
-    public function removeUser($username){
+    public function removeUser($id){
         $this->load->database();
         $data=array(
-            'username'=>$username
+            'id'=>$id
         );
         $this->db->delete('userstb',$data);
     }
-    public function getUsers(){
+    public function getUsers($limit,$startingIndex){
         $this->load->database();
+        $this->db->limit($limit,$startingIndex);
+        $query=$this->db->get('userstb');
+        $result=$query->result();
+        return $result;
+    }
+    public function sortUsers($category,$limit,$startingIndex){
+        $this->load->database();
+        $this->db->order_by($category,'ASC');
+        $this->db->limit($limit,$startingIndex);
+        $query=$this->db->get('userstb');
+        $result=$query->result();
+        return $result;
+    }
+    public function searchUsers($input,$limit,$startingIndex){
+        $this->load->database();
+        $this->db->group_start()
+            ->like('id',$input,'both')
+            ->or_like('email',$input,'both')
+            ->or_like('phone',$input,'both')
+            ->or_like('firstname',$input,'both')
+            ->or_like('lastname',$input,'both')
+            ->or_like('username',$input,'both')
+        ->group_end();
+        $this->db->limit($limit,$startingIndex);
+        $query=$this->db->get('userstb');
+        $result=$query->result();
+        return $result;
+    }
+    public function filterRoleCount($role){
+        $this->load->database();
+        $this->db->where('role',$role);
+        $query=$this->db->get('userstb');
+        $result=$query->result();
+        return $result;
+    }
+    public function filterRole($role,$limit,$startingIndex){
+        $this->load->database();
+        $this->db->where('role',$role);
+        $this->db->limit($limit,$startingIndex);
         $query=$this->db->get('userstb');
         $result=$query->result();
         return $result;
@@ -79,6 +118,14 @@ class UserModel extends CI_Model{
         }
         return $result;
     }
+    public function updateUserRole($id){
+        $this->load->database();
+        $data=array(
+            'role'=>$_POST['role'],
+        );
+        $this->db->where('id',$id);
+        $this->db->update('userstb',$data);
+    }
     public function getRole($username){
         $this->load->database();
         $this->db->select('role');
@@ -99,6 +146,13 @@ class UserModel extends CI_Model{
         foreach($query->result() as $row){
             $result=$row->picture;
         }
+        return $result;
+    }
+    public function getUserById($id){
+        $this->load->database();
+        $this->db->where('id',$id);
+        $query=$this->db->get('userstb');
+        $result=$query->result();
         return $result;
     }
     public function getUserInfo($username){

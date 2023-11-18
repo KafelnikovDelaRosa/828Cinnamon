@@ -50,11 +50,10 @@ class Products extends CI_Controller {
         $data['status']=$status;
         $data['cur_page']=$page;
         $data['per_page']=3;
-        $data['last_entries']=$data['per_page']*$page;
-        $data['index']=$data['last_entries']-$data['per_page'];   
+        $data['total_entries']=count($this->ProductModel->filterStatusCount($status));
+        $data['last_entries']=$data['per_page']*$page;  
+        $data['index']=$data['last_entries']-$data['per_page']; 
         $data['entries'] = $this->ProductModel->filterStatus($status,$data['per_page'],$data['index']);
-        $entry_length=count($data['entries']);
-        $data['total_entries']=$entry_length;
 		$this->load->view('admin/products',$data);
     }
     public function removeProduct($product_id){

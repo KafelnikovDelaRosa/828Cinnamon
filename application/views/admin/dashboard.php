@@ -52,11 +52,6 @@
     </style>
 </head>
 <body>
-    <?php 
-        if(!isset($_SESSION['useradmin'])){
-            redirect('login','location');
-        }
-    ?>
     <?php include('sidetemplate.php'); ?>
     <?php sideBar(); ?> 
     <main>

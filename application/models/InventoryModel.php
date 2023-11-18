@@ -36,6 +36,13 @@ class InventoryModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function filterLevelCount($level){
+        $this->load->database();
+        $this->db->where('itemlevel',$level);
+        $query=$this->db->get('inventorytb');
+        $result=$query->result();
+        return $result;
+    }
     public function filterLevel($level,$limit,$startingIndex){
         $this->load->database();
         $this->db->where('itemlevel',$level);
