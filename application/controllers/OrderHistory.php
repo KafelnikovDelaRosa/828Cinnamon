@@ -28,16 +28,22 @@ class OrderHistory extends CI_Controller {
       $data['orders']=$this->OrderModel->getOrderByDate($from,$to,$email);
       $this->load->view('user/orderhistory',$data);
     }
-    public function payOrder(){
+    public function payOrder($id){
       $email=$this->UserModel->getUserEmail($_SESSION['username']);
-      $receipt=$this->input->post("receipt");
-      $this->OrderModel->generateReferenceNo($receipt);
+      $this->OrderModel->generateReferenceNo($id);
       $this->NotificationModel->addUserNotification($email,$receipt);
-      $this->load->view('user/payed');
+      $data['title']='Orders';
+      $data['message']="Reference no generated!";
+      $data['root_url']='orders';
+      $data['return']='Check notifications';
+      $this->load->view('admin/crudsuccess',$data);
     }
-    public function cancelOrder(){
-      $receipt=$this->input->post("receipt");
+    public function cancelOrder($id){
       $this->OrderModel->cancelOrder($receipt);
-      redirect('orders','location');
+      $data['title']='Orders';
+      $data['message']="Order no $id cancelled!";
+      $data['root_url']='orders';
+      $data['return']='Return to orders';
+      $this->load->view('admin/crudsuccess',$data);
     }
 }

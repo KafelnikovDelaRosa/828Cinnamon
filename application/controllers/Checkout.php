@@ -16,12 +16,14 @@ class Checkout extends CI_Controller {
       $customDataJson=$this->input->post("items");
       $this->session->set_userdata('order',json_decode($customDataJson));
       $data['user']=(isset($_SESSION['username']))?$this->UserModel->getUserInfo($_SESSION['username']):"";
+      $data['fullybooked']=$this->OrderModel->getScheduleSlot();
       $this->load->view('user/checkout',$data);
 	}
   public function placeOrderUser(){
       $this->form_validation->set_rules('email','Email','required|valid_email');
       $this->form_validation->set_rules('phone','Phone Number','required|numeric');
       $this->form_validation->set_rules('address','Address','required');
+      $this->form_validation->set_rules('date','Expected Date','required');
       if($this->form_validation->run()==FALSE){
         $data['user']=$this->UserModel->getUserInfo($_SESSION['username']);
         $this->load->view('user/checkout',$data);
@@ -31,7 +33,7 @@ class Checkout extends CI_Controller {
         $this->load->view('user/ordersuccess');
         $this->session->unset_userdata('order');
       }
-    }
+  }
   public function placeOrder(){
     $this->form_validation->set_rules('firstname','Firstname','required');
     $this->form_validation->set_rules('lastname','Lastname','required');

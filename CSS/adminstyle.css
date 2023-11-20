@@ -2,8 +2,8 @@
 *{
     margin:0;
     padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+    box-sizing:border-box; 
+    font-family:sans-serif;
 }
 :root{
   --mar:rgb(149, 20, 41);
@@ -170,10 +170,6 @@ main{
     transition: all .5 ease;
     width: calc(100% - 80px);
     padding: 1rem;
-}
-main section h1{
-    font-size:2.5rem;
-    font-family:'Poppins',sans-serif;
 }
 main section .fields-container{
     min-height:7rem;

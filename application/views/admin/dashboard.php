@@ -52,8 +52,7 @@
     </style>
 </head>
 <body>
-    <?php include('sidetemplate.php'); ?>
-    <?php sideBar(); ?> 
+    <?php $this->load->view('admin/sidetemplate');?>
     <main>
         <section id="content">
             <h1>Dashboard</h1>

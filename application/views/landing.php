@@ -604,6 +604,14 @@
       form.submit();
     });
     function addCart(product){
+      let boxCount=0;
+      items.forEach(item=>{
+        boxCount+=item.stock;
+      })
+      if(boxCount>11){
+        alert('Total box exceeded the minimum limit!');
+        return;
+      }
       toggleCart.setAttribute('data-visible',true);
       cartButton.setAttribute('aria-expanded',true);
       toggleCartList.setAttribute('data-visible',true);
@@ -622,6 +630,19 @@
       }
     }
     function addQuantity(i){
+      let numBox=0;
+      console.log(numBox);
+      items.forEach(item=>{
+        numBox+=item.stock;
+      })
+      if(numBox>11){
+        alert('Total box exceeded the minimum limit!');
+        return;
+      }
+      if(items[i].stock>4){
+        alert('Stock limit is until 5!');
+        return;
+      }
       items[i].stock+=1;
       total+=Number(items[i].price);
       displayProduct();

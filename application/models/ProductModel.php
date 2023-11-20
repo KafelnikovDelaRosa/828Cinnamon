@@ -77,6 +77,15 @@ class ProductModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function getQuantity($id){
+        $this->load->database();
+        $this->db->select('quantity');
+        $this->db->where('productid',$id);
+        $query=$this->db->get('producttb');
+        $row=$query->row();
+        $quantity=$row->quantity;
+        return $quantity;
+    }
     public function getImageFile($product_id){
         $this->load->database();
         $this->db->where('productid',$product_id);

@@ -11,11 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <?php include('sidetemplate.php') ?>
-    <?php sideBar() ?>
+    <?php $this->load->view('admin/sidetemplate'); ?>
     <main>
         <section>
-            <h2><a href="<?php echo base_url('users/page/1') ?>" class='header-link-group'>Inventory</a>>Edit</h2>
+            <h2><a href="<?php echo base_url('users/page/1') ?>" class='header-link-group'>Users</a>>Edit</h2>
             <div class="form-container">
                 <h5>User Information</h5>
                 <?php $id=0; foreach($user as $info){$id=$info->id;}?>
@@ -56,7 +55,7 @@
                         </div>
                         <div class="field-groups">
                             <div class="input-group">
-                                <button type="submit" class="input-form-group btn">Edit Material</button>
+                                <button type="submit" class="input-form-group btn">Edit User</button>
                             </div>
                         </div>
                     <?php } ?>

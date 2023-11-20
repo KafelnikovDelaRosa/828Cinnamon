@@ -21,6 +21,7 @@ html{
 body {
     background: #efefef;
 }
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -226,4 +227,31 @@ form .field-groups .input-form-group:focus,form .field-groups select:focus{
 .btn:hover{
     background-color:var(--mar);
     color:white;
+}
+
+
+.receipt-container {
+    box-shadow: 0 0.5rem 0.8rem rgba(0,0,0, .2);
+    border-radius:.6rem;
+    background-color:white;
+    width:40em;
+    align-self:center;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.receipt-info {
+    margin-bottom: 10px;
+}
+.receipt-info span {
+    font-weight: bold;
+}
+.receipt-table th {
+    text-align: center;
+}
+.receipt-table .text-center {
+    text-align: center;
+}
+.total-amount {
+    text-align: right;
+    font-weight: bold;
 }

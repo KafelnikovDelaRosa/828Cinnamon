@@ -74,6 +74,10 @@ class Orders extends CI_Controller {
       $this->load->view('order',$data);
     }
   }
+  public function readReceipt($id){
+    $data['orders']=$this->OrderModel->getReceipt($id);
+    $this->load->view('admin/orderread',$data);
+  }
   public function completeOrder($id){
     $this->OrderModel->completeOrder($id);
     $data['title']='Orders';

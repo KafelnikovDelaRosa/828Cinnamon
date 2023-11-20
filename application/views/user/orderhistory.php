@@ -187,7 +187,7 @@
             </div>
   
             <div class="text-center">
-              <h1>Order Summary</h1>
+              <h1>Order Receipt</h1>
             </div>
   
             <table class="table table-hover receipt-table">
@@ -216,10 +216,10 @@
               </tbody>
             </table>
             <div class="text-center">
-              <button type="button" onclick="payReceipt()" hidden="true" class="btn btn-danger btn-lg btn-pay">
+              <button type="button" onclick="payReceipt()" hidden="true" class="btn btn-danger btn-lg btn-pay bg-danger">
                 Pay Now <span class="glyphicon glyphicon-chevron-right"></span>
               </button>
-              <button type="button" onclick="cancelReceipt()" hidden="true" class="btn btn-danger btn-lg btn-cancel">
+              <button type="button" onclick="cancelReceipt()" hidden="true" class="btn btn-danger btn-lg btn-cancel bg-danger">
                 Cancel Order <span class="glyphicon glyphicon-chevron-right"></span>
               </button>
             </div>
@@ -228,7 +228,7 @@
     </div>
     </div>
     <div class="py-3 text-left">
-        <h2 style="font-size:2.5rem;">Order History</h2>
+        <h2 style="font-size:2.5rem;">Order Summary</h2>
         <div class="search-container">
             <form id="orderForm">
               <div class='input-row'>
@@ -258,7 +258,7 @@
               <tr>
                   <th>Order no.</th>
                   <th>Order issued</th>
-                  <th>Receipt no.</th>
+                  <th>Order due</th>
                   <th>Mode of payment</th>
                   <th>Total</th>
                   <th>Order status</th>
@@ -267,8 +267,8 @@
           <tbody>
             <?php foreach($orders as $order){
               $items=array(
+                'id'=>$order->orderid,
                 'address'=>$order->address,
-                'receipt'=>$order->receiptno,
                 'orders'=>$order->orders,
                 'date'=>$order->ordercreated,
                 'status'=>$order->orderstatus,
@@ -279,18 +279,18 @@
               <!--<td><?php 
               $decodedata=json_decode($order->orders,true);
               foreach($decodedata as $orders){
-                echo $orders['quantity']." ".$orders['name']."<br>";
+                echo $orders['stock']." ".$orders['name']."<br>";
               } 
               ?></td>-->
-              <td><?php echo $order->orderid?></td>
-              <td><?php echo $order->ordercreated ?></td>
               <td>
                 <p id="recieptno" onclick='showReceipt(<?php echo json_encode($items)?>)'>
-                  <?php echo $order->receiptno?>
+                  <?php echo $order->orderid?>
                 </p>
               </td>
+              <td><?php echo $order->ordercreated ?></td>
+              <td><?php echo $order->orderdue ?></td>
               <td><?php echo $order->paymentmode?></td>
-              <td><?php echo "₱".$items['total']?></td>
+              <td><?php echo "₱".$order->cost?></td>
               <td><?php echo $order->orderstatus?></td>
             </tr>
             <?php } ?>
@@ -347,29 +347,16 @@
       }
     });
     function payReceipt(){
-      var form=document.createElement('form');
-      form.method='POST';
-      form.action='<?php echo base_url("orders/payment");?>';
-      var input=document.createElement('input');
-      input.type='hidden';
-      input.name="receipt";
-      input.value=itemReceipt;
-      form.append(input);
-      document.body.appendChild(form);
-      form.submit();
-
+      var id=document.querySelector('#val-3');
+      var url="<?php echo base_url('orders/payment/') ?>";
+      var fullUrl=url+id.textContent;
+      window.location.href=fullUrl;
     }
     function cancelReceipt(){
-      var form=document.createElement('form');
-      form.method='POST';
-      form.action='<?php echo base_url("orders/cancel");?>';
-      var input=document.createElement('input');
-      input.type='hidden';
-      input.name="receipt";
-      input.value=itemReceipt;
-      form.append(input);
-      document.body.appendChild(form);
-      form.submit();
+      var id=document.querySelector('#val-3');
+      var url="<?php echo base_url('orders/cancel/') ?>";
+      var fullUrl=url+id.textContent;
+      window.location.href=fullUrl;
     }
     function closeReceipt(){
       const closeReceipt=document.querySelector("#receipt-mask");
@@ -393,7 +380,8 @@
     function showReceipt(items){
       itemData=JSON.parse(items.orders);
       itemReceipt=items.receipt;
-      const date = new Date(items.date);
+      const strippedDate=items.date.split(" ");
+      const date = new Date(strippedDate[0]);
       const month = date.toLocaleString('default', { month: 'long' });
       const day = date.getDate();
       const year = date.getFullYear();
@@ -407,7 +395,7 @@
       showReceipt.hidden=false;
       receiptValueAddress.textContent=items.address;
       receiptValueDate.textContent=formattedDate;
-      receiptValueReceipt.textContent=items.receipt;
+      receiptValueReceipt.textContent=items.id;
       receiptValueStatus.textContent=items.status;
       
       //set the one for the list of orders
@@ -416,16 +404,16 @@
         for(const item of orders){
           let count=1;
           const name=item.name;
-          const quantity=item.quantity;
+          const stock=item.stock;
           const price=item.price;
-          const total=quantity*price;
+          const total=stock*price;
           const newRow=document.createElement("tr");
           const nameCell=document.createElement("td");
           nameCell.setAttribute('class','col-md-9 text-center');
           nameCell.textContent=name;
-          const quantityCell=document.createElement("td");
-          quantityCell.setAttribute('class','col-md-1 text-center');
-          quantityCell.textContent=quantity;
+          const stockCell=document.createElement("td");
+          stockCell.setAttribute('class','col-md-1 text-center');
+          stockCell.textContent=stock;
           const priceCell=document.createElement("td");
           priceCell.setAttribute('class','col-md-1 text-center');
           priceCell.textContent="₱"+price;
@@ -433,7 +421,7 @@
           totalCell.setAttribute('class','col-md-1 text-center');
           totalCell.textContent="₱"+total;
           newRow.appendChild(nameCell);
-          newRow.appendChild(quantityCell);
+          newRow.appendChild(stockCell);
           newRow.appendChild(priceCell);
           newRow.appendChild(totalCell);
           const tableOrders = document.querySelector("#Orders");
@@ -452,16 +440,16 @@
       else{
           const item=orders[0];
           const name=item.name;
-          const quantity=item.quantity;
+          const stock=item.stock;
           const price=item.price;
-          const total=quantity*price;
+          const total=stock*price;
           const newRow=document.createElement("tr");
           const nameCell=document.createElement("td");
           nameCell.setAttribute('class','col-md-9 text-center');
           nameCell.textContent=name;
-          const quantityCell=document.createElement("td");
-          quantityCell.setAttribute('class','col-md-1 text-center');
-          quantityCell.textContent=quantity;
+          const stockCell=document.createElement("td");
+          stockCell.setAttribute('class','col-md-1 text-center');
+          stockCell.textContent=stock;
           const priceCell=document.createElement("td");
           priceCell.setAttribute('class','col-md-1 text-center');
           priceCell.textContent="₱"+price;
@@ -469,7 +457,7 @@
           totalCell.setAttribute('class','col-md-1 text-center');
           totalCell.textContent="₱"+total;
           newRow.appendChild(nameCell);
-          newRow.appendChild(quantityCell);
+          newRow.appendChild(stockCell);
           newRow.appendChild(priceCell);
           newRow.appendChild(totalCell);
           const tableOrders = document.querySelector("#Orders");

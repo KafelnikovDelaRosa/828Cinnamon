@@ -13,10 +13,9 @@
 </head>
 <body>
     <?php 
-        include('sidetemplate.php');
         include('crudtemplate.php'); 
     ?>
-    <?php sideBar(); ?> 
+    <?php $this->load->view('admin/sidetemplate') ?>
     <main>
         <?php
             $config=array(
@@ -43,9 +42,9 @@
                 'total_entries'=>$total_entries,
                 'last_entries'=>$last_entries,
                 'table_name'=>'Material Summary',
-                'table_headers'=>array('Id','Code','Name','Current Stock','Stock Threshold','Quantity','Unit','Cost','Level','Action'),
+                'table_headers'=>array('Id','Code','Name','Required Stock','Stock Threshold','Current Stock','Quantity','Unit','Cost','Level','Action'),
                 'root_url'=>'inventory',
-                'entry_keys'=>array('itemid','itemcode','itemname','stock','minstock','quantity','unit','cost','itemlevel'),
+                'entry_keys'=>array('itemid','itemcode','itemname','requirestock','minstock','stock','quantity','unit','cost','itemlevel'),
                 'entries' =>$entries
             );
             crud($config);

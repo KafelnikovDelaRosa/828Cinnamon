@@ -11,8 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <?php include('sidetemplate.php') ?>
-    <?php sideBar() ?>
+    <?php $this->load->view('admin/sidetemplate'); ?>
     <main>
         <section>
             <h2><a href="<?php echo base_url('inventory/page/1') ?>" class='header-link-group'>Inventory</a>>Edit</h2>
@@ -41,14 +40,20 @@
                         </div>
                         <div class="field-groups">
                             <div class="input-group">
-                                <p>Required Stocks</p>
+                                <p>Stock Threshold</p>
                                 <input type="number" onchange="handleNums('.num2')" name="stock_treshold" value="<?php echo $item->minstock?>" class="input-form-group num2" readonly>
                             </div>
                         </div>
                         <div class="field-groups">
                             <div class="input-group">
+                                <p>Required Stocks</p>
+                                <input type="number" onchange="handleNums('.num3')" name="require_stocks" value="<?php echo $item->requirestock?>" class="input-form-group num3" readonly>
+                            </div>
+                        </div>
+                        <div class="field-groups">
+                            <div class="input-group">
                                 <p>Quantity</p>
-                                <input type="number" onchange="handleNums('.num3')" name="quantity" value="<?php echo $item->quantity ?>" class="input-form-group num3">
+                                <input type="number" onchange="handleNums('.num4')" name="quantity" value="<?php echo $item->quantity?>" class="input-form-group num4">
                                 <small class="error-group"><?php echo form_error('quantity')?></small>
                             </div>
                             <div class="input-group">
@@ -66,7 +71,7 @@
                         <div class="field-groups">
                             <div class="input-group">
                                 <p>Material Cost (₱)</p>
-                                <input type="number" onchange="handleNums('.num4')" name="cost" value="<?php echo $item->cost?>" class="input-form-group num4">
+                                <input type="number" onchange="handleNums('.num5')" name="cost" value="<?php echo $item->cost?>" class="input-form-group num5">
                                 <small class="error-group"><?php echo form_error('cost') ?></small>
                             </div>
                         </div>

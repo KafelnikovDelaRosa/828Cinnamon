@@ -260,8 +260,12 @@
           </div>
         </div>
       </div>
+      <?php foreach($fullybooked as $info){?>
+        <input type="hidden" value="<?php echo $info->orderdate_group?>" class="dates">
+        <input type="hidden" value="<?php echo $info->numofbox?>" class="boxes">
+      <?php } ?>
       <?php if(isset($_SESSION['username'])){?>
-        <div class="py-5 text-center">
+        <div class="py-5 text-center"> 
         <form action="<?php echo base_url('checkout/order/user')?>" method="post" >
           <h2>Information</h2>
         </div>
@@ -321,6 +325,13 @@
                 <input type="text" class="form-control" style='color:black;' name="address" id="address" placeholder="1234 Main St" >
                 <div style="color:red;font-size:.9rem;" id="address-error">
                   <?php echo form_error("address")?>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="address">Expected Delivery Date</label>
+                <input type="date" class="form-control" style='color:black;' name="date" id="date-picker" >
+                <div style="color:red;font-size:.9rem;" id="address-error">
+                  <?php echo form_error("date")?>
                 </div>
               </div>
               <!--For h4 lagay mo Mode of delivery then under sa labels lagay mo lang yung Cash on Pickup -->
@@ -487,6 +498,59 @@
         toggleModalVisibility("#toggle-term",showTerm,"data-visible");
         const closeTerm=document.querySelector(".term-mask");
         toggleModalVisibility("#toggle-term",closeTerm,"data-visible");
+        const boxes=document.querySelectorAll('.boxes');
+        const dates=document.querySelectorAll('.dates');
+        let dict={};
+        let bookedDates=[];
+        for(let i=0;i<boxes.length;i++){
+          dict.date=dates[i].value;
+          dict.boxes=boxes[i].value;
+          bookedDates.push(dict);
+        }
+        const datepicker = document.querySelector('#date-picker');
+        const today = new Date();
+
+        // Calculate the date after the selected range (e.g., 30 days from today)
+        const futureMaxDate = new Date();
+        futureMaxDate.setDate(today.getDate() + 30);
+
+        // Set the maximum date for the next 30 days from today
+        const htmlMaxDate = futureMaxDate.toISOString().split('T')[0];
+        datepicker.setAttribute('max', htmlMaxDate);
+
+        // Calculate the current time in Manila (UTC+8)
+        const manilaOffset = 8 * 60; // UTC+8 offset
+        const currentTimeInManila = new Date(today.getTime() + (manilaOffset * 60000));
+
+        // Find a date three days from the current time in Manila
+        const minSelectableDate = new Date(currentTimeInManila);
+        minSelectableDate.setDate(currentTimeInManila.getDate() + 3);
+
+        // Set the minimum date to three days from the current time in Manila
+        const htmlMinDate = minSelectableDate.toISOString().split('T')[0];
+        datepicker.setAttribute('min', htmlMinDate);
+
+        function isDateBooked(date, boxes) {
+          const dateString = date.toISOString().split('T')[0];
+          let isFullyBooked = false;
+          bookedDates.forEach(dates => {
+            if (dates.date == dateString && dates.boxes >= 12) {
+              isFullyBooked = true;
+            }
+          });
+          console.log(isFullyBooked);
+          return isFullyBooked;
+        }
+
+        // Disable the first three days from the current time in Manila
+        datepicker.addEventListener('input', function () {
+          const selectedDate = new Date(this.value);
+          console.log(selectedDate);
+          if(isDateBooked(selectedDate)) {
+            alert("This date is fully booked. Please choose another date.");
+            this.value = ''; // Clear the input if a booked date is selected
+          }
+        });
     </script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

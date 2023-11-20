@@ -13,10 +13,9 @@
 </head>
 <body>
     <?php 
-        include('sidetemplate.php');
         include('crudtemplate.php'); 
     ?>
-    <?php sideBar(); ?> 
+    <?php $this->load->view('admin/sidetemplate') ?>
     <main>
         <?php
             $config=array(
@@ -46,9 +45,9 @@
                 'total_entries'=>$total_entries,
                 'last_entries'=>$last_entries,
                 'table_name'=>'Customer Summary',
-                'table_headers'=>array('Id','Reference no.','Firstname','Lastname','Email','Phone','Address','Order Created','Order Completed','Order Cancelled','Cost','Payment Method','Status','Action'),
+                'table_headers'=>array('Id','Reference no.','Firstname','Lastname','Email','Phone','Address','Order Created','Order Completed','Order Cancelled','Order Due','Payment Method','Status','Action'),
                 'root_url'=>'order',
-                'entry_keys'=>array('orderid','referenceno','firstname','lastname','email','phone','address','ordercreated','ordercompleted','ordercancelled','cost','paymentmode','orderstatus'),
+                'entry_keys'=>array('orderid','referenceno','firstname','lastname','email','phone','address','ordercreated','ordercompleted','ordercancelled','orderdue','paymentmode','orderstatus'),
                 'entries' =>$entries
             );
             crud($config);

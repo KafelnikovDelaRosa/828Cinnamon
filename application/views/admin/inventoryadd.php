@@ -8,11 +8,10 @@
     <title>828 Admin - Inventory</title>
     <link rel="stylesheet" href="<?php echo base_url('CSS/adminform.css') ?>">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <?php include('sidetemplate.php') ?>
-    <?php sideBar() ?>
+    <?php $this->load->view('admin/sidetemplate'); ?>
     <main>
         <section>
             <h2><a href="<?php echo base_url('inventory/page/1') ?>" class='header-link-group'>Inventory</a>>Add</h2>
@@ -40,15 +39,22 @@
                     </div>
                     <div class="field-groups">
                         <div class="input-group">
-                            <p>Required Stocks</p>
+                            <p>Stock Treshold</p>
                             <input type="number" onchange="handleNums('.num2')" name="stock_treshold" value="<?php echo set_value('stock_treshold')?>" class="input-form-group num2">
                             <small class="error-group"><?php echo form_error('stock_treshold') ?></small>
                         </div>
                     </div>
                     <div class="field-groups">
                         <div class="input-group">
+                            <p>Required Stocks</p>
+                            <input type="number" onchange="handleNums('.num3')" name="required_stocks" value="<?php echo set_value('required_stocks')?>" class="input-form-group num3">
+                            <small class="error-group"><?php echo form_error('required_stocks') ?></small>
+                        </div>
+                    </div>
+                    <div class="field-groups">
+                        <div class="input-group">
                             <p>Quantity</p>
-                            <input type="number" onchange="handleNums('.num3')" name="quantity" value="<?php echo set_value('quantity')?>" class="input-form-group num3">
+                            <input type="number" onchange="handleNums('.num4')" name="quantity" value="<?php echo set_value('quantity')?>" class="input-form-group num4">
                             <small class="error-group"><?php echo form_error('quantity')?></small>
                         </div>
                         <div class="input-group">
@@ -66,7 +72,7 @@
                     <div class="field-groups">
                         <div class="input-group">
                             <p>Material Cost (₱)</p>
-                            <input type="number" onchange="handleNums('.num4')" name="cost" value="<?php echo set_value('cost')?>" class="input-form-group num4">
+                            <input type="number" onchange="handleNums('.num5')" name="cost" value="<?php echo set_value('cost')?>" class="input-form-group num5">
                             <small class="error-group"><?php echo form_error('cost') ?></small>
                         </div>
                     </div>
@@ -78,7 +84,7 @@
                 </form>
             </div>
         </section>
-    </main>
+    </main> 
     <script>
         let btn = document.querySelector('#btn');
         let sidebar = document.querySelector('.sidebar');

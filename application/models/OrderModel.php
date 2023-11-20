@@ -4,6 +4,8 @@ class OrderModel extends CI_Model{
     public function addOrderUser(){
         $this->load->database();
         date_default_timezone_set('Asia/Manila');
+        $orderJson=$_POST['order'];
+        $orderArray=json_decode($orderJson,true);
         $currentManilaTime=time();
         $data=array(
             'email'=>$_POST['email'],
@@ -11,11 +13,37 @@ class OrderModel extends CI_Model{
             'address'=>$_POST['address'],
             'orders'=>$_POST['order'],
             'cost'=>$_POST['cost'],
-            'ordercreated'=>date('Y-m-d H:i:s l',$currentManilaTime),
+            'ordercreated'=>date('Y-m-d H:i l',$currentManilaTime),
+            'orderdue'=>date('Y-m-d l',strtotime($_POST['date'])),
             'paymentmode'=>$_POST["deliveryMethod"],
             'orderstatus'=>'pending'
         );
         $this->db->insert('ordertb',$data);
+        $this->db->where('orderdate_group',$_POST['date']);
+        $query=$this->db->get('orderlogtb');
+        $result=$query->num_rows();
+        $numofBox=0;
+        foreach($orderArray as $order){
+            $numofBox+=$order['stock'];
+        }
+        if($result==0){
+            $data=array(
+                'orderdate_group'=>$_POST['date'],
+                'numofbox'=>$numofBox
+            );
+            $this->db->insert('orderlogtb',$data);
+        }
+        else{
+            $this->db->set('numofbox','numofBox + '.$numofBox,FALSE);
+            $this->db->where('orderdate_group',$_POST['date']);
+            $this->db->update('orderlogtb');
+        }
+    }
+    public function getScheduleSlot(){
+        $this->load->database();
+        $query=$this->db->get('orderlogtb');
+        $result=$query->result();
+        return $result;
     }
     public function getOrderSum(){
         $this->load->database();
@@ -92,13 +120,13 @@ class OrderModel extends CI_Model{
         ); 
         $this->db->insert('ordertb',$data);
     }
-    public function generateReferenceNo($receiptid){
+    public function generateReferenceNo($id){
         $this->load->database();
         $referenceno=uniqid();
         $data=array(
             'referenceno'=>$referenceno
         );
-        $this->db->where('receiptno',$receiptid);
+        $this->db->where('orderid',$id);
         $this->db->update('ordertb',$data);
     }
     public function getOrderByReceipts($receiptid){
@@ -114,7 +142,7 @@ class OrderModel extends CI_Model{
         $currentManilaTime=time();
         $data=array(
             'orderstatus'=>'cancelled',
-            'ordercompleted'=>date('Y-m-d H:i:s l',$currentManilaTime)
+            'ordercancelled'=>date('Y-m-d H:i:s l',$currentManilaTime)
         );
         $this->db->where('orderid',$orderid);
         $this->db->update('ordertb',$data);
@@ -136,6 +164,23 @@ class OrderModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function getCurrentOrders(){
+        $this->load->database();
+        date_default_timezone_set('Asia/Manila');
+        $currentManilaTime=time();
+        $this->db->select('orders');
+        $this->db->like('ordercreated',date('Y-m-d',$currentManilaTime));
+        $query=$this->db->get('ordertb');
+        $result=$query->result();
+        return $result;
+    }
+    public function getReceipt($id){
+        $this->load->database();
+        $this->db->where('orderid',$id);
+        $query=$this->db->get('ordertb');
+        $result=$query->result_array();
+        return $result;
+    }
     public function getUserOrder($email){
         $this->load->database();
         $this->db->where('email',$email);
@@ -154,8 +199,8 @@ class OrderModel extends CI_Model{
     public function getOrderByDate($from,$to,$email){
         $this->load->database();
         $this->db->where('email',$email);
-        $this->db->where('orderdate >=',$from);
-        $this->db->where('orderdate <=',$to);
+        $this->db->where('ordercreated >=',$from);
+        $this->db->where('ordercreated <=',$to);
         $query=$this->db->get('ordertb');
         $result=$query->result();
         return $result;

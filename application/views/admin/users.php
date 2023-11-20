@@ -13,10 +13,9 @@
 </head>
 <body>
     <?php 
-        include('sidetemplate.php');
         include('crudtemplate.php'); 
     ?>
-    <?php sideBar(); ?> 
+    <?php $this->load->view('admin/sidetemplate'); ?>
     <main>
         <?php
             $config=array(
