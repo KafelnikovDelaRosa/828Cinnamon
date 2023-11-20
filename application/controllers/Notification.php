@@ -13,8 +13,8 @@ class Notification extends CI_Controller {
     } 
 	public function index()
 	{ 
-    $email=$this->UserModel->getUserEmail($_SESSION['username']); 
-    $data['msg']=$this->NotificationModel->getUserNotifications($email);
-	  $this->load->view('notification',$data);
+        $email=$this->UserModel->getUserEmail($_SESSION['username']); 
+        $data['msg']=$this->NotificationModel->getUserNotifications($email);
+	    $this->load->view('user/notification',$data);
 	}
 }

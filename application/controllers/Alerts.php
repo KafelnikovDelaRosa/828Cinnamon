@@ -8,6 +8,6 @@ class Alerts extends CI_Controller{
         $this->load->library('session');
     }
     public function index(){
-        $this->load->view('alerts');
+        $this->load->view('admin/alerts');
     }
 }

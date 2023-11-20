@@ -10,43 +10,73 @@ class Users extends CI_Controller {
         $this->load->library('session');
         $this->load->model('UserModel');
     } 
-	public function index()
+	public function index($page)
 	{ 
-        $data['users']=$this->UserModel->getUsers();
-		$this->load->view('users',$data);
+        $data['role']='all';
+        $data['category']='all';
+        $data['cur_page']=$page;
+        $data['per_page']=8;
+        $data['total_entries']=$this->UserModel->getUserSum();
+        $data['last_entries']=$data['per_page']*$page;
+        $data['index']=$data['last_entries']-$data['per_page'];   
+        $data['entries'] = $this->UserModel->getUsers($data['per_page'],$data['index']);
+		$this->load->view('admin/users',$data);
 	}
-    public function addUser(){
-        $this->form_validation->set_rules('username','Username','required|alpha_numeric|min_length[8]');
-        $this->form_validation->set_rules('email','Email','required|valid_email');
-        $this->form_validation->set_rules('password-input','Password','required|min_length[8]');
-        $this->form_validation->set_rules('confpassword-input','Confirm Password','required|min_length[8]|matches[password-input]');
-        if($this->form_validation->run()==FALSE){
-            $data['users']=$this->UserModel->getUsers();
-            $this->load->view('users',$data);
-        }
-        else{
-            $this->UserModel->addUser();
-            header('location:'.base_url("Users"));
-        }
+    public function sortBy($category,$page){
+        $data['category']=$category;
+        $data['role']='all';
+        $data['cur_page']=$page;
+        $data['per_page']=8;
+        $data['total_entries']=$this->UserModel->getUserSum();
+        $data['last_entries']=$data['per_page']*$page;
+        $data['index']=$data['last_entries']-$data['per_page'];   
+        $data['entries'] = $this->UserModel->sortUsers($category,$data['per_page'],$data['index']);
+		$this->load->view('admin/users',$data);
     }
-    public function editUser(){
-        $this->form_validation->set_rules('firstname','First Name','required');
-        $this->form_validation->set_rules('lastname','Last Name','required');
-        $this->form_validation->set_rules('username','Username','required|min_length[8]|alpha_numeric');
-        $this->form_validation->set_rules('email','Email','required|valid_email');
-        $this->form_validation->set_rules('phone','Phone','required');
+    public function search($term,$page){
+        $data['category']='all';
+        $data['role']='all';
+        $data['cur_page']=$page;
+        $data['per_page']=8;
+        $data['last_entries']=$data['per_page']*$page;
+        $data['index']=$data['last_entries']-$data['per_page'];   
+        $data['entries'] = $this->UserModel->searchUsers($term,$data['per_page'],$data['index']);
+        $entry_length=count($data['entries']);
+        $data['total_entries']=$entry_length;
+		$this->load->view('admin/users',$data);
+    }
+    public function roleFilter($role,$page){
+        $data['category']='all';
+        $data['role']=$role;
+        $data['cur_page']=$page;
+        $data['per_page']=8;
+        $data['total_entries']=count($this->UserModel->filterRoleCount($role));
+        $data['last_entries']=$data['per_page']*$page;  
+        $data['index']=$data['last_entries']-$data['per_page']; 
+        $data['entries'] = $this->UserModel->filterRole($role,$data['per_page'],$data['index']);
+		$this->load->view('admin/users',$data);
+    }
+    public function editUser($id){
         $this->form_validation->set_rules('role','Role','required');
-        if($this->form_validation->run()==TRUE){
-            $this->UserModel->updateUser();
-            header('location:'.base_url('Users'));
+        if($this->form_validation->run()==FALSE){
+            $data['user']=$this->UserModel->getUserById($id);
+            $this->load->view('admin/usersedit',$data);
         }
         else{
-            $data['users']=$this->UserModel->getUsers();
-            $this->load->view('users',$data);
+            $this->UserModel->updateUserRole($id);
+            $data['title']='Users';
+            $data['message']='User role updated!';
+            $data['root_url']='users';
+            $data['return']='Return to users';
+            $this->load->view('admin/crudsuccess',$data);
         }
     }
-    public function removeUser($username){
-        $this->UserModel->removeUser($username);
-        header('location:'.base_url('Users'));
+    public function removeUser($id){
+        $this->UserModel->removeUser($id);
+        $data['title']='Users';
+        $data['message']='User entry deleted!';
+        $data['root_url']='users';
+        $data['return']='Return to users';
+        $this->load->view('admin/crudsuccess',$data);
     }
 }

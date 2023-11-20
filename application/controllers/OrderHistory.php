@@ -16,34 +16,34 @@ class OrderHistory extends CI_Controller {
     public function index(){
       $email=$this->UserModel->getUserEmail($_SESSION['username']);
       $data['orders']=$this->OrderModel->getUserOrder($email);
-      $this->load->view('orderhistory',$data);
+      $this->load->view('user/orderhistory',$data);
 	}
-    public function payOrder(){
+    public function searchById($id){
       $email=$this->UserModel->getUserEmail($_SESSION['username']);
-      $receipt=$this->input->post("receipt");
-      $this->OrderModel->generateReferenceNo($receipt);
+      $data['orders']=$this->OrderModel->getOrderById($id,$email);
+      $this->load->view('user/orderhistory',$data);
+    }
+    public function searchByDate($from,$to){
+      $email=$this->UserModel->getUserEmail($_SESSION['username']);
+      $data['orders']=$this->OrderModel->getOrderByDate($from,$to,$email);
+      $this->load->view('user/orderhistory',$data);
+    }
+    public function payOrder($id){
+      $email=$this->UserModel->getUserEmail($_SESSION['username']);
+      $this->OrderModel->generateReferenceNo($id);
       $this->NotificationModel->addUserNotification($email,$receipt);
-      $this->load->view('payed');
+      $data['title']='Orders';
+      $data['message']="Reference no generated!";
+      $data['root_url']='orders';
+      $data['return']='Check notifications';
+      $this->load->view('admin/crudsuccess',$data);
     }
-    public function cancelOrder(){
-      $receipt=$this->input->post("receipt");
+    public function cancelOrder($id){
       $this->OrderModel->cancelOrder($receipt);
-      header('location:'.base_url("OrderHistory/cancelled"));
-    }
-    public function pending(){
-        $email=$this->UserModel->getUserEmail($_SESSION['username']);
-        $data['orders']=$this->OrderModel->getUserOrderByPending($email);
-        $this->load->view('orderhistory',$data);
-    }
-    public function completed(){
-        $email=$this->UserModel->getUserEmail($_SESSION['username']);
-        $data['orders']=$this->OrderModel->getUserOrderByCompleted($email);
-        $this->load->view('orderhistory',$data);
-
-    }
-    public function cancelled(){
-        $email=$this->UserModel->getUserEmail($_SESSION['username']);
-        $data['orders']=$this->OrderModel->getUserOrderByCancelled($email);
-        $this->load->view('orderhistory',$data);
+      $data['title']='Orders';
+      $data['message']="Order no $id cancelled!";
+      $data['root_url']='orders';
+      $data['return']='Return to orders';
+      $this->load->view('admin/crudsuccess',$data);
     }
 }

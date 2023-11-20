@@ -7,7 +7,14 @@ class Logout extends CI_Controller{
         $this->load->library('session');
     }
     public function index(){
-        header('location:'.base_url('Landing'));
-        session_destroy();
+        if(isset($_SESSION['username'])){
+            $this->session->unset_userdata('username');
+            $this->session->unset_userdata('profilepic');
+            redirect(base_url(),'location');
+        }
+        if(isset($_SESSION['useradmin'])){
+            $this->session->unset_userdata('useradmin');
+            redirect(base_url(),'location');
+        }
     }
 }

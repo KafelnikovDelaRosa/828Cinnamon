@@ -16,22 +16,24 @@ class Checkout extends CI_Controller {
       $customDataJson=$this->input->post("items");
       $this->session->set_userdata('order',json_decode($customDataJson));
       $data['user']=(isset($_SESSION['username']))?$this->UserModel->getUserInfo($_SESSION['username']):"";
-      $this->load->view('checkout',$data);
+      $data['fullybooked']=$this->OrderModel->getScheduleSlot();
+      $this->load->view('user/checkout',$data);
 	}
   public function placeOrderUser(){
       $this->form_validation->set_rules('email','Email','required|valid_email');
       $this->form_validation->set_rules('phone','Phone Number','required|numeric');
       $this->form_validation->set_rules('address','Address','required');
+      $this->form_validation->set_rules('date','Expected Date','required');
       if($this->form_validation->run()==FALSE){
         $data['user']=$this->UserModel->getUserInfo($_SESSION['username']);
-        $this->load->view('checkout',$data);
+        $this->load->view('user/checkout',$data);
       }
       else{
         $this->OrderModel->addOrderUser();
-        $this->load->view('ordersuccess');
+        $this->load->view('user/ordersuccess');
         $this->session->unset_userdata('order');
       }
-    }
+  }
   public function placeOrder(){
     $this->form_validation->set_rules('firstname','Firstname','required');
     $this->form_validation->set_rules('lastname','Lastname','required');
@@ -39,12 +41,11 @@ class Checkout extends CI_Controller {
     $this->form_validation->set_rules('phone','Phone Number','required|numeric');
     $this->form_validation->set_rules('address','Address','required');
     if($this->form_validation->run()==FALSE){
-      $data['user']=$this->UserModel->getUserInfo($_SESSION['username']);
-      $this->load->view('checkout',$data);
+      $this->load->view('user/checkout');
     }
     else{
       $this->OrderModel->addOrder();
-      $this->load->view('ordersuccess');
+      $this->load->view('user/ordersuccess');
       $this->session->unset_userdata('order');
     }
   }
