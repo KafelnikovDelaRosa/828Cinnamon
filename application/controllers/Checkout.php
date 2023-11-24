@@ -26,6 +26,7 @@ class Checkout extends CI_Controller {
       $this->form_validation->set_rules('date','Expected Date','required');
       if($this->form_validation->run()==FALSE){
         $data['user']=$this->UserModel->getUserInfo($_SESSION['username']);
+        $data['fullybooked']=$this->OrderModel->getScheduleSlot();
         $this->load->view('user/checkout',$data);
       }
       else{

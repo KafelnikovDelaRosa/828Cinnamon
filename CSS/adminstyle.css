@@ -2,8 +2,8 @@
 *{
     margin:0;
     padding:0;
-    box-sizing:border-box; 
-    font-family:sans-serif;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
 :root{
   --mar:rgb(149, 20, 41);
@@ -257,4 +257,7 @@ h2 .header-link-group{
 }
 h2 .header-link-group:hover{
     opacity:100%;
+}
+.hidden{
+    display:none;
 }

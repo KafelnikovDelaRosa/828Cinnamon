@@ -168,7 +168,6 @@ class OrderModel extends CI_Model{
         $this->load->database();
         date_default_timezone_set('Asia/Manila');
         $currentManilaTime=time();
-        $this->db->select('orders');
         $this->db->like('ordercreated',date('Y-m-d',$currentManilaTime));
         $query=$this->db->get('ordertb');
         $result=$query->result();

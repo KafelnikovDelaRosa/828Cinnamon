@@ -9,6 +9,7 @@ class InventoryModel extends CI_Model{
             'itemname'=>$_POST['name'],
             'stock'=>$_POST['current_stocks'],
             'minstock'=>$_POST['stock_treshold'],
+            'requirestock'=>$_POST['required_stocks'],
             'quantity'=>$_POST['quantity'],
             'unit'=>$_POST["unit"],
             'cost'=>$_POST["cost"],
@@ -54,6 +55,12 @@ class InventoryModel extends CI_Model{
     public function getNoItems(){
         $this->load->database();
         $result=$this->db->count_all_results('inventorytb');
+        return $result;
+    }
+    public function getRequiredInventory(){
+        $this->load->database();
+        $query=$this->db->get('inventorytb');
+        $result=$query->result();
         return $result;
     }
     public function getInventory($limit,$startingIndex){
