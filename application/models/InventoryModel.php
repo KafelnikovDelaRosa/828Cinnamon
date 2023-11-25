@@ -9,6 +9,7 @@ class InventoryModel extends CI_Model{
             'itemname'=>$_POST['name'],
             'stock'=>$_POST['current_stocks'],
             'minstock'=>$_POST['stock_treshold'],
+            'requirestock'=>$_POST['required_stocks'],
             'quantity'=>$_POST['quantity'],
             'unit'=>$_POST["unit"],
             'cost'=>$_POST["cost"],
@@ -56,6 +57,12 @@ class InventoryModel extends CI_Model{
         $result=$this->db->count_all_results('inventorytb');
         return $result;
     }
+    public function getRequiredInventory(){
+        $this->load->database();
+        $query=$this->db->get('inventorytb');
+        $result=$query->result();
+        return $result;
+    }
     public function getInventory($limit,$startingIndex){
         $this->load->database();
         $this->db->limit($limit,$startingIndex);
@@ -75,9 +82,13 @@ class InventoryModel extends CI_Model{
         $data=array(
             'itemcode'=>$_POST['code'],
             'itemname'=>$_POST['name'],
+            'stock'=>$_POST['current_stocks'],
+            'minstock'=>$_POST['stock_treshold'],
+            'requirestock'=>$_POST['require_stocks'],
             'quantity'=>$_POST['quantity'],
-            'unit'=>$_POST["unit"],
-            'cost'=>$_POST["cost"]
+            'unit'=>$_POST['unit'],
+            'cost'=>$_POST['cost'],
+            'itemlevel'=>($_POST['current_stocks'] <= $_POST['stock_treshold'])?'low':'high'
         );
         $this->db->where('itemid',$id);
         $this->db->update('inventorytb',$data);

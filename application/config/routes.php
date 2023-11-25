@@ -80,8 +80,11 @@ $route['dashboard']='Dashboard';
 $route['mrp']='MRP';
 $route['mrp/given']='MRP/given';
 $route['mrp/expected']='MRP/expected';
-$route['mrp/requirememts']='MRP/requirements';
-$route['mrp/schedules']='MRP/schedules';
+$route['mrp/requirements']='MRP/requirements';
+$route['mrp/bom']='MRP/createBOM';
+$route['mrp/schedule']='MRP/schedule';
+$route['mrp/mrpsuccess']='MRP/createMRP';
+$route['mrp/view/date/(:any)']='MRP/viewMRP/$1';
 //inventory routes
 $route['inventory/page/(:num)']='Inventory/index/$1'; //done
 $route['inventory/add']='Inventory/addInventory'; //done

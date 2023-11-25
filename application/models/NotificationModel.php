@@ -22,4 +22,18 @@ class NotificationModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function notifyUser($email,$orderid){
+        $this->load->database();
+        date_default_timezone_set('Asia/Manila');
+        $currentManilaTime=time();
+        $data=array(
+            'receiver'=>$email,
+            'subject'=>'Order no '.$orderid.' status',
+            'sender'=>'828 Cinnamon Rolls',
+            'message'=>'Your order no '.$orderid.' has started you can check your orderhistory to confirm it',
+            'date'=>date('Y-m-d l',$currentManilaTime),
+            'readstatus'=>0,
+        );
+        $this->db->insert('notificationtb',$data);
+    }
 }

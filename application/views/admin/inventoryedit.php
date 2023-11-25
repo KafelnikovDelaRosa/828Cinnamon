@@ -35,19 +35,19 @@
                         <div class="field-groups">
                             <div class="input-group">
                                 <p>Current Stocks</p>
-                                <input type="number" onchange="handleNums('.num1')" name="current_stocks" value="<?php echo $item->stock?>" class="input-form-group num1" readonly>
+                                <input type="number" onchange="handleNums('.num1')" name="current_stocks" value="<?php echo $item->stock?>" class="input-form-group num1">
                             </div>
                         </div>
                         <div class="field-groups">
                             <div class="input-group">
                                 <p>Stock Threshold</p>
-                                <input type="number" onchange="handleNums('.num2')" name="stock_treshold" value="<?php echo $item->minstock?>" class="input-form-group num2" readonly>
+                                <input type="number" onchange="handleNums('.num2')" name="stock_treshold" value="<?php echo $item->minstock?>" class="input-form-group num2">
                             </div>
                         </div>
                         <div class="field-groups">
                             <div class="input-group">
                                 <p>Required Stocks</p>
-                                <input type="number" onchange="handleNums('.num3')" name="require_stocks" value="<?php echo $item->requirestock?>" class="input-form-group num3" readonly>
+                                <input type="number" onchange="handleNums('.num3')" name="require_stocks" value="<?php echo $item->requirestock?>" class="input-form-group num3">
                             </div>
                         </div>
                         <div class="field-groups">

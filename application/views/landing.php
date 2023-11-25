@@ -285,7 +285,7 @@
           'id'=>$product->productid,
           'stock'=>1,
           'image'=>$product->image,
-          'name'=>$product->name,
+          'name'=>$product->name.' '.$product->quantity.'pcs',
           'price'=>$product->cost
         );?>
         <div class="card-container" style="padding:2em;">

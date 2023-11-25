@@ -3,35 +3,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class BomModel extends CI_Model{
     public function createBOM(){
         $this->load->database();
-        $materials=json_decode($this->input->post("materials"));
-        $bomNo=$this->db->count_all_results('bomtb');
-        $bomCode=$this->input->post("bomcode").$bomNo+1;
-        $cost=$this->input->post("cost");
-        $code=array();
-        $quantity=array();
-        //populate the arrays with the updated quantity
-        for($i=0;$i<14;$i++){
-            array_push($code,$materials->code[$i]);
-            array_push($quantity,$materials->quantity[$i]);
-        }
-        //update inventory quantity
-        for($i=0;$i<14;$i++){
-            $data=array(
-                'quantity'=>$quantity[$i]
-            );
-            $this->db->where('itemcode',$code[$i]);
-            $this->db->update('inventorytb',$data);
-        }
-        //make the bill of materials
+        date_default_timezone_set('Asia/Manila');
+        $currentManilaTime=time();
         $data=array(
-            'code'=>$bomCode,
-            'materials'=>json_encode($materials),
-            'cost'=>$cost
+            'materials'=>$this->input->post('materials'),
+            'cost'=>$this->input->post('total'),
+            'bomcreated'=>date('Y-m-d',$currentManilaTime)
         );
         $this->db->insert('bomtb',$data);
     }
     public function getBOM(){
         $this->load->database();
+        $query=$this->db->get('bomtb');
+        $result=$query->result();
+        return $result;
+    }
+    public function currentBomCount(){
+        $this->load->database();
+        date_default_timezone_set('Asia/Manila');
+        $currentManilaTime=time();
+        $date=date('Y-m-d',$currentManilaTime);
+        $this->db->where('bomcreated',$date);
+        $query=$this->db->get('bomtb');
+        $count=$query->num_rows();
+        return $count;
+    }
+    public function currentBomProcurement(){
+        $this->load->database();
+        date_default_timezone_set('Asia/Manila');
+        $currentManilaTime=time();
+        $date=date('Y-m-d',$currentManilaTime);
+        $this->db->select('materials');
+        $this->db->where('bomcreated',$date);
+        $query=$this->db->get('bomtb');
+        $result=$query->result();
+        return $result;
+    }
+    public function getBomByDate($date){
+        $this->load->database();
+        $this->db->like('bomcreated');
         $query=$this->db->get('bomtb');
         $result=$query->result();
         return $result;
