@@ -39,5 +39,11 @@ class BomModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
-
+    public function getBomByDate($date){
+        $this->load->database();
+        $this->db->like('bomcreated');
+        $query=$this->db->get('bomtb');
+        $result=$query->result();
+        return $result;
+    }
 }

@@ -82,7 +82,7 @@
                                 <?php } ?>
                                 <?php if($config['table_type']=='order'){ ?>
                                     <td>
-                                        <?php $key=$config['entry_keys'][0]; $status=$config['entry_keys'][10]?>
+                                        <?php $key=$config['entry_keys'][0]; $status=$config['entry_keys'][9]?>
                                         <?php if($entry->$status!='completed'&&$entry->$status!='cancelled'){?>
                                             <i class="fa-solid fa-book option-action" aria-data='<?php echo $entry->$key?>'></i>
                                             <i class="fa-solid fa-check option-action" aria-data='<?php echo $entry->$key?>'></i>

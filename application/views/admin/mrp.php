@@ -22,6 +22,43 @@
                 </svg>
                 Create MRP
             </a>
+            <div class="table-container" style='height:auto;'>
+                <div class="entry-container">
+                    <h5>Mrp Summary</h5>
+                </div>
+                <?php if(empty($mrp)){?>
+                    <div class="entry-container">
+                        <h5>No entries found</h5>
+                    </div>
+                <?php } else{?>
+                    <table class="table-content">
+                    <thead class="table-head">
+                    <tr>
+                        <td>Id</td>
+                        <td>MRP Created</td>
+                        <td>Date of Compliance</td>
+                        <td>Starting Deployment</td>
+                        <td>Ending Deployment</td>
+                        <td>Required Rolls</td>
+                        <td>Action</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($mrp as $info){ ?>
+                            <tr>
+                                <td><?php echo $info->mrp_id?></td>
+                                <td><?php echo $info->mrp_created?></td>
+                                <td><?php echo $info->mrp_due?></td>
+                                <td><?php echo $info->starting_deployment?></td>
+                                <td><?php echo $info->ending_deployment?></td>
+                                <td><?php echo $info->required_rolls?></td>
+                                <td><i class="fa-solid fa-book option-action" aria-data='<?php echo $info->mrp_created?>'></i></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <?php }?>
+            </div>
         </section>
     </main>
     <script>
@@ -42,6 +79,16 @@
             }
             window.location.href="<?php echo base_url('mrp/given') ?>";
         }
+        let reads=document.querySelectorAll('.fa-book');
+        reads.forEach(content=>{
+            content.addEventListener('click',()=>{
+                const date=content.getAttribute('aria-data');
+                const datePart=date.split(' ')[0];
+                let phpUrl="<?php echo base_url('mrp/view/date/')?>";
+                let fullUrl=phpUrl+datePart;
+                window.location.href=fullUrl;
+            })
+        });
     </script>
 </body>
 </html>

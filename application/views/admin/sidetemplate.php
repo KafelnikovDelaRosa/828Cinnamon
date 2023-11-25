@@ -3,6 +3,7 @@
             redirect('login','location');
         }
 ?>
+<?php ?>
 <div class="sidebar">
     <div class="top">
         <div class="logo">

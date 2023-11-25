@@ -82,9 +82,13 @@ class InventoryModel extends CI_Model{
         $data=array(
             'itemcode'=>$_POST['code'],
             'itemname'=>$_POST['name'],
+            'stock'=>$_POST['current_stocks'],
+            'minstock'=>$_POST['stock_treshold'],
+            'requirestock'=>$_POST['require_stocks'],
             'quantity'=>$_POST['quantity'],
-            'unit'=>$_POST["unit"],
-            'cost'=>$_POST["cost"]
+            'unit'=>$_POST['unit'],
+            'cost'=>$_POST['cost'],
+            'itemlevel'=>($_POST['current_stocks'] <= $_POST['stock_treshold'])?'low':'high'
         );
         $this->db->where('itemid',$id);
         $this->db->update('inventorytb',$data);

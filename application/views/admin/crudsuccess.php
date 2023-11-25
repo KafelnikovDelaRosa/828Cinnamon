@@ -10,11 +10,12 @@
 </head>
 <body>
     <div class="wrapper">
+        <?php $root=($root_url==='mrp')?'mrp':$root_url.'/page/1'; ?>
         <img src="<?php echo base_url('images/828Logo.png') ?>" width=100 height=100 alt="828">
         <h3>
             <?php echo $message ?>
         </h3>   
-        <button class="btn" onclick="window.location.href='<?php echo base_url().$root_url.'/page/1' ?>'">
+        <button class="btn" onclick="window.location.href='<?php echo base_url().$root?>'">
             <?php echo $return ?>
         </button>
     </div>

@@ -1,6 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class OrderModel extends CI_Model{
+    public function updateOrderStatus(){
+        $this->load->database();
+        date_default_timezone_set('Asia/Manila');
+        $currentManilaTime=time();
+        $data=array(
+            'orderstatus'=>'started'
+        );
+        $this->db->like('ordercreated',date('Y-m-d',$currentManilaTime));
+        $this->db->update('ordertb',$data);
+    }
     public function addOrderUser(){
         $this->load->database();
         date_default_timezone_set('Asia/Manila');
@@ -96,8 +106,19 @@ class OrderModel extends CI_Model{
     }
     public function getOrdersLimit($limit,$startingIndex){
         $this->load->database();
-        $this->db->order_by('orderid','DESC');
+        $this->db->order_by('orderid');
         $this->db->limit($limit,$startingIndex);
+        $query=$this->db->get('ordertb');
+        $result=$query->result();
+        return $result;
+    }
+    public function getOrderIdEmail(){
+        $this->load->database();
+        date_default_timezone_set('Asia/Manila');
+        $currentManilaTime=time();
+        $this->db->select('orderid');
+        $this->db->select('email');
+        $this->db->like('ordercreated',date('Y-m-d',$currentManilaTime));
         $query=$this->db->get('ordertb');
         $result=$query->result();
         return $result;
@@ -191,6 +212,13 @@ class OrderModel extends CI_Model{
         $this->load->database();
         $this->db->where('orderid',$id);
         $this->db->where('email',$email);
+        $query=$this->db->get('ordertb');
+        $result=$query->result();
+        return $result;
+    }
+    public function getMrpOrdersByDate($date){
+        $this->load->database();
+        $this->db->like('ordercreated',$date);
         $query=$this->db->get('ordertb');
         $result=$query->result();
         return $result;

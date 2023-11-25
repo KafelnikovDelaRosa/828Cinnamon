@@ -6,20 +6,17 @@
     font-family:'Poppins',sans-serif;
 }
 :root{
-  --mar:rgb(149, 20, 41);
-  --inputbrd:#dee2e6;
-  --searchbg:#007bff;
-  --thbg:#c0bfbf;
+    --mar:rgb(149, 20, 41);
+    --inputbrd:#dee2e6;
+    --searchbg:#007bff;
+    --thbg:#c0bfbf;
 }
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 .user-img {
     width: 50px;
     border-radius: 100%;
-}
-body {
-    background: #efefef;
 }
 .sidebar {
     position: fixed;
@@ -165,6 +162,7 @@ main{
     flex-direction:column;
     position:relative;
     min-height: 100vh;
+    background-color:#efefef;
     top: 0;
     left: 80px;
     transition: all .5 ease;

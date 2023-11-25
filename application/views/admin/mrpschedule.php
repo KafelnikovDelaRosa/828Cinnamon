@@ -28,6 +28,49 @@
                     <h5>Procurement Schedule</h5>
                 </div>
                 <div class="entry-container">
+                    <h6>Inventory Restock</h6>
+                </div>
+                <?php if(empty($restockScheds)){?>
+                    <div class="entry-container">
+                        <h6>Inventory levels satisfied</h6>
+                    </div>
+                <?php } else{?>
+                    <table class="table-content">
+                        <thead class="table-head">
+                            <tr>
+                                <td>Code</td>
+                                <td>Name</td>
+                                <td>Required Stock</td>
+                                <td>Quantity</td>
+                                <td>Unit</td>
+                                <td>Cost</td>
+                                <td>Due</td>
+                                <td>Total</td>
+                                <td>Status</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($restockScheds as $scheds) {?>
+                                <?php $materials=json_decode($scheds->itemlist,true);?>
+                                    <?php foreach($materials as $item){?>
+                                        <tr>
+                                            <td><?php echo $item['code']?></td>
+                                            <td><?php echo $item['name']?></td>
+                                            <td><?php echo $item['required_stock']?></td>
+                                            <td><?php echo $item['quantity']?></td>
+                                            <td><?php echo $item['unit']?></td>
+                                            <td><?php echo $item['cost']?></td>
+                                            <td><?php echo $item['to']?></td>
+                                            <td><?php echo $item['total']?></td>
+                                            <td><?php echo $item['status']?></td>
+                                        <tr>
+                                    <?php }?>
+                            <?php }?>     
+                        </tbody>
+                    </table>
+                <?php }?>
+                <br>
+                <div class="entry-container">
                     <h6>Materials</h6>
                 </div>
                 <table class="table-content">
@@ -61,10 +104,6 @@
                 </table>
                 <br>
                 <div class="entry-container">
-                    <h6>Inventory Restock</h6>
-                </div>
-                <br>
-                <div class="entry-container">
                     <h5>Production Schedule</h5>
                 </div>
                 <table class="table-content">
@@ -72,6 +111,7 @@
                         <tr>
                             <td>Name</td>
                             <td>Description</td>
+                            <td>Duration</td>
                             <td>Due Date</td>
                             <td>Status</td>
                             <td>Action</td>
@@ -122,6 +162,7 @@
             id:1,
             name:'',
             description:'',
+            duration:'',
             due:'',
             status:'in progress'
         }];
@@ -129,7 +170,6 @@
             sidebar.classList.toggle('active');
         }
         function displayTableContents(){
-            console.log(contents);
             let table=document.querySelector('.body-production');
             let rows=table.querySelectorAll('tr');
             rows.forEach(row=>{
@@ -148,8 +188,14 @@
                 const descriptionInput=document.createElement('textarea');
                 descriptionInput.setAttribute('class',`table-inputs description _${content.id}`);
                 descriptionInput.setAttribute('onchange',`inputEdit(${content.id},'description',".description._${content.id}")`)
-                descriptionInput.setAttribute('value',`${content.description}`)
+                descriptionInput.textContent=content.description;
                 col_description.append(descriptionInput);
+                const col_duration=document.createElement('td');
+                const durationInput=document.createElement('input');
+                durationInput.setAttribute('class',`table-inputs duration _${content.id}`);
+                durationInput.setAttribute('onchange',`inputEdit(${content.id},'duration','.duration._${content.id}')`)
+                durationInput.setAttribute('value',content.duration);
+                col_duration.append(durationInput);
                 const col_dueDate=document.createElement('td');
                 const dueDateInput=document.createElement('input');
                 dueDateInput.type="date";
@@ -166,6 +212,7 @@
                 col_action.append(actionIcon);
                 table_row.append(col_name);
                 table_row.append(col_description);
+                table_row.append(col_duration);
                 table_row.append(col_dueDate);
                 table_row.append(col_status);
                 table_row.append(col_action);
@@ -175,11 +222,13 @@
         function completeMRP(){
             let form=document.createElement('form');
             form.method="POST";
-            form.action=<?php echo base_url('mrp/mrpsuccess') ?>
+            form.action="<?php echo base_url('mrp/mrpsuccess') ?>";
             let inputSchedule=document.createElement('input');
+            inputSchedule.name="schedules";
             inputSchedule.type="hidden";
             inputSchedule.value=JSON.stringify(contents);
             form.append(inputSchedule);
+            document.body.append(form);
             form.submit();
         }
         function inputEdit(id,key,selector){
@@ -211,6 +260,7 @@
                 id:contents.length+1,
                 name:'',
                 description:'',
+                duration:'',
                 due:'',
                 status:'in progress'
             }

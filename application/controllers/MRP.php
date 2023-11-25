@@ -11,8 +11,13 @@ class MRP extends CI_Controller {
         $this->load->model('OrderModel');
         $this->load->model('ProductModel');
         $this->load->model('InventoryModel');
-        $this->load->model("RecipeModel");
-        $this->load->model("BomModel");
+        $this->load->model('RecipeModel');
+        $this->load->model('BomModel');
+        $this->load->model('MRPModel');
+        $this->load->model('ScheduleModel');
+        $this->load->model('NotificationModel');
+        $this->load->model('SalesModel');
+        $this->load->model('AlertModel');
     } 
 	public function index()
 	{ 
@@ -21,6 +26,7 @@ class MRP extends CI_Controller {
         $this->session->unset_userdata('expectedSales');
         $this->session->unset_userdata('expectedCompliance');
         $data['has_order']=$this->OrderModel->getCurrentOrders();
+        $data['mrp']=$this->MRPModel->getMRP();
 		$this->load->view('admin/mrp',$data);
 	}
     public function given(){
@@ -75,19 +81,45 @@ class MRP extends CI_Controller {
         $this->load->view('admin/mrprequirements',$data);
     }
     public function createBOM(){
-        $this->BomModel->createBOM();
+        if(!empty($this->input->post('restock'))){
+            $this->AlertModel->createAlert();
+            $this->BomModel->createBOM();
+        }
+        else{
+            $this->BomModel->createBOM(); 
+        }
         redirect('mrp/schedule','location');
     }
     public function schedule(){
         $data['orderScheds']=$this->OrderModel->getCurrentOrders();
         $data['materialScheds']=$this->BomModel->currentBomProcurement();
+        $data['restockScheds']=$this->AlertModel->mrpAlerts();
         $this->load->view('admin/mrpschedule',$data);
     }
     public function createMRP(){
+        $orderIdEmail=$this->OrderModel->getOrderIdEmail();
+        $this->OrderModel->updateOrderStatus();
+        $this->MRPModel->createMRP();
+        $this->SalesModel->startSales();
+        $this->ScheduleModel->createSchedule();
+        foreach($orderIdEmail as $entry){
+            $this->NotificationModel->notifyUser($entry->email,$entry->orderid);
+        }
         $data['title']='MRP';
         $data['message']='MRP successfully set for today!';
         $data['root_url']='mrp';
         $data['return']='Return to mrp';
         $this->load->view('admin/crudsuccess',$data);
+    }
+    public function viewMRP($date){
+        $data['mrp']=$this->MRPModel->getMrpByDate($date);
+        $data['sales']=$this->SalesModel->getSalesByDate($date);
+        $data['recipes']=$this->RecipeModel->getRecipe();
+        $data['inventories']=$this->InventoryModel->getRequiredInventory();
+        $data['bomessentials']=$this->BomModel->getBomByDate($date);
+        $data['restockScheds']=$this->AlertModel->getAlertByDate($date);
+        $data['schedules']=$this->ScheduleModel->getSchedulesByDate($date);
+        $data['orderScheds']=$this->OrderModel->getMrpOrdersByDate($date);
+        $this->load->view('admin/mrpview',$data);
     }
 }
