@@ -247,18 +247,22 @@
                 total+=codeStock.cost;
                 itemDict.push(codeStock);
             }
-            itemDict.forEach(item=>{
+            let tempDict=itemDict.slice();
+            tempDict.forEach(item=>{
                 if(item.level==='low'){
                     restockList.push(item);
                 }
-            })
-            restockList.forEach(list=>{
-                list.required_stock=parseInt(maxStock[count].textContent)-parseInt(currentStock[count].textContent);
-                list.total=parseInt(list.required_stock*list.cost);
-                count++;
-            })
-            console.log(itemDict,restockList);
-            if(restockList.lenght<0){
+            });
+            let modifiedRestockList=[];
+            restockList.forEach((list,index)=>{
+                const requiredStockDiff = parseInt(maxStock[index].textContent) - parseInt(currentStock[index].textContent);
+                const modifiedList = { ...list }; // Create a copy of the current item in restockList
+                modifiedList.required_stock = requiredStockDiff;
+                modifiedList.total = parseInt(requiredStockDiff * modifiedList.cost);
+                modifiedRestockList.push(modifiedList); // Add the modified item to the new list
+            });
+            console.log(itemDict,modifiedRestockList);
+            if(modifiedRestockList.length==0){
                 var alertType='success';
                 var alertTitle='Bill of materials successfully created!';
                 var alertConfirm='Proceed'
@@ -288,7 +292,7 @@
                     input.value=JSON.stringify(itemDict);
                     input.name="materials";
                     restockInput.type="hidden";
-                    restockInput.value=JSON.stringify(restockList);
+                    restockInput.value=JSON.stringify(modifiedRestockList);
                     restockInput.name="restock";
                     form.append(input);
                     form.append(totalInput);

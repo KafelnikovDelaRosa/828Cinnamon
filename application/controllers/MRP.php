@@ -16,6 +16,7 @@ class MRP extends CI_Controller {
         $this->load->model('MRPModel');
         $this->load->model('ScheduleModel');
         $this->load->model('NotificationModel');
+        $this->load->model('TransactionModel');
         $this->load->model('SalesModel');
         $this->load->model('AlertModel');
     } 
@@ -112,6 +113,7 @@ class MRP extends CI_Controller {
         $this->load->view('admin/crudsuccess',$data);
     }
     public function viewMRP($date){
+        $data['date']=$date;
         $data['mrp']=$this->MRPModel->getMrpByDate($date);
         $data['sales']=$this->SalesModel->getSalesByDate($date);
         $data['recipes']=$this->RecipeModel->getRecipe();
@@ -121,5 +123,36 @@ class MRP extends CI_Controller {
         $data['schedules']=$this->ScheduleModel->getSchedulesByDate($date);
         $data['orderScheds']=$this->OrderModel->getMrpOrdersByDate($date);
         $this->load->view('admin/mrpview',$data);
+    }
+    public function restock($date){
+        $this->TransactionModel->restockLoss();
+        $this->InventoryModel->restock();
+        $this->AlertModel->updateStatusComplete($date);
+        redirect('mrp/view/date/'.$date,'location');
+    }
+    public function bomComplete($date){
+        $this->InventoryModel->takeStock();
+        $this->BomModel->updateBom($date);
+        redirect('mrp/view/date/'.$date,'location');   
+    }
+    public function completeProduction($date){
+        $this->ScheduleModel->updateStatus($date);
+        redirect('mrp/view/date/'.$date,'location'); 
+    }
+    public function notifyReady($date){
+        $orderIdEmails=$this->OrderModel->getMrpOrderEmailByDate($date);
+        foreach($orderIdEmails as $entry){
+            $this->NotificationModel->notifyProductReady($entry->email,$entry->orderid);
+        }
+        $this->OrderModel->readyMrpOrderStatusByDate($date);
+        $this->ScheduleModel->updateStatusLast($date);
+        redirect('mrp/view/date/'.$date,'location');
+    }
+    public function completeOrder($id,$date){
+        $orderById=$this->OrderModel->getTransactionOrderById($id);
+        $this->TransactionModel->orderGain($orderById);
+        $this->SalesModel->updateSalesOnDate($orderById,$date);
+        $this->OrderModel->completeOrder($id);
+        redirect('mrp/view/date/'.$date,'location');
     }
 }

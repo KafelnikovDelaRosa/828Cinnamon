@@ -33,4 +33,12 @@ class AlertModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function updateStatusComplete($date){
+        $this->load->database();
+        $data=array(
+            'itemlist'=>$this->input->post('restocks')
+        );
+        $this->db->like('created_on',$date);
+        $this->db->update('restocktb',$data);
+    }
 }

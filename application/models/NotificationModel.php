@@ -31,8 +31,22 @@ class NotificationModel extends CI_Model{
             'subject'=>'Order no '.$orderid.' status',
             'sender'=>'828 Cinnamon Rolls',
             'message'=>'Your order no '.$orderid.' has started you can check your orderhistory to confirm it',
-            'date'=>date('Y-m-d l',$currentManilaTime),
+            'date'=>date('Y-m-d H:i l',$currentManilaTime),
             'readstatus'=>0,
+        );
+        $this->db->insert('notificationtb',$data);
+    }
+    public function notifyProductReady($email,$orderid){
+        $this->load->database();
+        date_default_timezone_set('Asia/Manila');
+        $currentManilaTime=time();
+        $data=array(
+            'receiver'=>$email,
+            'subject'=>'Pickup of Order no '.$orderid.' status',
+            'sender'=>'828 Cinnamon Rolls',
+            'message'=>'Your order no '.$orderid.' is ready for pickup. Kindly visit and message us on our official 828 Cinnamon fb page for further transactions.'.' Here is their link: https://www.facebook.com/828cinnaroll',
+            'date'=>date('Y-m-d H:i l',$currentManilaTime),
+            'readstatus'=>0
         );
         $this->db->insert('notificationtb',$data);
     }

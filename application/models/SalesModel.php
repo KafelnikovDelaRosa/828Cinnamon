@@ -19,4 +19,12 @@ class SalesModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function updateSalesOnDate($order,$date){
+        $this->load->database();
+        foreach($order as $info){
+            $this->db->set('current_sales','current_sales + '.$info->cost,FALSE);
+            $this->db->like('sale_created',$date);
+            $this->db->update('salestb');
+        }
+    }
 }

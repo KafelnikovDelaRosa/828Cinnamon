@@ -232,4 +232,26 @@ class OrderModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function getMrpOrderEmailByDate($date){
+        $this->load->database();
+        $this->db->like('ordercreated',$date);
+        $query=$this->db->get('ordertb');
+        $result=$query->result();
+        return $result;
+    }
+    public function readyMrpOrderStatusByDate($date){
+        $this->load->database();
+        $data=array(
+            'orderstatus'=>'ready'
+        );
+        $this->db->like('ordercreated',$date);
+        $this->db->update('ordertb',$data);
+    }
+    public function getTransactionOrderById($id){
+        $this->load->database();
+        $this->db->where('orderid',$id);
+        $query=$this->db->get('ordertb');
+        $result=$query->result();
+        return $result;
+    }
 }

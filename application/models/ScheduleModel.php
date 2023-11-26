@@ -18,4 +18,20 @@ class ScheduleModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function updateStatus($date){
+        $this->load->database();
+        $data=array(
+            'procedure_list'=>$this->input->post('schedupdates')
+        );
+        $this->db->like('created_at',$date);
+        $this->db->update('scheduletb',$data);
+    }
+    public function updateStatusLast(){
+        $this->load->database();
+        $data=array(
+            'procedure_list'=>$this->input->post('schedupdates')
+        );
+        $this->db->like('created_at',$date);
+        $this->db->update('scheduletb',$data);
+    }
 }

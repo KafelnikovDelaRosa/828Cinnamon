@@ -85,6 +85,11 @@ $route['mrp/bom']='MRP/createBOM';
 $route['mrp/schedule']='MRP/schedule';
 $route['mrp/mrpsuccess']='MRP/createMRP';
 $route['mrp/view/date/(:any)']='MRP/viewMRP/$1';
+$route['mrp/restock/date/(:any)']='MRP/restock/$1';
+$route['mrp/productcomplete/date/(:any)']='MRP/completeProduction/$1';
+$route['mrp/bomcomplete/date/(:any)']='MRP/bomComplete/$1';
+$route['mrp/productnotify/date/(:any)']='MRP/notifyReady/$1';
+$route['mrp/completeorder/id/(:num)/date/(:any)']='MRP/completeOrder/$1/$2';
 //inventory routes
 $route['inventory/page/(:num)']='Inventory/index/$1'; //done
 $route['inventory/add']='Inventory/addInventory'; //done

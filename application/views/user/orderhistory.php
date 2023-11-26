@@ -215,10 +215,7 @@
                 </tr>
               </tbody>
             </table>
-            <div class="text-center">
-              <button type="button" onclick="payReceipt()" hidden="true" class="btn btn-danger btn-lg btn-pay bg-danger">
-                Pay Now <span class="glyphicon glyphicon-chevron-right"></span>
-              </button>
+            <div class="text-center"> 
               <button type="button" onclick="cancelReceipt()" hidden="true" class="btn btn-danger btn-lg btn-cancel bg-danger">
                 Cancel Order <span class="glyphicon glyphicon-chevron-right"></span>
               </button>

@@ -46,4 +46,12 @@ class BomModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function updateBom($date){
+        $this->load->database();
+        $data=array(
+            'materials'=>$this->input->post('bomupdates')
+        );
+        $this->db->like('bomcreated',$date);
+        $this->db->update('bomtb',$data);
+    }
 }

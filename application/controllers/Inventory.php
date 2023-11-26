@@ -186,4 +186,5 @@ class Inventory extends CI_Controller {
             $this->load->view('admin/crudsuccess',$data);
         }
     }
+ 
 }
