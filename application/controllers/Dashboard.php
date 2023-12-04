@@ -12,14 +12,19 @@ class Dashboard extends CI_Controller {
         $this->load->model('UserModel');
         $this->load->model('InventoryModel');
         $this->load->model('ProductModel');
+        $this->load->model('SalesModel');
+        $this->load->model('TransactionModel');
+        $this->load->model('AlertModel');
     } 
 	public function index()
 	{
-	    $data['items']=$this->InventoryModel->getNoItems();
-        $data['orders']=$this->OrderModel->getOrderSum();
+        $data['items']=$this->InventoryModel->getInventoryLow();
+        $data['currentOrders']=$this->OrderModel->getCurrentOrders();
+        $data['customerStatus']=$this->OrderModel->getOrderTracks();
         $data['users']=$this->UserModel->getUserSum();
         $data['products']=$this->ProductModel->getProductSum();
-        $data['sales']=$this->OrderModel->getOrderSumCompleted();
+        $data['transactions']=$this->TransactionModel->getTransactions();
+        $data['sales']=$this->SalesModel->getSales();
 		$this->load->view('admin/dashboard',$data);
 	}
 }

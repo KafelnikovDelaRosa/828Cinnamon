@@ -108,7 +108,7 @@ class OrderModel extends CI_Model{
         $this->load->database();
         $this->db->order_by('orderid');
         $this->db->limit($limit,$startingIndex);
-        $query=$this->db->get('ordertb');
+        $query=$this->db->get('ordertb',);
         $result=$query->result();
         return $result;
     }
@@ -250,6 +250,14 @@ class OrderModel extends CI_Model{
     public function getTransactionOrderById($id){
         $this->load->database();
         $this->db->where('orderid',$id);
+        $query=$this->db->get('ordertb');
+        $result=$query->result();
+        return $result;
+    }
+    public function getOrderTracks(){
+        $this->load->database();
+        $this->db->where('orderstatus','started');
+        $this->db->or_where('orderstatus','ready');
         $query=$this->db->get('ordertb');
         $result=$query->result();
         return $result;

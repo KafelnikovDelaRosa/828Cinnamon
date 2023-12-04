@@ -99,34 +99,7 @@ class InventoryModel extends CI_Model{
             'itemid'=>$itemid,
         );
         $this->db->delete('inventorytb',$data);
-    }
-    public function checkInventoryLevel($idCode){
-        $this->load->database();
-        $level='';
-        $stocks=array(
-            'stock'=>0,
-            'minstock'=>0
-        );
-        $this->db->select('stock,minstock,requirestock');
-        $this->db->where('itemcode',$idCode);
-        $this->db->or_where('itemid',$idCode);
-        $query=$this->db->get('inventorytb');
-        $result=$query->result();
-        foreach($result as $fields){
-            $stocks['stock']=$fields->stock;
-            $stocks['minstock']=$fields->minstock;
-        }
-        if($stocks['stocks']<=$stocks['minstock']){
-            $level='low';
-        }
-        else{
-            $level='high';
-        }
-        $this->db->set('itemlevel',$level);
-        $this->db->where('itemcode',$idCode);
-        $this->db->or_where('itemid',$idCode);
-        $this->db->update('inventorytb');
-    }
+    } 
     public function restock(){
         $this->load->database();
         $item=json_decode($this->input->post('restockCertain'),true);
@@ -141,6 +114,12 @@ class InventoryModel extends CI_Model{
         $this->db->set('stock','stock - '.$item['required_stock'],FALSE);
         $this->db->where('itemcode',$item['code']);
         $this->db->update('inventorytb');
-        checkInventoryLevel($item['code']);
+    }
+    public function getInventoryLow(){
+        $this->load->database();
+        $this->db->where('itemlevel','low');
+        $query=$this->db->get('inventorytb');
+        $result=$query->result();
+        return $result;
     }
 }

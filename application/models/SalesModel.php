@@ -19,6 +19,12 @@ class SalesModel extends CI_Model{
         $result=$query->result();
         return $result;
     }
+    public function getSales(){
+        $this->load->database();
+        $query=$this->db->get('salestb');
+        $result=$query->result();
+        return $result;
+    }
     public function updateSalesOnDate($order,$date){
         $this->load->database();
         foreach($order as $info){

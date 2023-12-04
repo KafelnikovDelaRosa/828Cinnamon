@@ -28,4 +28,10 @@ class TransactionModel extends CI_Model{
             $this->db->insert('transactiontb',$data);
         }
     }
+    public function getTransactions(){
+        $this->load->database();
+        $query=$this->db->get('transactiontb');
+        $result=$query->result();
+        return $result;
+    }
 }
